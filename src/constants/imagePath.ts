@@ -18,6 +18,7 @@ export default {
   notification_ic: require('../assets/images/notification_ic.png'),
   support_ic: require('../assets/images/support_ic.png'),
   logout_ic: require('../assets/images/logout_ic.png'),
+  menu_close_ic: require('../assets/images/menu_close_ic.png'),
   
   
 };

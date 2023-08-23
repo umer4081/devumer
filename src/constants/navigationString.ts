@@ -3,5 +3,6 @@ export default  {
   HOME: 'Home',
   TABROUTES:"TABROUTES",
   SEARCH:"SEARCH",
-  OTP_VERIFICATION:"OTPVerification"
+  OTP_VERIFICATION:"OTPVerification",
+  NOTIFICATION:"Notification"
 };

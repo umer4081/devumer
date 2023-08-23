@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import * as Screens from '../ui/index';
 import navigationString from '../constants/navigationString';
 import CustomDrawer from '../Components/CustomDrawer';
+import {moderateScale} from '../styles/responsiveSize';
 const Drawer = createDrawerNavigator();
 
 const DrawerNav = () => {
@@ -11,11 +12,22 @@ const DrawerNav = () => {
   return (
     <Drawer.Navigator
       initialRouteName={navigationString.HOME}
-      screenOptions={{drawerPosition:'right'}}
+      screenOptions={{
+        drawerPosition: 'right',
+        drawerStyle: {
+          width: moderateScale(231),
+        },
+        swipeEnabled: false,
+      }}
       drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen
         name={navigationString.HOME}
         component={Screens.Home}
+        options={screenOption}
+      />
+      <Drawer.Screen
+        name={navigationString.NOTIFICATION}
+        component={Screens.Notification}
         options={screenOption}
       />
     </Drawer.Navigator>
