@@ -94,6 +94,11 @@ export default StyleSheet.create({
     fontSize: textScale(40),
     color: 'black',
   },
+  fontBold10: {
+    fontSize: textScale(10),
+    color: 'black',
+    fontFamily: fontFamily.bold,
+  },
   fontBold14: {
     fontSize: textScale(14),
     color: 'black',

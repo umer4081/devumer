@@ -19,6 +19,14 @@ export default {
   support_ic: require('../assets/images/support_ic.png'),
   logout_ic: require('../assets/images/logout_ic.png'),
   menu_close_ic: require('../assets/images/menu_close_ic.png'),
+  new_ride_ic: require('../assets/images/new_ride_ic.png'),
+  home_ic: require('../assets/images/home_ic.png'),
+  office_ic: require('../assets/images/office_ic.png'),
+  small_loc_ic: require('../assets/images/small_loc_ic.png'),
+  small_navigation_ic: require('../assets/images/small_navigation_ic.png'),
+  location_ic: require('../assets/images/location_ic.png'),
+  navigation_ic: require('../assets/images/navigation_ic.png'),
+  sedan_ic: require('../assets/images/sedan_ic.png'),
   
   
 };

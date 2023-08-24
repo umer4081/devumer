@@ -10,6 +10,16 @@ export default function (Stack: any) {
         component={DrawerNav}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name={navigationStrings.RIDE_TYPE}
+        component={Screens.RideType}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={navigationStrings.BOOK_CAB}
+        component={Screens.BookCab}
+        options={{headerShown: false}}
+      />
     </>
   );
 }
