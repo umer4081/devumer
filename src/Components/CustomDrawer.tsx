@@ -49,6 +49,11 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
   const home = () => {
     navigation.navigate(navigationString.HOME);
   };
+
+  const offers = () => {
+    navigation.navigate(navigationString.OFFERS);
+  };
+
   return (
     <WrapperContainer>
       <View style={styles.container}>
@@ -67,7 +72,7 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
         <Menu source={imagePath.side_home_ic} title="Home" onPress={home} />
         <Menu source={imagePath.profile_ic} title="My Profile" />
         <Menu source={imagePath.history_ic} title="Ride History" />
-        <Menu source={imagePath.offers_ic} title="Offers" />
+        <Menu source={imagePath.offers_ic} title="Offers" onPress={offers} />
         <Menu
           source={imagePath.notification_ic}
           title="Notifications"

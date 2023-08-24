@@ -51,5 +51,6 @@ export default {
   _E2E2E2:"#E2E2E2",
   _F7F7F7:"#F7F7F7",
   _DCDCDC:"#DCDCDC",
-  _B2B2B2:"#B2B2B2"
+  _B2B2B2:"#B2B2B2",
+  _7C7C7C:"#7C7C7C"
 };

@@ -73,6 +73,7 @@ const CountryPhoneNumber = ({
       <TextInput
         placeholder="Enter mobile number"
         placeholderTextColor={colors._B2B2B2}
+        maxLength={16}
         style={{
           ...styles.inputTextStyle,
           paddingLeft: moderateScale(16),

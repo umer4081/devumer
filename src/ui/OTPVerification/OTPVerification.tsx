@@ -21,7 +21,7 @@ const OTPVerification = ({navigation, route}: any) => {
   const countryCode = route?.params?.countryCode;
   const phoneNumber = route?.params?.phoneNumber;
   const verifyOtp = () => {
-    navigation.navigate(navigationString.OTP_VERIFICATION);
+    navigation.navigate(navigationString.DRAWER_HOME);
   };
   const goBack = () => {
     navigation.goBack();

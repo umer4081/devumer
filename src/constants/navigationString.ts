@@ -4,5 +4,7 @@ export default  {
   TABROUTES:"TABROUTES",
   SEARCH:"SEARCH",
   OTP_VERIFICATION:"OTPVerification",
-  NOTIFICATION:"Notification"
+  NOTIFICATION:"Notification",
+  DRAWER_HOME:"DRAWER_HOME",
+  OFFERS:"Offers"
 };

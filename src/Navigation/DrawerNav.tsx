@@ -30,6 +30,11 @@ const DrawerNav = () => {
         component={Screens.Notification}
         options={screenOption}
       />
+      <Drawer.Screen
+        name={navigationString.OFFERS}
+        component={Screens.Offers}
+        options={screenOption}
+      />
     </Drawer.Navigator>
   );
 };
