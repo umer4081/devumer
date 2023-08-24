@@ -1,5 +1,5 @@
 import {StyleSheet, Animated, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import colors from '../../styles/colors';
 import DestinationPickupAddress from '../../Components/DestinationPickupAddress';
 import {moderateScale} from '../../styles/responsiveSize';
@@ -8,9 +8,41 @@ import commonStyles from '../../styles/commonStyles';
 import imagePath from '../../constants/imagePath';
 import ProgressBar from '../../Components/ProgressBar';
 
-const RideRequest = () => {
+const RideRequest = ({onPressCancel=()=>{}}) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    startAnimation();
+  }, []);
+
+  const startAnimation = (val = 1, onFinish=()=>{}) => {
+    Animated.spring(animatedValue, {
+      toValue: val,
+      useNativeDriver: false,
+      damping: 14,
+    }).start(({finished}) => {
+      !!onFinish && finished && onFinish();
+    });
+  };
+
+  const animationAction = (inputRange = [0, 1], outputRange: any[] = []) => {
+    return animatedValue.interpolate({
+      inputRange: inputRange,
+      outputRange: outputRange,
+    });
+  };
+
+  const onCancel = () => {
+    startAnimation(0,onPressCancel);
+  };
+
   return (
-    <Animated.View style={styles.container}>
+    <Animated.View
+      style={{
+        ...styles.container,
+        transform: [{translateY: animationAction([0, 1], [140, 0])}],
+        opacity: animationAction([0, 0.7], [0, 1]),
+      }}>
       <ProgressBar containerStyle={styles.bar} />
       <View style={styles.content}>
         <View style={styles.headerView}>
@@ -36,6 +68,7 @@ const RideRequest = () => {
           buttonStyle={styles.buttonView}
           buttonTitle="Cancel"
           textStyle={styles.cancelText}
+          onPress={onCancel}
         />
       </View>
     </Animated.View>
@@ -59,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(24),
     borderTopLeftRadius: moderateScale(16),
     borderTopRightRadius: moderateScale(16),
-    marginTop:moderateScale(8)
+    marginTop: moderateScale(8),
   },
   addressView: {
     marginBottom: moderateScale(14),
@@ -68,6 +101,7 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     backgroundColor: colors.white,
+    marginBottom: moderateScale(24),
   },
   cancelText: {
     color: colors._D30E09,
@@ -116,6 +150,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    borderRadius:moderateScale(16)
+    borderRadius: moderateScale(16),
   },
 });

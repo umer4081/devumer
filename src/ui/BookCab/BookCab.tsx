@@ -29,12 +29,16 @@ const BookCab = ({navigation, route}: any) => {
   };
 
   const ListHeaderComponent = () => {
-    return <HeaderMapView isChoosed={isChoosed}/>;
+    return <HeaderMapView isChoosed={isChoosed} />;
   };
 
-  const onChooseRide=()=>{
+  const onChooseRide = () => {
+    setIsChoosed(true);
+  };
 
-  }
+  const onPressCancel = () => {
+    setIsChoosed(false);
+  };
 
   return (
     <WrapperContainer removeBottomInset>
@@ -45,6 +49,7 @@ const BookCab = ({navigation, route}: any) => {
             data={Array(6)}
             ListHeaderComponent={ListHeaderComponent}
             renderItem={renderItem}
+            scrollEnabled={!isChoosed}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -57,7 +62,7 @@ const BookCab = ({navigation, route}: any) => {
             onPress={onChooseRide}
           />
         </View>
-        <RideRequest />
+        {isChoosed && <RideRequest onPressCancel={onPressCancel} />}
       </View>
     </WrapperContainer>
   );
