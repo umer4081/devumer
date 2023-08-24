@@ -17,6 +17,7 @@ interface BlueButtonPropType {
   onPress?: () => void;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
 }
 
 const BlueButton = ({
@@ -24,12 +25,15 @@ const BlueButton = ({
   buttonStyle,
   textStyle,
   onPress,
+  disabled = false,
 }: BlueButtonPropType) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={{
         ...styles.button,
         ...(typeof buttonStyle == 'object' && buttonStyle),
+        ...(disabled && {backgroundColor: colors._B2B2B2}),
       }}
       activeOpacity={0.8}
       onPress={onPress}>

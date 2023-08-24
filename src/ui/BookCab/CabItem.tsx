@@ -45,7 +45,7 @@ const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
   );
 };
 
-export default CabItem;
+export default React.memo(CabItem);
 
 const styles = StyleSheet.create({
   container: {

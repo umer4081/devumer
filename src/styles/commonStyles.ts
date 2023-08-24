@@ -154,6 +154,11 @@ export default StyleSheet.create({
     color: 'black',
     fontFamily: fontFamily.medium,
   },
+  fontSizeMedium13: {
+    fontSize: textScale(13),
+    color: 'black',
+    fontFamily: fontFamily.medium,
+  },
   fontSizeMedium15: {
     fontSize: textScale(15),
     color: 'black',

@@ -27,6 +27,10 @@ export default {
   location_ic: require('../assets/images/location_ic.png'),
   navigation_ic: require('../assets/images/navigation_ic.png'),
   sedan_ic: require('../assets/images/sedan_ic.png'),
+  money_ic: require('../assets/images/money_ic.png'),
+  down_arrow_ic: require('../assets/images/down_arrow_ic.png'),
+  cross_ic: require('../assets/images/cross_ic.png'),
+  cash_ic: require('../assets/images/cash_ic.png'),
   
   
 };

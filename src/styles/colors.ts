@@ -5,6 +5,7 @@ export default {
   BackgroundBlack: '#0F0F0F',
   black: '#000000',
   white: '#FFFFFF',
+  whiteOpacity01: 'rgba(255,255,255,0.01)',
   whiteOpacity10: 'rgba(255,255,255,0.1)',
   whiteOpacity20: 'rgba(255,255,255,0.2)',
   whiteOpacity30: 'rgba(255,255,255,0.3)',
@@ -56,5 +57,6 @@ export default {
   _EEF1FF:"#EEF1FF",
   _F5E8C7:"#F5E8C7",
   _EFE1D6:"#EFE1D6",
-  _FACE24:"#FACE24"
+  _FACE24:"#FACE24",
+  _D30E09:"#D30E09"
 };
