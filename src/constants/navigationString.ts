@@ -10,4 +10,5 @@ export default {
   RIDE_TYPE: 'RideType',
   BOOK_CAB: 'BookCab',
   RATING_RIDE: 'RatingRide',
+  MY_PROFILE: 'MyProfile',
 };

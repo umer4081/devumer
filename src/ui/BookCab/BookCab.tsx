@@ -9,6 +9,7 @@ import PayTypeSelector from '../../Components/PayTypeSelector';
 import HeaderMapView from './HeaderMapView';
 import RideRequest from './RideRequest';
 import navigationString from '../../constants/navigationString';
+import actions from '../../redux/actions';
 
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
@@ -42,6 +43,11 @@ const BookCab = ({navigation, route}: any) => {
     setIsChoosed(false);
   };
 
+  const onfinishProgress=()=>{
+    actions.bookedCab(true)
+    navigation.navigate(navigationString.DRAWER_HOME);
+  }
+
   return (
     <WrapperContainer removeBottomInset>
       <View style={styles.container}>
@@ -65,7 +71,7 @@ const BookCab = ({navigation, route}: any) => {
             onPress={onChooseRide}
           />
         </View>
-        {isChoosed && <RideRequest onPressCancel={onPressCancel} />}
+        {isChoosed && <RideRequest onPressCancel={onPressCancel} onfinishProgress={onfinishProgress}/>}
       </View>
     </WrapperContainer>
   );

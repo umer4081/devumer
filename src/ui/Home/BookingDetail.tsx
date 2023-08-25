@@ -7,37 +7,58 @@ import commonStyles from '../../styles/commonStyles';
 import HomeBlackCard from '../../Components/HomeBlackCard';
 import AdressTimeBottomView from './AdressTimeBottomView';
 import ImageTitleValue from '../../Components/ImageTitleValue';
+import {static_url} from '../../constants/contant';
 
 const BookingDetail = () => {
-  const [state, setState] = useState({driverArrived: false});
+  const [state, setState] = useState({
+    driverArrived: false,
+    rideComplete: false,
+  });
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
-  const {driverArrived} = state;
+  const {driverArrived, rideComplete} = state;
   useEffect(() => {
     setTimeout(() => {
       updateState({driverArrived: true});
     }, 3000);
+    setTimeout(() => {
+        updateState({rideComplete: true});
+      },6000);
   }, []);
   return (
     <>
-      {driverArrived && <HomeBlackCard />}
+      {driverArrived && <HomeBlackCard isTimer={!rideComplete} />}
       <View style={styles.container}>
         <View style={styles.blueCard}>
-          <>
-            <View style={{}}>
-              <Text style={styles.carcompany}>Honda Accord</Text>
-              <Text style={styles.carPlateNumber}>AJR558D</Text>
-            </View>
-            <Image
-              source={imagePath.honda_ic}
-              resizeMode="contain"
-              style={styles.car}
-            />
-          </>
-          <View>
-            <ImageTitleValue />
-          </View>
+          {!rideComplete ? (
+            <>
+              <View style={{}}>
+                <Text style={styles.carcompany}>Honda Accord</Text>
+                <Text style={styles.carPlateNumber}>AJR558D</Text>
+              </View>
+              <Image
+                source={imagePath.honda_ic}
+                resizeMode="contain"
+                style={styles.car}
+              />
+            </>
+          ) : (
+            <>
+              <ImageTitleValue
+                imgsource={{uri: static_url}}
+                title="Steve Rogers"
+                value="4.5"
+                isStar={true}
+              />
+              <ImageTitleValue
+                imgsource={imagePath.sedan_ic}
+                title="Honda Accord"
+                value="AJR558D"
+                imgProp={{resizeMode: 'contain'}}
+              />
+            </>
+          )}
         </View>
-        <AdressTimeBottomView />
+        <AdressTimeBottomView isRideCompleted={rideComplete} />
       </View>
     </>
   );

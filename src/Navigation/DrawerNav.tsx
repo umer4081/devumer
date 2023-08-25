@@ -35,6 +35,11 @@ const DrawerNav = () => {
         component={Screens.Offers}
         options={screenOption}
       />
+      <Drawer.Screen
+        name={navigationString.MY_PROFILE}
+        component={Screens.MyProfile}
+        options={screenOption}
+      />
     </Drawer.Navigator>
   );
 };

@@ -8,7 +8,7 @@ import commonStyles from '../../styles/commonStyles';
 import imagePath from '../../constants/imagePath';
 import ProgressBar from '../../Components/ProgressBar';
 
-const RideRequest = ({onPressCancel=()=>{}}) => {
+const RideRequest = ({onPressCancel=()=>{},onfinishProgress=()=>{}}) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const RideRequest = ({onPressCancel=()=>{}}) => {
         transform: [{translateY: animationAction([0, 1], [140, 0])}],
         opacity: animationAction([0, 0.7], [0, 1]),
       }}>
-      <ProgressBar containerStyle={styles.bar} />
+      <ProgressBar containerStyle={styles.bar} onfinish={onfinishProgress}/>
       <View style={styles.content}>
         <View style={styles.headerView}>
           <Text style={styles.rideText}>{'Ride requested…'}</Text>

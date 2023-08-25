@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux';
 import BookingDetail from './BookingDetail';
 import DriverNameDetailView from './DriverNameDetailView';
 const Home = () => {
-  const cabBooked = !useSelector((state: any) => state?.bookedCab)?.bookedCab;
+  const cabBooked = useSelector((state: any) => state?.bookedCab)?.bookedCab;
   return (
     <WrapperContainer removeBottomInset>
       <View style={styles.container}>
@@ -35,7 +35,7 @@ const Home = () => {
               style={{height: '100%', width: '100%'}}
             />
           </View>
-          <DriverNameDetailView />
+          {cabBooked && <DriverNameDetailView />}
           {cabBooked ? <BookingDetail /> : <BookRide />}
         </View>
       </View>

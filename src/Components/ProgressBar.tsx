@@ -9,24 +9,28 @@ import {
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import {moderateScale, width} from '../styles/responsiveSize';
 import colors from '../styles/colors';
+import {useIsFocused} from '@react-navigation/native';
 
 interface ProgressBarProp {
   containerStyle?: StyleProp<ViewStyle>;
+  onfinish?: () => void;
 }
 
-const ProgressBar = ({containerStyle}: ProgressBarProp, ref: any) => {
+const ProgressBar = ({containerStyle, onfinish}: ProgressBarProp, ref: any) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     startAnimation();
   }, []);
-
+  const focus = useIsFocused();
   const startAnimation = () => {
     Animated.timing(animatedValue, {
       toValue: 1,
       useNativeDriver: true,
-      duration: 60000,
-    }).start();
+      duration: 10000,
+    }).start(({finished}) => {
+      focus && finished && onfinish && onfinish();
+    });
   };
 
   useImperativeHandle(ref, () => {

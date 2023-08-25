@@ -16,14 +16,13 @@ import PressableImage from './PressableImage';
 import {useNavigation} from '@react-navigation/native';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import navigationString from '../constants/navigationString';
-import { static_url } from '../constants/contant';
+import {static_url} from '../constants/contant';
 
 interface MenuProp {
   source: ImageSourcePropType;
   title: string;
   onPress?: () => void;
 }
-
 
 const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
   const Menu = ({source, title = '', onPress}: MenuProp) => {
@@ -54,6 +53,9 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
     navigation.navigate(navigationString.OFFERS);
   };
 
+  const myProfile = () => {
+    navigation.navigate(navigationString.MY_PROFILE);
+  };
   return (
     <WrapperContainer>
       <View style={styles.container}>
@@ -70,7 +72,11 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
           </Pressable>
         </View>
         <Menu source={imagePath.side_home_ic} title="Home" onPress={home} />
-        <Menu source={imagePath.profile_ic} title="My Profile" />
+        <Menu
+          source={imagePath.profile_ic}
+          title="My Profile"
+          onPress={myProfile}
+        />
         <Menu source={imagePath.history_ic} title="Ride History" />
         <Menu source={imagePath.offers_ic} title="Offers" onPress={offers} />
         <Menu
