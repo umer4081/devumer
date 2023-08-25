@@ -8,10 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: moderateScale(24),
-    marginVertical: moderateScale(16),
+    flex: 1,
   },
   desc: {
     ...commonStyles.fontSize15,
@@ -41,6 +38,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     marginBottom: -moderateScale(24),
   },
+  onbookingMap:{
+    flex: 1,
+    overflow: 'hidden',
+  }
 });
 
 export default styles;

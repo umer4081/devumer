@@ -19,6 +19,7 @@ import {
 import commonStyles from '../../styles/commonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import DestinationPickupAddress from '../../Components/DestinationPickupAddress';
+import MapView from 'react-native-maps';
 
 interface HeaderMapViewProp {
   isChoosed?: boolean;
@@ -50,7 +51,21 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.mapView}></View>
+      <View style={styles.mapView}>
+        {/* <MapView
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          style={styles.map}
+        /> */}
+        <Image
+          source={imagePath.map_img}
+          style={{height: '100%', width: '100%'}}
+        />
+      </View>
       <LinearGradient
         colors={[colors.white, colors.whiteOpacity10]}
         style={styles.bottomgradient}
@@ -61,7 +76,7 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
         colors={[colors.white, colors.whiteOpacity10]}
         style={{
           ...styles.topgradient,
-          transform: [{translateY: animationAction([0,-240])}],
+          transform: [{translateY: animationAction([0, -240])}],
         }}
         start={{x: 0, y: 0.4}}
         end={{x: 0, y: 1.0}}
@@ -71,7 +86,7 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
         pickup="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
         addressViewStyle={{
           ...styles.addressView,
-          transform: [{translateY: animationAction([0,-240])}],
+          transform: [{translateY: animationAction([0, -240])}],
         }}
       />
       {!isChoosed && (
@@ -86,9 +101,7 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
 export default HeaderMapView;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-  },
+  container: {},
   addressView: {
     position: 'absolute',
     top: 0,
@@ -104,7 +117,7 @@ const styles = StyleSheet.create({
   },
   mapView: {
     width: width,
-    height: width * 1.2,
+    height: width * 1.23,
   },
   bottomgradient: {
     position: 'absolute',
@@ -116,9 +129,17 @@ const styles = StyleSheet.create({
   selectCabText: {
     ...commonStyles.fontBold15,
     color: colors._020202,
+    lineHeight: textScale(24),
   },
   bottomTextView: {
     marginHorizontal: moderateScale(24),
     marginVertical: moderateScale(8),
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+    marginBottom: -moderateScale(24),
   },
 });

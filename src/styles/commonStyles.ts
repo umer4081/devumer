@@ -94,6 +94,11 @@ export default StyleSheet.create({
     fontSize: textScale(40),
     color: 'black',
   },
+  fontSize48: {
+    fontFamily: fontFamily.regular,
+    fontSize: textScale(48),
+    color: 'black',
+  },
   fontBold10: {
     fontSize: textScale(10),
     color: 'black',
@@ -166,6 +171,11 @@ export default StyleSheet.create({
   },
   fontSizeMedium15: {
     fontSize: textScale(15),
+    color: 'black',
+    fontFamily: fontFamily.medium,
+  },
+  fontSizeMedium16: {
+    fontSize: textScale(16),
     color: 'black',
     fontFamily: fontFamily.medium,
   },

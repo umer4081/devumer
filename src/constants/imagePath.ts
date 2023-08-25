@@ -32,6 +32,10 @@ export default {
   cross_ic: require('../assets/images/cross_ic.png'),
   cash_ic: require('../assets/images/cash_ic.png'),
   slider_ic: require('../assets/images/slider_ic.png'),
-  
+  map_img: require('../assets/images/map_img.png'),
+  star_ic: require('../assets/images/star_ic.png'),
+  clock_ic: require('../assets/images/clock_ic.png'),
+  suv_ic: require('../assets/images/suv_ic.png'),
+  honda_ic: require('../assets/images/honda_ic.png'),
   
 };

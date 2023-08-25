@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 interface HeaderSceneProp {
   title?: string;
   valueText?: string;
+  isBottomBorder?: boolean;
 }
 
 interface NavigationProp {
@@ -18,13 +19,21 @@ interface NavigationProp {
   navigate: (res: string) => void;
 }
 
-const HeaderScene = ({title = '', valueText = ''}: HeaderSceneProp) => {
+const HeaderScene = ({
+  title = '',
+  valueText = '',
+  isBottomBorder = true,
+}: HeaderSceneProp) => {
   const navigation = useNavigation<NavigationProp>();
   const onPressSide = () => {
     navigation.openDrawer();
   };
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        ...(!isBottomBorder && {borderBottomWidth: 0}),
+      }}>
       <View>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.valueText}>{valueText}</Text>
