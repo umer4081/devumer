@@ -8,3 +8,4 @@ export {default as RideType} from './RideType/RideType';
 export {default as BookCab} from './BookCab/BookCab';
 export {default as RatingRide} from './RatingRide/RatingRide';
 export {default as MyProfile} from './MyProfile/MyProfile';
+export {default as EditProfile} from './EditProfile/EditProfile';

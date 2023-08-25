@@ -37,5 +37,7 @@ export default {
   clock_ic: require('../assets/images/clock_ic.png'),
   suv_ic: require('../assets/images/suv_ic.png'),
   honda_ic: require('../assets/images/honda_ic.png'),
+  edit_ic: require('../assets/images/edit_ic.png'),
+  add_ic: require('../assets/images/add_ic.png'),
   
 };

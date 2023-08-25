@@ -15,39 +15,14 @@ import imagePath from '../constants/imagePath';
 import ImageTitleValue from './ImageTitleValue';
 import {static_url} from '../constants/contant';
 import BlueButton from './BlueButton';
+import AddressView from './AddressView';
 
 interface HistoryCardProp {
   item?: any;
   index?: number;
 }
 
-interface AddressViewCardProp {
-  title?: string;
-  time?: string;
-  address?: string;
-  containerStyle?: StyleProp<ViewStyle>;
-}
-
 const HistoryCard = ({item, index}: HistoryCardProp) => {
-  const AddressView = ({
-    title,
-    time,
-    address,
-    containerStyle,
-  }: AddressViewCardProp) => {
-    return (
-      <View style={containerStyle}>
-        <View style={styles.titleTimeView}>
-          <Text style={styles.titleTimeText}>{title}</Text>
-          <Text style={styles.titleTimeText}>{time}</Text>
-        </View>
-        <Text numberOfLines={1} style={styles.addressText}>
-          {address}
-        </Text>
-      </View>
-    );
-  };
-
   return (
     <Pressable style={styles.container}>
       <View style={styles.upperView}>
@@ -118,20 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: moderateScale(6),
   },
-  titleTimeText: {
-    ...commonStyles.fontSize12,
-    color: colors._A2A2A2,
-  },
-  addressText: {
-    ...commonStyles.fontSize14,
-    color: colors._020202,
-    lineHeight: textScale(32),
-  },
-  titleTimeView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+
   lineIconView: {
     marginRight: moderateScale(8),
   },

@@ -15,7 +15,7 @@ const Offers = () => {
       <View style={styles.container}>
         <HeaderScene title="Offers" valueText="Update with new offers" />
 
-        <FlatList
+        {/* <FlatList
           data={Array(30)}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
@@ -25,7 +25,7 @@ const Offers = () => {
             paddingHorizontal: moderateScale(24),
             paddingVertical: moderateScale(16),
           }}
-        />
+        /> */}
       </View>
     </WrapperContainer>
   );

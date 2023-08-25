@@ -18,7 +18,7 @@ export default function Routes() {
     <NavigationContainer ref={_navigator}>
       <Stack.Navigator
         screenOptions={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
         }}>
         {!!userData?.access_token
           ? MainStack(Stack)

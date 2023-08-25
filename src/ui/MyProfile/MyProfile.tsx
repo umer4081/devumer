@@ -4,6 +4,7 @@ import WrapperContainer from '../../Components/WrapperContainer';
 import styles from './styles';
 import HeaderScene from '../../Components/HeaderScene';
 import HistoryCard from '../../Components/HistoryCard';
+import HeaderProfile from './HeaderProfile';
 
 const MyProfile = () => {
   const renderItem = ({item, index}: any) => {
@@ -16,6 +17,7 @@ const MyProfile = () => {
         <View style={{flex: 1}}>
           {/* <FlatList
             data={Array(10)}
+            ListHeaderComponent={HeaderProfile}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
           /> */}
