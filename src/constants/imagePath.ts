@@ -31,6 +31,7 @@ export default {
   down_arrow_ic: require('../assets/images/down_arrow_ic.png'),
   cross_ic: require('../assets/images/cross_ic.png'),
   cash_ic: require('../assets/images/cash_ic.png'),
+  slider_ic: require('../assets/images/slider_ic.png'),
   
   
 };

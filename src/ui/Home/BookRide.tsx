@@ -70,7 +70,6 @@ const BookRide = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.content}></View>
       <Text style={styles.bookrideText}>{'Book Rides'}</Text>
       <View>
         <ScrollView
@@ -108,7 +107,6 @@ export default BookRide;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginTop: moderateScale(24),
     marginBottom: moderateScale(32),
   },
@@ -140,8 +138,5 @@ const styles = StyleSheet.create({
     color: colors._020202,
     marginBottom: moderateScale(16),
     marginHorizontal: moderateScale(24),
-  },
-  content: {
-    flex: 1,
   },
 });

@@ -20,6 +20,11 @@ export default function (Stack: any) {
         component={Screens.BookCab}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name={navigationStrings.RATING_RIDE}
+        component={Screens.RatingRide}
+        options={{headerShown: false}}
+      />
     </>
   );
 }

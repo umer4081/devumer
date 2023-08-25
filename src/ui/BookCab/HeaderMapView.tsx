@@ -1,5 +1,12 @@
-import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {
+  Animated,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import imagePath from '../../constants/imagePath';
 import PressableImage from '../../Components/PressableImage';
 import colors from '../../styles/colors';
@@ -17,35 +24,60 @@ interface HeaderMapViewProp {
   isChoosed?: boolean;
 }
 
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+
 const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    startAnimation(isChoosed ? 1 : 0);
+  }, [isChoosed]);
+
+  const startAnimation = (val = 1) => {
+    Animated.spring(animatedValue, {
+      toValue: val,
+      useNativeDriver: false,
+      damping: 14,
+    }).start();
+  };
+
+  const animationAction = (outputRange: any[] = []) => {
+    return animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: outputRange,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.mapView}></View>
-      {!isChoosed && (
-        <LinearGradient
-          colors={[colors.white, colors.whiteOpacity10]}
-          style={styles.topgradient}
-          start={{x: 0, y: 0.4}}
-          end={{x: 0, y: 1.0}}
-        />
-      )}
       <LinearGradient
         colors={[colors.white, colors.whiteOpacity10]}
         style={styles.bottomgradient}
         start={{x: 0, y: 1}}
         end={{x: 0, y: 0}}
       />
+      <AnimatedLinearGradient
+        colors={[colors.white, colors.whiteOpacity10]}
+        style={{
+          ...styles.topgradient,
+          transform: [{translateY: animationAction([0,-240])}],
+        }}
+        start={{x: 0, y: 0.4}}
+        end={{x: 0, y: 1.0}}
+      />
+      <DestinationPickupAddress
+        destination="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
+        pickup="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
+        addressViewStyle={{
+          ...styles.addressView,
+          transform: [{translateY: animationAction([0,-240])}],
+        }}
+      />
       {!isChoosed && (
-        <>
-          <DestinationPickupAddress
-            destination="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
-            pickup="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
-            addressViewStyle={styles.addressView}
-          />
-          <View style={styles.bottomTextView}>
-            <Text style={styles.selectCabText}>Select Cab</Text>
-          </View>
-        </>
+        <View style={styles.bottomTextView}>
+          <Text style={styles.selectCabText}>Select Cab</Text>
+        </View>
       )}
     </View>
   );

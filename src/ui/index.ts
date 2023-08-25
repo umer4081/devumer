@@ -6,3 +6,4 @@ export {default as Notification} from './Notification/Notification';
 export {default as Offers} from './Offers/Offers';
 export {default as RideType} from './RideType/RideType';
 export {default as BookCab} from './BookCab/BookCab';
+export {default as RatingRide} from './RatingRide/RatingRide';

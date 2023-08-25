@@ -33,7 +33,8 @@ const RideRequest = ({onPressCancel=()=>{}}) => {
   };
 
   const onCancel = () => {
-    startAnimation(0,onPressCancel);
+    onPressCancel()
+    startAnimation(0);
   };
 
   return (

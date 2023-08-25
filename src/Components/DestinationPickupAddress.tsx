@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ViewStyle,
+  Animated,
 } from 'react-native';
 import React from 'react';
 import PressableImage from './PressableImage';
@@ -42,15 +43,12 @@ const DestinationPickupAddress = ({
     );
   };
   return (
-    <View
+    <Animated.View
       style={{
         ...styles.addressView,
         ...(typeof addressViewStyle == 'object' && addressViewStyle),
       }}>
-      <DestinationPickupview
-        icon={imagePath.location_ic}
-        text={pickup}
-      />
+      <DestinationPickupview icon={imagePath.location_ic} text={pickup} />
       <View style={styles.border}>
         <View style={styles.dashedLine}></View>
       </View>
@@ -58,7 +56,7 @@ const DestinationPickupAddress = ({
         icon={imagePath.navigation_ic}
         text={destination}
       />
-    </View>
+    </Animated.View>
   );
 };
 

@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
-import {moderateScale} from '../styles/responsiveSize';
+import {moderateScale, width} from '../styles/responsiveSize';
 import colors from '../styles/colors';
 
 interface ProgressBarProp {
@@ -24,14 +24,21 @@ const ProgressBar = ({containerStyle}: ProgressBarProp, ref: any) => {
   const startAnimation = () => {
     Animated.timing(animatedValue, {
       toValue: 1,
-      useNativeDriver: false,
-      duration:120000
+      useNativeDriver: true,
+      duration: 60000,
     }).start();
   };
 
   useImperativeHandle(ref, () => {
     return {};
   });
+
+  const animationAction = (outputRange: any[] = []) => {
+    return animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: outputRange,
+    });
+  };
   return (
     <View
       style={{
@@ -41,10 +48,11 @@ const ProgressBar = ({containerStyle}: ProgressBarProp, ref: any) => {
       <Animated.View
         style={{
           ...styles.bar,
-          width: animatedValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [`${0}%`, `${100}%`],
-          }),
+          transform: [
+            {
+              translateX: animationAction([-width, 0]),
+            },
+          ],
         }}
       />
     </View>
