@@ -44,5 +44,6 @@ export default {
   good_ic: require('../assets/images/good_ic.png'),
   great_ic: require('../assets/images/great_ic.png'),
   excellent_ic: require('../assets/images/excellent_ic.png'),
+  back_cir_ic: require('../assets/images/back_cir_ic.png'),
   
 };
