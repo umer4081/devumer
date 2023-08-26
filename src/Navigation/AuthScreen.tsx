@@ -8,7 +8,7 @@ export default function (Stack: any, isFirstTime: boolean) {
     <>
       {!isFirstTime && (
         <Stack.Screen
-          name={'navigationStrings'}
+          name={navigationString.ONBOARDING}
           component={Screens.OnBoarding}
           options={{headerShown: false}}
         />

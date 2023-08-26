@@ -1,4 +1,5 @@
 export default {
+  ONBOARDING:"OnBoarding",
   LOGIN: 'Login',
   HOME: 'Home',
   TABROUTES: 'TABROUTES',
@@ -12,5 +13,6 @@ export default {
   RATING_RIDE: 'RatingRide',
   MY_PROFILE: 'MyProfile',
   EDIT_PROFILE:"EditProfile",
-  RIDE_HISTORY_DETAIL:"RideHistoryDetail"
+  RIDE_HISTORY_DETAIL:"RideHistoryDetail",
+  RIDE_HISTORY:"RideHistory"
 };

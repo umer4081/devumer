@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   ImageSourcePropType,
   Pressable,
@@ -56,6 +57,31 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
   const myProfile = () => {
     navigation.navigate(navigationString.MY_PROFILE);
   };
+
+  const logout = () => {
+    //@ts-ignore
+    navigation?.popToTop();
+  };
+
+  const onClickLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout? \nYou will be missed 😞',
+      [
+        {text: 'Logout', onPress: logout},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true, userInterfaceStyle: 'light'},
+    );
+  };
+  const rideHistory = () => {
+    navigation.navigate(navigationString.RIDE_HISTORY);
+  };
+
   return (
     <WrapperContainer>
       <View style={styles.container}>
@@ -77,7 +103,11 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
           title="My Profile"
           onPress={myProfile}
         />
-        <Menu source={imagePath.history_ic} title="Ride History" />
+        <Menu
+          source={imagePath.history_ic}
+          title="Ride History"
+          onPress={rideHistory}
+        />
         <Menu source={imagePath.offers_ic} title="Offers" onPress={offers} />
         <Menu
           source={imagePath.notification_ic}
@@ -85,7 +115,11 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
           onPress={notification}
         />
         <Menu source={imagePath.support_ic} title="Help & Support" />
-        <Menu source={imagePath.logout_ic} title="Logout" />
+        <Menu
+          source={imagePath.logout_ic}
+          title="Logout"
+          onPress={onClickLogout}
+        />
       </View>
     </WrapperContainer>
   );

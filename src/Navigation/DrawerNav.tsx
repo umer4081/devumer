@@ -40,6 +40,11 @@ const DrawerNav = () => {
         component={Screens.MyProfile}
         options={screenOption}
       />
+      <Drawer.Screen
+        name={navigationString.RIDE_HISTORY}
+        component={Screens.RideHistory}
+        options={screenOption}
+      />
     </Drawer.Navigator>
   );
 };

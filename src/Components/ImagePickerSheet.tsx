@@ -3,13 +3,23 @@ import React, {useImperativeHandle, useRef, useState} from 'react';
 import colors from '../styles/colors';
 import {moderateScale} from '../styles/responsiveSize';
 import commonStyles from '../styles/commonStyles';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 export interface ImagePickerSheetMethod {
   show: () => void;
   hide: () => void;
 }
- const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
-const ImagePickerSheet = ({title = 'Add Profile Picture'}, ref: any) => {
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+interface ImagePickerSheetProp {
+  title?: string;
+  onPick?: (res: any) => void;
+}
+
+const ImagePickerSheet = (
+  {title = 'Add Profile Picture', onPick}: ImagePickerSheetProp,
+  ref: any,
+) => {
   const options = ['Camera', 'Gallery'];
   const [visible, setVisible] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -27,7 +37,7 @@ const ImagePickerSheet = ({title = 'Add Profile Picture'}, ref: any) => {
     Animated.spring(animatedValue, {
       toValue: val,
       useNativeDriver: true,
-      bounciness:5
+      bounciness: 5,
     }).start(({finished}) => {
       finished && finish && finish();
     });
@@ -44,13 +54,42 @@ const ImagePickerSheet = ({title = 'Add Profile Picture'}, ref: any) => {
     animateAction(0, () => setVisible(false));
   };
 
+  const cameraOpen = async () => {
+    try {
+      const result = await launchCamera({mediaType: 'photo'});
+      if (result.assets) {
+        onPick && onPick(result.assets[0]);
+        setVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const galleryOpen = async () => {
+    try {
+      const result = await launchImageLibrary({mediaType: 'photo'});
+      if (result.assets) {
+        onPick && onPick(result.assets[0]);
+        setVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onClickOption=(index:number)=>{
+    index == 0 && cameraOpen()
+    index == 1 && galleryOpen()
+  }
+
   return (
     <Modal visible={visible} transparent statusBarTranslucent>
       <Animated.View
         style={{...styles.blackBg, opacity: interpolation([0, 1])}}
       />
       <View style={styles.container}>
-        <AnimatedPressable style={{flex:1}} onPress={onPressCancel}/>
+        <AnimatedPressable style={{flex: 1}} onPress={onPressCancel} />
         <Animated.View
           style={{
             ...styles.content,
@@ -71,7 +110,7 @@ const ImagePickerSheet = ({title = 'Add Profile Picture'}, ref: any) => {
                   borderBottomWidth: index != options.length - 1 ? 0.6 : 0,
                   ...(index == options.length - 1 && styles.lastOption),
                 }}
-                key={index.toString()}>
+                key={index.toString()} onPress={()=>onClickOption(index)}>
                 <Text style={styles.text}>{item}</Text>
               </Pressable>
             );

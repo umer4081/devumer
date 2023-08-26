@@ -10,3 +10,4 @@ export {default as RatingRide} from './RatingRide/RatingRide';
 export {default as MyProfile} from './MyProfile/MyProfile';
 export {default as EditProfile} from './EditProfile/EditProfile';
 export {default as RideHistoryDetail} from './RideHistoryDetail/RideHistoryDetail';
+export {default as RideHistory} from './RideHistory/RideHistory';
