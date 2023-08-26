@@ -33,13 +33,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  sliderLine: {
-    backgroundColor: colors._020202,
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 2,
-  },
   sliderView: {
     height: moderateScale(56),
     justifyContent: 'center',
@@ -49,6 +42,43 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: moderateScale(32),
     marginBottom: moderateScale(48),
+  },
+  ratingText: {
+    ...commonStyles.fontSize22,
+    lineHeight: moderateScale(32),
+    color: colors._020202,
+    textAlign: 'center',
+  },
+  emoji: {
+    alignSelf: 'center',
+    marginTop: moderateScale(20),
+    marginBottom: moderateScale(56),
+    height: moderateScale(80),
+    width: moderateScale(80),
+  },
+  textInputView: {
+    height: moderateScale(104),
+    borderWidth: moderateScale(1),
+    borderRadius: moderateScale(8),
+    borderColor: colors._020202,
+    marginTop: moderateScale(48),
+    marginBottom: moderateScale(24),
+  },
+  textInput: {
+    ...commonStyles.fontSize15,
+    height: '100%',
+    padding: 0,
+    paddingHorizontal: moderateScale(16),
+    paddingVertical: moderateScale(8),
+    borderColor: colors._020202,
+    color: colors._020202,
+    textAlignVertical: 'top',
+  },
+  skipText: {
+    ...commonStyles.fontSize16,
+    borderColor: colors._020202,
+    marginTop: moderateScale(16),
+    textAlign: 'center',
   },
 });
 

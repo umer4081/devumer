@@ -39,5 +39,10 @@ export default {
   honda_ic: require('../assets/images/honda_ic.png'),
   edit_ic: require('../assets/images/edit_ic.png'),
   add_ic: require('../assets/images/add_ic.png'),
+  bad_ic: require('../assets/images/bad_ic.png'),
+  okay_ic: require('../assets/images/okay_ic.png'),
+  good_ic: require('../assets/images/good_ic.png'),
+  great_ic: require('../assets/images/great_ic.png'),
+  excellent_ic: require('../assets/images/excellent_ic.png'),
   
 };

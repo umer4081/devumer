@@ -4,8 +4,14 @@ import imagePath from '../../constants/imagePath';
 import {moderateScale, textScale} from '../../styles/responsiveSize';
 import commonStyles from '../../styles/commonStyles';
 import colors from '../../styles/colors';
+import actions from '../../redux/actions';
 
 const AdressTimeBottomView = ({isRideCompleted = true}) => {
+
+    const cancelRide =()=>{
+        actions.bookedCab(false)
+    }
+
   return (
     <View style={styles.bottomView}>
       {isRideCompleted ? (
@@ -41,7 +47,7 @@ const AdressTimeBottomView = ({isRideCompleted = true}) => {
               </Text>
             </View>
           </View>
-          <Text style={styles.canceltextStyle}>Cancel</Text>
+          <Text style={styles.canceltextStyle} onPress={cancelRide}>Cancel</Text>
         </>
       )}
     </View>

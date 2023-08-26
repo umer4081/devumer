@@ -74,6 +74,11 @@ export default StyleSheet.create({
     color: 'black',
     fontFamily: fontFamily.regular,
   },
+  fontSize22: {
+    fontSize: textScale(22),
+    color: 'black',
+    fontFamily: fontFamily.regular,
+  },
   fontSize24: {
     fontSize: textScale(24),
     color: 'black',

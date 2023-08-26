@@ -16,11 +16,13 @@ import navigationString from '../../constants/navigationString';
 import OTPField from './OTPField';
 import UseTimer from '../../Components/UseTimer';
 import PressableImage from '../../Components/PressableImage';
+import actions from '../../redux/actions';
 
 const OTPVerification = ({navigation, route}: any) => {
   const countryCode = route?.params?.countryCode;
   const phoneNumber = route?.params?.phoneNumber;
   const verifyOtp = () => {
+    actions.bookedCab(false)
     navigation.navigate(navigationString.DRAWER_HOME);
   };
   const goBack = () => {

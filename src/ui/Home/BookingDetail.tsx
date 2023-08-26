@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../../styles/colors';
 import {moderateScale, textScale} from '../../styles/responsiveSize';
@@ -8,7 +8,14 @@ import HomeBlackCard from '../../Components/HomeBlackCard';
 import AdressTimeBottomView from './AdressTimeBottomView';
 import ImageTitleValue from '../../Components/ImageTitleValue';
 import {static_url} from '../../constants/contant';
+import { useNavigation } from '@react-navigation/native';
+import navigationString from '../../constants/navigationString';
 
+interface NavigationProp {
+  openDrawer: () => void;
+  closeDrawer: () => void;
+  navigate: (res: string, route?: any) => void;
+}
 const BookingDetail = () => {
   const [state, setState] = useState({
     driverArrived: false,
@@ -20,15 +27,23 @@ const BookingDetail = () => {
     setTimeout(() => {
       updateState({driverArrived: true});
     }, 3000);
-    setTimeout(() => {
-        updateState({rideComplete: true});
-      },6000);
+    // setTimeout(() => {
+    //     updateState({rideComplete: true});
+    //   },7000);
   }, []);
+  const navigation = useNavigation<NavigationProp>();
+  const completedRide = () => {
+    if (rideComplete) {
+      navigation.navigate(navigationString.RATING_RIDE);
+    } else {
+      updateState({rideComplete: true});      
+    }
+  };
   return (
     <>
       {driverArrived && <HomeBlackCard isTimer={!rideComplete} />}
       <View style={styles.container}>
-        <View style={styles.blueCard}>
+        <Pressable style={styles.blueCard} onPress={completedRide}>
           {!rideComplete ? (
             <>
               <View style={{}}>
@@ -57,7 +72,7 @@ const BookingDetail = () => {
               />
             </>
           )}
-        </View>
+        </Pressable>
         <AdressTimeBottomView isRideCompleted={rideComplete} />
       </View>
     </>
