@@ -1,30 +1,44 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import {static_url} from '../../constants/contant';
 import {moderateScale, textScale} from '../../styles/responsiveSize';
 import PressableImage from '../../Components/PressableImage';
 import imagePath from '../../constants/imagePath';
 import commonStyles from '../../styles/commonStyles';
 import colors from '../../styles/colors';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import navigationString from '../../constants/navigationString';
+import ImagePickerSheet, {
+  ImagePickerSheetMethod,
+} from '../../Components/ImagePickerSheet';
 
 interface NavigationProp {
-    openDrawer: () => void;
-    closeDrawer: () => void;
-    navigate: (res: string) => void;
-  }
+  openDrawer: () => void;
+  closeDrawer: () => void;
+  navigate: (res: string) => void;
+}
 
 const HeaderProfile = () => {
-    const navigation = useNavigation<NavigationProp>()
-
-    const editProfile=()=>{
-        navigation.navigate(navigationString.EDIT_PROFILE)
-    }
+  const navigation = useNavigation<NavigationProp>();
+  const sheetRef = useRef<ImagePickerSheetMethod>(null);
+  const editProfile = () => {
+    navigation.navigate(navigationString.EDIT_PROFILE);
+  };
+  const openPicker = () => {
+    sheetRef.current?.show();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.mainView}>
-        <Pressable style={styles.profilepic}>
+        <Pressable
+          style={styles.profilepic}
+          onPress={openPicker}
+          hitSlop={{
+            right: 15,
+            top: 15,
+            bottom: 15,
+            left: 15,
+          }}>
           <Image
             source={{uri: static_url}}
             style={{
@@ -38,12 +52,16 @@ const HeaderProfile = () => {
         <View style={styles.cardView}>
           <View style={styles.nameEditView}>
             <Text style={styles.name}>Nicholas Warner</Text>
-            <PressableImage iconSource={imagePath.edit_ic} onPress={editProfile}/>
+            <PressableImage
+              iconSource={imagePath.edit_ic}
+              onPress={editProfile}
+            />
           </View>
           <Text style={styles.phoneNumber}>+1 354 875 2351</Text>
         </View>
       </View>
       <Text style={styles.ridehistoryText}>{'Ride History'}</Text>
+      <ImagePickerSheet ref={sheetRef} />
     </View>
   );
 };

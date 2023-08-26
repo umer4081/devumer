@@ -36,6 +36,11 @@ export default function (Stack: any) {
           gestureDirection: 'vertical',
         }}
       />
+      <Stack.Screen
+        name={navigationStrings.RIDE_HISTORY_DETAIL}
+        component={Screens.RideHistoryDetail}
+        options={{headerShown: false}}
+      />
     </>
   );
 }

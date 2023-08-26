@@ -16,15 +16,26 @@ import ImageTitleValue from './ImageTitleValue';
 import {static_url} from '../constants/contant';
 import BlueButton from './BlueButton';
 import AddressView from './AddressView';
+import {useNavigation} from '@react-navigation/native';
+import navigationString from '../constants/navigationString';
 
 interface HistoryCardProp {
   item?: any;
   index?: number;
 }
 
+interface NavigationProp {
+  navigate: (res: string) => void;
+}
+
 const HistoryCard = ({item, index}: HistoryCardProp) => {
+  const navigation = useNavigation<NavigationProp>();
+  const historydetail = () => {
+    navigation.navigate(navigationString.RIDE_HISTORY_DETAIL);
+  };
+
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={historydetail}>
       <View style={styles.upperView}>
         <View style={styles.lineIconView}>
           <Image

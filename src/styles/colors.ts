@@ -58,5 +58,8 @@ export default {
   _F5E8C7:"#F5E8C7",
   _EFE1D6:"#EFE1D6",
   _FACE24:"#FACE24",
-  _D30E09:"#D30E09"
+  _D30E09:"#D30E09",
+  _F4F4F4:"#F6F6F6",
+  _007AFF:"#007AFF",
+  _C3C3C3:"#C3C3C3"
 };

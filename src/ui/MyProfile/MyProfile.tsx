@@ -15,12 +15,12 @@ const MyProfile = () => {
       <View style={styles.container}>
         <HeaderScene title="Hey Nicholas!" valueText="Manage your profile" />
         <View style={{flex: 1}}>
-          {/* <FlatList
+          <FlatList
             data={Array(10)}
             ListHeaderComponent={HeaderProfile}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
-          /> */}
+          />
         </View>
       </View>
     </WrapperContainer>
