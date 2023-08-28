@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Screens from '../ui/index';
 import navigationString from '../constants/navigationString';
-import MainStack from './MainStack';
 
 export default function (Stack: any, isFirstTime: boolean) {
   return (
@@ -23,7 +22,6 @@ export default function (Stack: any, isFirstTime: boolean) {
         component={Screens.OTPVerification}
         options={{headerShown: false}}
       />
-      {MainStack(Stack)}
     </>
   );
 }

@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import WrapperContainer from '../../Components/WrapperContainer';
 import styles from './styles';
 import HeaderTitleBack from '../../Components/HeaderTitleBack';
@@ -15,6 +15,8 @@ import BlueButton from '../../Components/BlueButton';
 import {moderateScale} from '../../styles/responsiveSize';
 import imagePath from '../../constants/imagePath';
 import navigationString from '../../constants/navigationString';
+import SearchPlaces from '../../Components/SearchPlaces';
+import PressButton from './PressButton';
 
 const RideType = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
@@ -23,6 +25,8 @@ const RideType = ({navigation, route}: any) => {
   const bookCab = () => {
     navigation.navigate(navigationString.BOOK_CAB, {...route?.params});
   };
+
+  const searchref=useRef()
 
   return (
     <WrapperContainer>
@@ -40,17 +44,20 @@ const RideType = ({navigation, route}: any) => {
                   <Image source={imagePath.navigation_ic} />
                 </View>
                 <View style={{flex: 1}}>
-                  <TextInputLabeled placeholder="Pickup location" />
+                  <PressButton title="Pickup location" onPress={()=>searchref.current?.open()}/>
+                  <PressButton title="Destination" containerStyle={{marginTop: moderateScale(32)}}/>
+                  {/* <TextInputLabeled placeholder="Pickup location" />
                   <TextInputLabeled
                     placeholder="Destination"
                     containerStyle={{marginTop: moderateScale(32)}}
-                  />
+                  /> */}
                 </View>
               </View>
             </ScrollView>
             <BlueButton onPress={bookCab}/>
           </KeyboardAvoidingView>
         </View>
+        <SearchPlaces ref={searchref}/>
       </View>
     </WrapperContainer>
   );

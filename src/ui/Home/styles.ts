@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(24),
     borderRadius: moderateScale(16),
     backgroundColor:colors.white,
-    // overflow: 'hidden',
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

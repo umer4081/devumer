@@ -1,5 +1,8 @@
 import moment from 'moment';
 import {showMessage} from 'react-native-flash-message';
+import Geolocation from '@react-native-community/geolocation';
+import {locationPermission} from './Permission';
+import { GeolocationResponse } from '@react-native-community/geolocation';
 
 const showError = (message: string) => {
   showMessage({
@@ -38,5 +41,22 @@ export function debounce<Params extends any[]>(
     }, timeout);
   };
 }
+
+export const getCurrentLocation = () => {
+  return new Promise<any>((resolve:(res:GeolocationResponse)=>void, reject) => {
+    locationPermission().then(res => {
+      if (res == 'granted') {
+        Geolocation.getCurrentPosition(
+          res => {
+            resolve(res);
+          },
+          err => {
+            reject(err);
+          },
+        );
+      }
+    });
+  });
+};
 
 export {showError, showSuccess};

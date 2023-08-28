@@ -14,13 +14,14 @@ import {moderateScale} from '../styles/responsiveSize';
 import colors from '../styles/colors';
 import CountryPicker, {
   CallingCode,
+  Country,
   CountryCode,
 } from 'react-native-country-picker-modal';
 import commonStyles from '../styles/commonStyles';
 import imagePath from '../constants/imagePath';
 interface CountryPhoneNumberPropType extends TextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
-  onSelect?: (res: any) => void;
+  onSelect?: (res: Country) => void;
   isCheck?: boolean;
 }
 const CountryPhoneNumber = ({

@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import navigationString from '../constants/navigationString';
 import {static_url} from '../constants/contant';
+import actions from '../redux/actions';
 
 interface MenuProp {
   source: ImageSourcePropType;
@@ -59,8 +60,7 @@ const CustomDrawer = ({navigation}: DrawerContentComponentProps) => {
   };
 
   const logout = () => {
-    //@ts-ignore
-    navigation?.popToTop();
+    actions.logoutClearData();
   };
 
   const onClickLogout = () => {

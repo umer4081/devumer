@@ -38,3 +38,35 @@ export function socialLogin(data: any) {
       });
   });
 }
+
+export function phonelogin(data: any) {
+  return apiPost(urls.LOGIN, data);
+}
+
+export function resendOTP(data: any) {
+  return apiPost(urls.RESEND_OTP, data);
+}
+
+export function otpVerification(data: any) {
+  return new Promise<void>((resolve, reject) => {
+    apiPost(urls.OTP_VERIFICATION, data)
+      .then((res: any) => {
+        setUserData(res).then((check: any) => {
+          if (res) {
+            saveUserData(res);
+          }
+          resolve(res);
+        });
+        return resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+
+export const logoutClearData = () => {
+  dispatch({type:types.CLEAR_REDUX_STATE,payload:{}});
+  clearUserData()
+};

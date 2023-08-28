@@ -17,8 +17,8 @@ import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   const init = async () => {
-    requestUserPermission();
-    notificationListener();
+    // requestUserPermission();
+    // notificationListener();
     getFirstTime().then(res => {
       if (res) {
         actions.isFirstTime(res);
@@ -33,7 +33,7 @@ const App = () => {
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);
-    // init();
+    init();
   }, []);
 
   return (
