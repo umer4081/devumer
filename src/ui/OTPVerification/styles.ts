@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   },
   innerContent: {
     flex: 1,
+    paddingBottom:moderateScale(24)
   },
   bgImage: {
     position: 'absolute',

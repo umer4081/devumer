@@ -6,7 +6,7 @@ import HeaderScene from '../../Components/HeaderScene';
 import HistoryCard from '../../Components/HistoryCard';
 import {moderateScale} from '../../styles/responsiveSize';
 
-const RideHistory = () => {
+const RideHistory = ({navigation}:any) => {
   const renderItem = ({item, index}: any) => {
     return <HistoryCard item={item} index={index} />;
   };

@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     marginHorizontal: moderateScale(24),
     marginTop: moderateScale(24),
     borderRadius: moderateScale(16),
-    overflow: 'hidden',
+    backgroundColor:colors.white,
+    // overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
     marginBottom: -moderateScale(24),
+    borderRadius: moderateScale(16)
   },
   onbookingMap:{
     flex: 1,

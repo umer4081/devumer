@@ -1,5 +1,6 @@
 import {
   Image,
+  Keyboard,
   Platform,
   ScrollView,
   StyleSheet,
@@ -17,47 +18,55 @@ import OTPField from './OTPField';
 import UseTimer from '../../Components/UseTimer';
 import PressableImage from '../../Components/PressableImage';
 import actions from '../../redux/actions';
+import KeyboardAvoidingViewSet from '../../Components/KeyboardAvoidingViewSet';
+import { moderateScale } from '../../styles/responsiveSize';
 
 const OTPVerification = ({navigation, route}: any) => {
   const countryCode = route?.params?.countryCode;
   const phoneNumber = route?.params?.phoneNumber;
   const verifyOtp = () => {
-    actions.bookedCab(false)
+    Keyboard.dismiss()
+    actions.bookedCab(false);
     navigation.navigate(navigationString.DRAWER_HOME);
   };
   const goBack = () => {
     navigation.goBack();
   };
-  
+
   return (
     <View style={styles.container}>
       <Image source={imagePath.login_bg} style={styles.bgImage} />
       <WrapperView wrapperStyle={styles.content}>
-        <PressableImage iconSource={imagePath.back_ic} onPress={goBack}/>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardDismissMode="none"
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.innerContent}>
-            <Text style={styles.verifyText}>{'Verify your number!'}</Text>
-            <Text style={styles.descText}>
-              {'We have sent an OTP on your number'}
-            </Text>
-            <Text style={styles.descText}>
-              {'+'}
-              {countryCode} {phoneNumber}
-            </Text>
-            <OTPField />
-            <View style={styles.timerResendView}>
-              <Text style={styles.timer}>You will get <UseTimer/></Text>
-              <TouchableOpacity >
-                <Text style={styles.resendText}>Resend OTP?</Text>
-              </TouchableOpacity>
+        <PressableImage iconSource={imagePath.back_ic} onPress={goBack} />
+        <KeyboardAvoidingViewSet viewOffset={moderateScale(12)}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardDismissMode="none"
+            keyboardShouldPersistTaps="handled"
+            bounces={false}
+            contentContainerStyle={{flexGrow: 1}}>
+            <View style={styles.innerContent}>
+              <Text style={styles.verifyText}>{'Verify your number!'}</Text>
+              <Text style={styles.descText}>
+                {'We have sent an OTP on your number'}
+              </Text>
+              <Text style={styles.descText}>
+                {'+'}
+                {countryCode} {phoneNumber}
+              </Text>
+              <OTPField />
+              <View style={styles.timerResendView}>
+                <Text style={styles.timer}>
+                  You will get <UseTimer />
+                </Text>
+                <TouchableOpacity>
+                  <Text style={styles.resendText}>Resend OTP?</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        <BlueButton buttonTitle="Verify" onPress={verifyOtp} />
+          </ScrollView>
+          <BlueButton buttonTitle="Verify" onPress={verifyOtp} />
+        </KeyboardAvoidingViewSet>
       </WrapperView>
     </View>
   );

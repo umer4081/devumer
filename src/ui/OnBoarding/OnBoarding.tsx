@@ -24,7 +24,7 @@ const OnBoarding = ({navigation}: any) => {
               {`No matter your destination, we’ll get you where you need to go.`}
             </Text>
           </View>
-          <Image source={imagePath.car_ic} />
+          <Image source={imagePath.car_ic}/>
         </View>
         <BlueButton
           buttonTitle="Get Stared"

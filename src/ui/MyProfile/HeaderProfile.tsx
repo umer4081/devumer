@@ -66,7 +66,7 @@ const HeaderProfile = () => {
   );
 };
 
-export default HeaderProfile;
+export default React.memo(HeaderProfile);
 
 const styles = StyleSheet.create({
   container: {

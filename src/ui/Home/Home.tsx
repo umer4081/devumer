@@ -9,6 +9,8 @@ import imagePath from '../../constants/imagePath';
 import {useSelector} from 'react-redux';
 import BookingDetail from './BookingDetail';
 import DriverNameDetailView from './DriverNameDetailView';
+import colors from '../../styles/colors';
+import { moderateScale } from '../../styles/responsiveSize';
 const Home = () => {
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.bookedCab;
   return (
@@ -32,7 +34,12 @@ const Home = () => {
           /> */}
             <Image
               source={imagePath.map_img}
-              style={{height: '100%', width: '100%'}}
+              style={{
+                height: '100%',
+                width: '100%',
+                backgroundColor: colors.white,
+                borderRadius: moderateScale(16),
+              }}
             />
           </View>
           {cabBooked && <DriverNameDetailView />}

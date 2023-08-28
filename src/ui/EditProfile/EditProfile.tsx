@@ -1,5 +1,5 @@
 import {
-    Keyboard,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -13,28 +13,29 @@ import BlueButton from '../../Components/BlueButton';
 import TextInputLabeled from '../../Components/TextInputLabeled';
 import CountryPhoneNumber from '../../Components/CountryPhoneNumber';
 import {moderateScale} from '../../styles/responsiveSize';
-import navigationString from '../../constants/navigationString';
 
-const EditProfile = ({navigation}:any) => {
+const EditProfile = ({navigation}: any) => {
   const [state, setState] = useState({
     phoneNumber: '',
   });
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {phoneNumber} = state;
 
-  const onPressSave=()=>{
-    Keyboard.dismiss()
-    navigation.goBack()
-  }
+  const onPressSave = () => {
+    Keyboard.dismiss();
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
-      <View style={styles.dragLine} />
-      <View style={styles.content}>
-        <KeyboardAvoidingView
-          style={{flex: 1}}
-          behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS == 'ios' ? moderateScale(24) : 0}
+        style={{flex: 1}}>
+        <View style={styles.dragLine} />
+        <View style={styles.content}>
           <ScrollView
-            contentContainerStyle={{flexGrow: 1}}
+            contentContainerStyle={{flexGrow: 1,paddingBottom:moderateScale(24)}}
+            bounces={false}
             showsVerticalScrollIndicator={false}>
             <Text style={styles.editProfileText}>Edit profile</Text>
             <Text style={styles.descText}>
@@ -57,9 +58,9 @@ const EditProfile = ({navigation}:any) => {
               keyboardType="email-address"
             />
           </ScrollView>
-          <BlueButton buttonTitle="Save" onPress={onPressSave}/>
-        </KeyboardAvoidingView>
-      </View>
+          <BlueButton buttonTitle="Save" onPress={onPressSave} />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

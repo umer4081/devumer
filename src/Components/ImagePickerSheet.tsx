@@ -4,6 +4,7 @@ import colors from '../styles/colors';
 import {moderateScale} from '../styles/responsiveSize';
 import commonStyles from '../styles/commonStyles';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export interface ImagePickerSheetMethod {
   show: () => void;
@@ -82,7 +83,7 @@ const ImagePickerSheet = (
     index == 0 && cameraOpen()
     index == 1 && galleryOpen()
   }
-
+   const insets = useSafeAreaInsets()
   return (
     <Modal visible={visible} transparent statusBarTranslucent>
       <Animated.View
@@ -93,6 +94,7 @@ const ImagePickerSheet = (
         <Animated.View
           style={{
             ...styles.content,
+            marginBottom: moderateScale(6)+insets.bottom,
             transform: [
               {
                 translateY: interpolation([250, 0]),
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    margin: moderateScale(6),
+    margin: moderateScale(8),
   },
   optionView: {
     backgroundColor: '#FCFFF9',

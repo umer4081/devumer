@@ -12,8 +12,12 @@ import {static_url} from '../../constants/contant';
 import AddressView from '../../Components/AddressView';
 import FlexedIconView from '../../Components/FlexedIconView';
 
-const RideHistoryDetail = () => {
+const RideHistoryDetail = ({navigation}:any) => {
   const insets = useSafeAreaInsets();
+
+  const goBack=()=>{
+    navigation.goBack()
+  }
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
@@ -87,7 +91,7 @@ const RideHistoryDetail = () => {
           ...styles.headerView,
           marginTop: moderateScale(12) + insets.top,
         }}>
-        <Pressable style={styles.iconView}>
+        <Pressable style={styles.iconView} onPress={goBack}>
           <View style={styles.shadowView}>
             <Image source={imagePath.back_cir_ic} />
           </View>

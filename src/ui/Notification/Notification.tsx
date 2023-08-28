@@ -14,11 +14,11 @@ const Notification = () => {
       <View style={styles.container}>
         <HeaderScene title="Notifications" valueText="Stay up to date" />
         <View style={{flex: 1}}>
-          <FlatList
+          {/* <FlatList
             data={Array(20)}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
-          />
+          /> */}
         </View>
       </View>
     </WrapperContainer>

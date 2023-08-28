@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     height: moderateScale(48),
     width: moderateScale(48),
     borderRadius: moderateScale(48),
-    overflow: 'hidden',
+    // overflow: 'hidden',
     shadowColor: colors._020202,
     shadowOffset: {
       width: 0,

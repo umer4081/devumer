@@ -17,7 +17,7 @@ const DrawerNav = () => {
         drawerStyle: {
           width: moderateScale(231),
         },
-        swipeEnabled: false,
+        swipeEnabled: false,drawerType:'front'
       }}
       drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen

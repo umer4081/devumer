@@ -17,6 +17,7 @@ import colors from '../../styles/colors';
 import imagePath from '../../constants/imagePath';
 import StepSlider from '../../Components/StepSlider';
 import BlueButton from '../../Components/BlueButton';
+import KeyboardAvoidingViewSet from '../../Components/KeyboardAvoidingViewSet';
 const ratingColor = ['#FFDDDD', '#FCDBA1', '#FFF2D3', '#E7FFD3', '#D3FFFB'];
 const ratingText = ['Bad', 'Okay', 'Good', 'Great', 'Excellent'];
 const ratingEmoji = [
@@ -33,10 +34,11 @@ const RatingRide = () => {
   const {rating} = state;
   const currentColor = ratingColor[rating];
   return (
-    <WrapperView statusBarColor={currentColor} bodyColor={currentColor}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
+    <WrapperView
+      removeBottomInset
+      statusBarColor={currentColor}
+      bodyColor={currentColor}>
+      <KeyboardAvoidingViewSet>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
           showsVerticalScrollIndicator={false}>
@@ -67,7 +69,7 @@ const RatingRide = () => {
             <Text style={styles.skipText}>{'Skip feedback'}</Text>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingViewSet>
     </WrapperView>
   );
 };
