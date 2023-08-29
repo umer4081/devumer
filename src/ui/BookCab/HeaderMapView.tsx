@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import imagePath from '../../constants/imagePath';
 import PressableImage from '../../Components/PressableImage';
 import colors from '../../styles/colors';
@@ -20,6 +20,7 @@ import commonStyles from '../../styles/commonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import DestinationPickupAddress from '../../Components/DestinationPickupAddress';
 import MapView from 'react-native-maps';
+import {useSelector} from 'react-redux';
 
 interface HeaderMapViewProp {
   isChoosed?: boolean;
@@ -29,11 +30,21 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
 
+  const [state, setState] = useState({
+    region: {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
+  });
+  const updateState = (data: any) => setState(prev => ({...prev, ...data}));
+  const {region} = state;
   useEffect(() => {
     startAnimation(isChoosed ? 1 : 0);
   }, [isChoosed]);
-
   const startAnimation = (val = 1) => {
     Animated.spring(animatedValue, {
       toValue: val,
@@ -52,19 +63,12 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
   return (
     <View style={styles.container}>
       <View style={styles.mapView}>
-        {/* <MapView
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          style={styles.map}
-        /> */}
-        <Image
-          source={imagePath.map_img}
-          style={{height: '100%', width: '100%'}}
-        />
+        <MapView
+          initialRegion={region}
+          region={region}
+          style={styles.map}>
+
+          </MapView>
       </View>
       <LinearGradient
         colors={[colors.white, colors.whiteOpacity10]}
@@ -82,8 +86,8 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
         end={{x: 0, y: 1.0}}
       />
       <DestinationPickupAddress
-        destination="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
-        pickup="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
+        destination={rideDetail?.destination?.address}
+        pickup={rideDetail?.pickup?.address}
         addressViewStyle={{
           ...styles.addressView,
           transform: [{translateY: animationAction([0, -240])}],
@@ -98,7 +102,7 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
   );
 };
 
-export default HeaderMapView;
+export default React.memo(HeaderMapView);
 
 const styles = StyleSheet.create({
   container: {},
@@ -140,6 +144,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    marginBottom: -moderateScale(24),
+    // marginBottom: -moderateScale(24),
   },
 });

@@ -9,7 +9,7 @@ import imagePath from '../../constants/imagePath';
 import {useSelector} from 'react-redux';
 import BookingDetail from './BookingDetail';
 import DriverNameDetailView from './DriverNameDetailView';
-import {getCurrentLocation} from '../../utils/helperFunction';
+import {checkForLocationAddress, getCurrentLocation} from '../../utils/helperFunction';
 import {GeolocationResponse} from '@react-native-community/geolocation';
 
 let LATITUDE_DELTA = 0.0922;
@@ -45,6 +45,7 @@ const Home = () => {
         latitude: res.coords.latitude,
         longitude: res.coords.longitude,
       });
+      checkForLocationAddress(res.coords.latitude,res.coords.longitude)
     });
   };
 

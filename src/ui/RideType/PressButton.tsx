@@ -13,10 +13,16 @@ import commonStyles from '../../styles/commonStyles';
 
 interface PressButtonProp {
   title?: string;
+  value?: string;
   onPress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
 }
-const PressButton = ({title, onPress, containerStyle}: PressButtonProp) => {
+const PressButton = ({
+  title,
+  value,
+  onPress,
+  containerStyle,
+}: PressButtonProp) => {
   return (
     <Pressable
       style={{
@@ -24,7 +30,11 @@ const PressButton = ({title, onPress, containerStyle}: PressButtonProp) => {
         ...(typeof containerStyle == 'object' && containerStyle),
       }}
       onPress={onPress}>
-      <Text style={styles.textStyle}>{title}</Text>
+      <Text
+        style={{...styles.textStyle, ...(!!value && {color: colors._020202})}}
+        numberOfLines={1}>
+        {!!value ? value : title}
+      </Text>
     </Pressable>
   );
 };
@@ -37,7 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors._F7F7F7,
     borderRadius: moderateScale(8),
     overflow: 'hidden',
-    justifyContent:'center'
+    justifyContent: 'center',
   },
   textStyle: {
     ...commonStyles.fontSize15,

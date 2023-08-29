@@ -4,12 +4,16 @@ import types from '../types';
 import isFirstTime from './isFirstTime';
 import auth from './auth';
 import bookedCab from './bookedCab';
+import rideDetail from './rideDetail';
+import currentLocation from './currentLocation';
 
 
 const appReducer = combineReducers({
   isFirstTime,
   auth,
-  bookedCab
+  bookedCab,
+  rideDetail,
+  currentLocation
 });
 
 const rootReducer = (state: any, action: PayloadAction) => {

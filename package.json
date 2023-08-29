@@ -26,6 +26,7 @@
     "react-native-confirmation-code-field": "^7.3.1",
     "react-native-country-picker-modal": "^2.0.0",
     "react-native-flash-message": "^0.4.2",
+    "react-native-geocoding": "^0.5.0",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-google-places-autocomplete": "^2.5.1",

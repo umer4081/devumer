@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import HeaderTitleBack from '../../Components/HeaderTitleBack';
 import WrapperContainer from '../../Components/WrapperContainer';
 import styles from './styles';
@@ -10,6 +10,7 @@ import HeaderMapView from './HeaderMapView';
 import RideRequest from './RideRequest';
 import navigationString from '../../constants/navigationString';
 import actions from '../../redux/actions';
+import {useSelector} from 'react-redux';
 
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
@@ -17,7 +18,7 @@ const BookCab = ({navigation, route}: any) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isChoosed, setIsChoosed] = useState(false);
   const flatRef = useRef<FlatList>(null);
-
+  const rideDetail = useSelector((state: any) => state?.rideDetail);
   const renderItem = ({item, index}: any) => {
     return (
       <CabItem
@@ -29,9 +30,9 @@ const BookCab = ({navigation, route}: any) => {
     );
   };
 
-  const ListHeaderComponent = () => {
+  const ListHeaderComponent = useCallback(() => {
     return <HeaderMapView isChoosed={isChoosed} />;
-  };
+  }, [isChoosed]);
 
   const onChooseRide = () => {
     flatRef.current?.scrollToOffset({offset: 0, animated: false});
@@ -43,10 +44,10 @@ const BookCab = ({navigation, route}: any) => {
     setIsChoosed(false);
   };
 
-  const onfinishProgress=()=>{
-    actions.bookedCab(true)
+  const onfinishProgress = () => {
+    actions.bookedCab(true);
     navigation.navigate(navigationString.DRAWER_HOME);
-  }
+  };
 
   return (
     <WrapperContainer removeBottomInset>
@@ -71,7 +72,12 @@ const BookCab = ({navigation, route}: any) => {
             onPress={onChooseRide}
           />
         </View>
-        {isChoosed && <RideRequest onPressCancel={onPressCancel} onfinishProgress={onfinishProgress}/>}
+        {isChoosed && (
+          <RideRequest
+            onPressCancel={onPressCancel}
+            onfinishProgress={onfinishProgress}
+          />
+        )}
       </View>
     </WrapperContainer>
   );

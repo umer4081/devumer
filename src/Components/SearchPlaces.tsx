@@ -7,9 +7,21 @@ import commonStyles from '../styles/commonStyles';
 import {moderateScale, moderateScaleVertical} from '../styles/responsiveSize';
 import PressableImage from './PressableImage';
 import WrapperContainer from './WrapperContainer';
-import { GOOGLE_MAP_KEY } from '../constants/contant';
+import {GOOGLE_MAP_KEY} from '../constants/contant';
 
-const SearchPlaces = ({close = () => {}, place = () => {}}, ref: any) => {
+export interface SearchPlacesMethod {
+  open: () => void;
+  close: () => void;
+}
+
+interface SearchPlacesProp {
+  close?: () => void;
+  onPlaceSelect?: (res: any) => void;
+}
+const SearchPlaces = (
+  {close = () => {}, onPlaceSelect}: SearchPlacesProp,
+  ref: any,
+) => {
   const [text, setText] = useState('');
   const [visible, setvisible] = useState(false);
 
@@ -20,17 +32,33 @@ const SearchPlaces = ({close = () => {}, place = () => {}}, ref: any) => {
     };
   });
 
+  const onClosing = () => {
+    setvisible(false);
+    setText('');
+  };
+
   return (
-    <Modal visible={visible} statusBarTranslucent>
+    <Modal
+      onRequestClose={onClosing}
+      animationType="fade"
+      visible={visible}
+      statusBarTranslucent>
       <WrapperContainer>
-        <View style={{flex: 1,paddingTop:moderateScale(24)}}>
+        <View style={{flex: 1}}>
           <GooglePlacesAutocomplete
             placeholder="Search"
             fetchDetails={true}
             nearbyPlacesAPI={'GoogleReverseGeocoding'}
-            onPress={(data, details = null) => {}}
+            onPress={(data, details = null) => {
+              onClosing()
+              !!onPlaceSelect &&
+                onPlaceSelect({
+                  address: data.description,
+                  lat: details?.geometry?.location.lat,
+                  lng: details?.geometry?.location.lng,
+                });
+            }}
             keyboardShouldPersistTaps={'handled'}
-            // ref={googlePlacesRef}
             textInputProps={{
               placeholderTextColor: colors._B2B2B2,
               onChangeText: value => setText(value),
@@ -41,19 +69,19 @@ const SearchPlaces = ({close = () => {}, place = () => {}}, ref: any) => {
             renderLeftButton={() => (
               <PressableImage
                 iconSource={imagePath.back_ic}
-                onPress={() => close()}
+                onPress={onClosing}
               />
             )}
-            renderRightButton={() =>
-              !!text ? (
-                <PressableImage
-                  iconSource={imagePath.menu_close_ic}
-                  onPress={() => close()}
-                />
-              ) : (
-                <></>
-              )
-            }
+            // renderRightButton={() =>
+            //   !!text ? (
+            //     <PressableImage
+            //       iconSource={imagePath.menu_close_ic}
+            //       onPress={() => setvisible(false)}
+            //     />
+            //   ) : (
+            //     <></>
+            //   )
+            // }
             styles={{
               container: styles.container,
               textInputContainer: styles.textInputContainer,
@@ -83,10 +111,11 @@ const styles = StyleSheet.create({
     // borderRadius: moderateScale(16),
     // paddingLeft: moderateScale(8),
     alignItems: 'center',
-    paddingHorizontal: moderateScale(20),
+    paddingHorizontal: moderateScale(24),
     borderBottomWidth: moderateScale(1),
-    borderBottomColor: colors._B2B2B2,
-    marginTop: -moderateScaleVertical(5),
+    borderBottomColor: colors._E2E2E2,
+    paddingBottom: moderateScale(4),
+    // marginTop: -moderateScaleVertical(5),
   },
   textInput: {
     ...commonStyles.fontSizeMedium15,
