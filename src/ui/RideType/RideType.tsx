@@ -87,7 +87,13 @@ const RideType = ({navigation, route}: any) => {
                 </View>
               </View>
             </ScrollView>
-            <BlueButton onPress={bookCab} />
+            <BlueButton
+              disabled={
+                destination?.address?.length == 0 ||
+                pickup?.address?.length == 0
+              }
+              onPress={bookCab}
+            />
           </KeyboardAvoidingView>
         </View>
         <SearchPlaces onPlaceSelect={onPlaceSelect} ref={searchref} />

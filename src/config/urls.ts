@@ -8,4 +8,5 @@ export const SOCIAL_LOGIN = getApiUrl('User/list_tutorials');
 export const LOGIN = getApiUrl("v1/customer/app/login");
 export const OTP_VERIFICATION = getApiUrl("v1/customer/app/otp_verification");
 export const RESEND_OTP = getApiUrl("v1/customer/app/resend_otp");
+export const ACCESS_TOKEN_LOGIN = getApiUrl("v1/customer/app/access_token_login");
 

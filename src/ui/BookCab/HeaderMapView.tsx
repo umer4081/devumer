@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import imagePath from '../../constants/imagePath';
 import PressableImage from '../../Components/PressableImage';
 import colors from '../../styles/colors';
@@ -19,9 +19,11 @@ import {
 import commonStyles from '../../styles/commonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import DestinationPickupAddress from '../../Components/DestinationPickupAddress';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import {useSelector} from 'react-redux';
-
+import MapViewDirections from 'react-native-maps-directions';
+import {GOOGLE_MAP_KEY} from '../../constants/contant';
+import {CalculateCenter, latLongDelta} from '../../utils/helperFunction';
 interface HeaderMapViewProp {
   isChoosed?: boolean;
 }
@@ -42,9 +44,31 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
   });
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {region} = state;
+  const destination = {
+    latitude: rideDetail?.destination?.latitude,
+    longitude: rideDetail?.destination?.longitude,
+  };
+  const origin = {
+    latitude: rideDetail?.pickup?.latitude,
+    longitude: rideDetail?.pickup?.longitude,
+  };
+
   useEffect(() => {
     startAnimation(isChoosed ? 1 : 0);
   }, [isChoosed]);
+
+  useEffect(() => {
+    if (rideDetail?.pickup?.latitude && rideDetail?.destination?.latitude) {
+      const delta = latLongDelta(destination, origin);
+      updateState({
+        region: {
+          ...region,
+          ...CalculateCenter(destination, origin),
+          ...delta,
+        },
+      });
+    }
+  }, [rideDetail]);
   const startAnimation = (val = 1) => {
     Animated.spring(animatedValue, {
       toValue: val,
@@ -64,11 +88,38 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
     <View style={styles.container}>
       <View style={styles.mapView}>
         <MapView
+          key={'bookCab'}
           initialRegion={region}
           region={region}
           style={styles.map}>
+          {rideDetail?.destination?.latitude &&
+            rideDetail?.pickup?.latitude && (
+              <MapViewDirections
+                origin={origin}
+                destination={destination}
+                apikey={GOOGLE_MAP_KEY}
+                strokeWidth={4}
+                strokeColor={colors._3B4FF4}
+              />
+            )}
 
-          </MapView>
+          {origin?.latitude && (
+            <Marker
+              key={'origin'}
+              icon={imagePath.current_loc_ic}
+              anchor={{x: 0.5, y: 0.5}}
+              coordinate={origin}
+            />
+          )}
+          {destination?.latitude && (
+            <Marker
+              key={'destination'}
+              icon={imagePath.drop_loc_ic}
+              anchor={{x: 0.5, y: 0.5}}
+              coordinate={destination}
+            />
+          )}
+        </MapView>
       </View>
       <LinearGradient
         colors={[colors.white, colors.whiteOpacity10]}

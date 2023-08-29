@@ -9,14 +9,19 @@ import imagePath from '../../constants/imagePath';
 import {useSelector} from 'react-redux';
 import BookingDetail from './BookingDetail';
 import DriverNameDetailView from './DriverNameDetailView';
-import {checkForLocationAddress, getCurrentLocation} from '../../utils/helperFunction';
+import {
+  checkForLocationAddress,
+  getCurrentLocation,
+} from '../../utils/helperFunction';
 import {GeolocationResponse} from '@react-native-community/geolocation';
+import actions from '../../redux/actions';
 
 let LATITUDE_DELTA = 0.0922;
 let LONGITUDE_DELTA = 0.0421;
 
 const Home = () => {
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.bookedCab;
+  const accessTokenData = useSelector((state: any) => state?.accessTokenData)?.data;
   const [state, setState] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -31,11 +36,12 @@ const Home = () => {
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   useEffect(() => {
     triggerCurrentLocation();
+    actions.accessTokenLogin();
   }, []);
 
   const triggerCurrentLocation = () => {
     getCurrentLocation().then((res: GeolocationResponse) => {
-      console.log(res,"resresresresresresres")
+      console.log(res, 'resresresresresresres');
       updateState({
         region: {
           ...region,
@@ -45,7 +51,7 @@ const Home = () => {
         latitude: res.coords.latitude,
         longitude: res.coords.longitude,
       });
-      checkForLocationAddress(res.coords.latitude,res.coords.longitude)
+      checkForLocationAddress(res.coords.latitude, res.coords.longitude);
     });
   };
 
@@ -53,33 +59,26 @@ const Home = () => {
     <WrapperContainer removeBottomInset>
       <View style={styles.container}>
         <HeaderScene
-          title="Hey Nicholas!"
+          title={`Hey ${accessTokenData?.name}!`}
           valueText="Grab your new ride now"
           isBottomBorder={!cabBooked}
         />
         <View style={styles.content}>
           <View style={cabBooked ? styles.onbookingMap : styles.initialmapView}>
             <MapView
-              scrollEnabled={cabBooked}
-              zoomEnabled={cabBooked}
+         
+              // scrollEnabled={cabBooked}
+              // zoomEnabled={cabBooked}
               initialRegion={region}
               region={region}
               style={styles.map}>
               <Marker
                 key={'current'}
                 coordinate={{latitude: latitude, longitude: longitude}}
-                // icon={imagePath.current_loc_ic}
+                icon={imagePath.current_loc_ic}
+                anchor={{x: 0.5, y: 0.5}}
               />
             </MapView>
-            {/* <Image
-              source={imagePath.map_img}
-              style={{
-                height: '100%',
-                width: '100%',
-                backgroundColor: colors.white,
-                borderRadius: moderateScale(16),
-              }}
-            /> */}
           </View>
           {cabBooked && <DriverNameDetailView />}
           {cabBooked ? <BookingDetail /> : <BookRide />}

@@ -4,9 +4,9 @@ import Geolocation from '@react-native-community/geolocation';
 import {locationPermission} from './Permission';
 import {GeolocationResponse} from '@react-native-community/geolocation';
 import actions from '../redux/actions';
-import { GOOGLE_MAP_KEY } from '../constants/contant';
+import {GOOGLE_MAP_KEY} from '../constants/contant';
 import Geocoder from 'react-native-geocoding';
-import { currentLocationAddress } from '../redux/actions/currentLocation';
+import {currentLocationAddress} from '../redux/actions/currentLocation';
 
 const showError = (message: string) => {
   showMessage({
@@ -66,7 +66,10 @@ export const getCurrentLocation = () => {
   );
 };
 
-export const checkForLocationAddress = (latitude: number, longitude: number) => {
+export const checkForLocationAddress = (
+  latitude: number,
+  longitude: number,
+) => {
   return new Promise<any>((resolve, reject) => {
     Geocoder.init(GOOGLE_MAP_KEY);
     Geocoder.from(latitude, longitude)
@@ -80,11 +83,43 @@ export const checkForLocationAddress = (latitude: number, longitude: number) => 
           address: addressComponent,
           countryCode: countryCode,
         };
-        currentLocationAddress(data.address)
+        currentLocationAddress(data.address);
         resolve(data);
       })
       .catch(error => console.warn(error));
   });
 };
+
+export function latLongDelta(pickup: any, destination: any) {
+  let longitude = [destination?.longitude, pickup?.longitude],
+    latitude = [destination?.latitude, pickup?.latitude];
+  let sortedlongitude = longitude.sort(),
+    sortedlatitude = latitude.sort();
+
+  let delta = {
+    longitudeDelta:
+      (sortedlongitude[longitude.length - 1] - sortedlongitude[0]) * 2.3,
+    latitudeDelta:
+      (sortedlatitude[latitude.length - 1] - sortedlatitude[0]) * 1.6,
+  };
+  return delta;
+}
+
+export function CalculateCenter(pickup: any, destination: any) {
+  var latitude = 0,
+    longitude = 0;
+  const locations = [pickup, destination];
+  for (var location of locations) {
+    longitude += location.longitude;
+    latitude += location.latitude;
+  }
+  latitude = latitude / locations.length;
+  longitude = longitude / locations.length;
+
+  return {
+    latitude,
+    longitude,
+  };
+}
 
 export {showError, showSuccess};

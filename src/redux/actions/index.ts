@@ -3,6 +3,7 @@ import * as isFirstTime from './isFirstTime';
 import * as bookedCab from './bookedCab';
 import * as rideDetail from './rideDetail';
 import * as currentLocation from './currentLocation';
+import * as accessTokenData from './accessTokenData';
 
 
 export default {
@@ -10,5 +11,6 @@ export default {
   ...isFirstTime,
   ...bookedCab,
   ...rideDetail,
-  ...currentLocation
+  ...currentLocation,
+  ...accessTokenData
 };

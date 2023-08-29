@@ -9,6 +9,7 @@ import {
 import {changeAuth} from '../reducers/auth';
 import store from '../store';
 import types from '../types';
+import {accessTokenData} from './accessTokenData';
 import {isFirstTime} from './isFirstTime';
 
 const {dispatch} = store;
@@ -65,8 +66,20 @@ export function otpVerification(data: any) {
   });
 }
 
+export function accessTokenLogin() {
+  return new Promise<void>((resolve, reject) => {
+    apiGet(urls.ACCESS_TOKEN_LOGIN)
+      .then((res: any) => {
+        accessTokenData(res);
+        return resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
 
 export const logoutClearData = () => {
-  dispatch({type:types.CLEAR_REDUX_STATE,payload:{}});
-  clearUserData()
+  dispatch({type: types.CLEAR_REDUX_STATE, payload: {}});
+  clearUserData();
 };

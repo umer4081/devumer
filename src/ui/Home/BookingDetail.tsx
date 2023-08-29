@@ -24,12 +24,7 @@ const BookingDetail = () => {
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {driverArrived, rideComplete} = state;
   useEffect(() => {
-    setTimeout(() => {
-      updateState({driverArrived: true});
-    }, 3000);
-    // setTimeout(() => {
-    //     updateState({rideComplete: true});
-    //   },7000);
+      // updateState({driverArrived: true});
   }, []);
   const navigation = useNavigation<NavigationProp>();
   const completedRide = () => {

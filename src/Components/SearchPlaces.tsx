@@ -50,7 +50,7 @@ const SearchPlaces = (
             fetchDetails={true}
             nearbyPlacesAPI={'GoogleReverseGeocoding'}
             onPress={(data, details = null) => {
-              onClosing()
+              onClosing();
               !!onPlaceSelect &&
                 onPlaceSelect({
                   address: data.description,
@@ -62,6 +62,7 @@ const SearchPlaces = (
             textInputProps={{
               placeholderTextColor: colors._B2B2B2,
               onChangeText: value => setText(value),
+              autoFocus:true
             }}
             enableHighAccuracyLocation={true}
             isRowScrollable={false}
@@ -82,6 +83,7 @@ const SearchPlaces = (
             //     <></>
             //   )
             // }
+
             styles={{
               container: styles.container,
               textInputContainer: styles.textInputContainer,
