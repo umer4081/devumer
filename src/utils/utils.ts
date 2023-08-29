@@ -11,9 +11,11 @@ export async function getHeaders() {
   if (userData) {
     userData = JSON.parse(userData);
     // console.log(`${userData.access_token}`)
-    console.log(userData?.access_token)
+    console.log(userData?.access_token,"access_tokenaccess_tokenaccess_token");
     return {
-      authorization: `${userData?.access_token}`,
+      // authorization: `${userData?.access_token}`,
+      authorization:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic2NvcGUiOiJjdXN0b21lciIsInRva2VuX2dlbl9hdCI6IjE2OTMyMjE0Njc3MzEiLCJpYXQiOjE2OTMyMjE0Njd9.31aAG2uOSZ6gktYuVXM13CFHQBLrHvVLRAQg7_zWV98',
     };
   }
   return {};

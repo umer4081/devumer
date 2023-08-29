@@ -27,7 +27,7 @@ const ProgressBar = ({containerStyle, onfinish}: ProgressBarProp, ref: any) => {
     Animated.timing(animatedValue, {
       toValue: 1,
       useNativeDriver: true,
-      duration: 10000,
+      duration: 100000,
     }).start(({finished}) => {
       focus && finished && onfinish && onfinish();
     });

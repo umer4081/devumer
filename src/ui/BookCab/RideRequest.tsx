@@ -7,10 +7,11 @@ import BlueButton from '../../Components/BlueButton';
 import commonStyles from '../../styles/commonStyles';
 import imagePath from '../../constants/imagePath';
 import ProgressBar from '../../Components/ProgressBar';
+import { useSelector } from 'react-redux';
 
 const RideRequest = ({onPressCancel=()=>{},onfinishProgress=()=>{}}) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
-
+  const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
   useEffect(() => {
     startAnimation();
   }, []);
@@ -48,11 +49,11 @@ const RideRequest = ({onPressCancel=()=>{},onfinishProgress=()=>{}}) => {
       <View style={styles.content}>
         <View style={styles.headerView}>
           <Text style={styles.rideText}>{'Ride requested…'}</Text>
-          <Text style={styles.changeloctext}>{'Add or change location'}</Text>
+          {/* <Text style={styles.changeloctext}>{'Add or change location'}</Text> */}
         </View>
         <DestinationPickupAddress
-          destination="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
-          pickup="SCO 50-51, Sector 34B, Sector 34, Chandigarh, Sector 34,"
+          destination={rideDetail?.destination?.address}
+          pickup={rideDetail?.pickup?.address}
           addressViewStyle={styles.addressView}
         />
         <View style={styles.cashSwitchRideView}>
@@ -63,7 +64,7 @@ const RideRequest = ({onPressCancel=()=>{},onfinishProgress=()=>{}}) => {
               <Text style={styles.CashText}>Cash</Text>
             </View>
           </View>
-          <Text style={styles.changeloctext}>Switch ride</Text>
+          <Text style={styles.changeloctext}>Ride</Text>
         </View>
         <BlueButton
           buttonStyle={styles.buttonView}

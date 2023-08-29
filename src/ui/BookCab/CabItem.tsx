@@ -24,19 +24,21 @@ const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
         borderColor: selectedIndex == index ? colors._3B4FF4 : currentColor,
       }}
       onPress={onPress}>
-      <Image
-        source={imagePath.sedan_ic}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      {item?.image && (
+        <Image
+          source={imagePath.sedan_ic}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      )}
       <View style={styles.detailView}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.boldText}>{'Sedan'}</Text>
-          <Text style={styles.boldText}>{'$2.98'}</Text>
+          <Text style={styles.boldText}>{item?.name}</Text>
+          <Text style={styles.boldText}>{item?.price}</Text>
         </View>
-        <Text style={styles.time}>{'4 min away • 12:33 pm'}</Text>
+        <Text style={styles.time}>{item?.time}</Text>
       </View>
-      {index % 3 == 0 && (
+      {item?.isNew && (
         <View style={styles.tag}>
           <Text style={styles.newText}>{'New'}</Text>
         </View>
@@ -59,10 +61,11 @@ const styles = StyleSheet.create({
   image: {
     height: moderateScale(50),
     width: moderateScale(77),
+    marginRight: moderateScale(16),
   },
   detailView: {
     flex: 1,
-    marginLeft: moderateScale(16),
+  
   },
   boldText: {
     ...commonStyles.fontBold15,

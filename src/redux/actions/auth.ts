@@ -83,3 +83,12 @@ export const logoutClearData = () => {
   dispatch({type: types.CLEAR_REDUX_STATE, payload: {}});
   clearUserData();
 };
+
+export function listCabsNear(query: string = '') {
+  return apiGet(urls.LIST_TEAMS_NEAR+ query);
+}
+
+export function requestNewRide(data:any) {
+  return apiPost(urls.ADD_CUSTOMER_NEW_RIDE,data);
+}
+
