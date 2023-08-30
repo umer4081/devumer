@@ -91,3 +91,7 @@ export function requestNewRide(data:any) {
   return apiPost(urls.ADD_CUSTOMER_NEW_RIDE,data);
 }
 
+export function jobDetail(query: string = '') {
+  return apiGet(urls.JOB_DETAIL+ query);
+}
+

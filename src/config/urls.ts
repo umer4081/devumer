@@ -11,4 +11,5 @@ export const RESEND_OTP = getApiUrl("v1/customer/app/resend_otp");
 export const ACCESS_TOKEN_LOGIN = getApiUrl("v1/customer/app/access_token_login");
 export const ADD_CUSTOMER_NEW_RIDE = getApiUrl("v1/customer/app/add_customer_new_ride");
 export const LIST_TEAMS_NEAR = getApiUrl("v1/customer/app/list_teams_near");
+export const JOB_DETAIL = getApiUrl("v1/customer/app/customer_job_details");
 

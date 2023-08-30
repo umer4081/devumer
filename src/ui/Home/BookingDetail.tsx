@@ -28,11 +28,11 @@ const BookingDetail = () => {
   }, []);
   const navigation = useNavigation<NavigationProp>();
   const completedRide = () => {
-    if (rideComplete) {
-      navigation.navigate(navigationString.RATING_RIDE);
-    } else {
-      updateState({rideComplete: true});      
-    }
+    // if (rideComplete) {
+    //   navigation.navigate(navigationString.RATING_RIDE);
+    // } else {
+    //   updateState({rideComplete: true});      
+    // }
   };
   return (
     <>

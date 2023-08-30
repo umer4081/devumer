@@ -57,13 +57,13 @@ const BookRide = () => {
     });
   };
   const home = () => {
-    navigation.navigate(navigationString.BOOK_CAB, {
+    navigation.navigate(navigationString.RIDE_TYPE, {
       rideType: 'home',
       rideName: 'Home',
     });
   };
   const office = () => {
-    navigation.navigate(navigationString.BOOK_CAB, {
+    navigation.navigate(navigationString.RIDE_TYPE, {
       rideType: 'office',
       rideName: 'Office',
     });

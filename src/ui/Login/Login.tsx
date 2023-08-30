@@ -72,6 +72,7 @@ const Login = ({navigation}: any) => {
   };
 
   const socialLogin = (apiData: object) => {
+    setisLoading(true);
     actions
       .socialLogin(apiData)
       .then((res: any) => {

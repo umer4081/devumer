@@ -15,13 +15,35 @@ import {
 } from '../../utils/helperFunction';
 import {GeolocationResponse} from '@react-native-community/geolocation';
 import actions from '../../redux/actions';
+import MapViewDirections from 'react-native-maps-directions';
+import {GOOGLE_MAP_KEY} from '../../constants/contant';
+import colors from '../../styles/colors';
 
 let LATITUDE_DELTA = 0.0922;
 let LONGITUDE_DELTA = 0.0421;
 
 const Home = () => {
-  const cabBooked = useSelector((state: any) => state?.bookedCab)?.bookedCab;
-  const accessTokenData = useSelector((state: any) => state?.accessTokenData)?.data;
+  const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
+  const isCabBooked = cabBooked?.status == 'ACCEPTED';
+  const accessTokenData = useSelector(
+    (state: any) => state?.accessTokenData,
+  )?.data;
+
+  const destination: any =
+    cabBooked?.Task_Data?.length > 1
+      ? {
+          longitude: Number(cabBooked?.Task_Data[1]?.longitude),
+          latitude: Number(cabBooked?.Task_Data[1]?.latitude),
+        }
+      : {};
+  const origin: any =
+    cabBooked?.Task_Data?.length > 1
+      ? {
+          longitude: Number(cabBooked?.Task_Data[0]?.longitude),
+          latitude: Number(cabBooked?.Task_Data[0]?.latitude),
+        }
+      : {};
+
   const [state, setState] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -59,29 +81,61 @@ const Home = () => {
     <WrapperContainer removeBottomInset>
       <View style={styles.container}>
         <HeaderScene
-          title={`Hey ${accessTokenData?.name}!`}
+          title={`Hey ${accessTokenData?.name ?? ''}!`}
           valueText="Grab your new ride now"
-          isBottomBorder={!cabBooked}
+          isBottomBorder={!isCabBooked}
         />
         <View style={styles.content}>
-          <View style={cabBooked ? styles.onbookingMap : styles.initialmapView}>
+          <View
+            style={isCabBooked ? styles.onbookingMap : styles.initialmapView}>
             <MapView
-         
-              // scrollEnabled={cabBooked}
-              // zoomEnabled={cabBooked}
+              key={'home'}
               initialRegion={region}
               region={region}
               style={styles.map}>
-              <Marker
-                key={'current'}
-                coordinate={{latitude: latitude, longitude: longitude}}
-                icon={imagePath.current_loc_ic}
-                anchor={{x: 0.5, y: 0.5}}
-              />
+              {cabBooked?.Task_Data?.length > 1 ? (
+                <>
+                  {destination?.latitude &&
+                    destination?.longitude &&
+                    origin?.latitude &&
+                    origin?.longitude && (
+                      <MapViewDirections
+                        origin={origin}
+                        destination={destination}
+                        apikey={GOOGLE_MAP_KEY}
+                        strokeWidth={4}
+                        strokeColor={colors._3B4FF4}
+                      />
+                    )}
+                  {origin?.latitude && origin?.longitude && (
+                    <Marker
+                      key={'origin'}
+                      icon={imagePath.current_loc_ic}
+                      anchor={{x: 0.5, y: 0.5}}
+                      coordinate={origin}
+                    />
+                  )}
+                  {destination?.latitude && destination?.longitude && (
+                    <Marker
+                      key={'destination'}
+                      icon={imagePath.drop_loc_ic}
+                      anchor={{x: 0.5, y: 0.5}}
+                      coordinate={destination}
+                    />
+                  )}
+                </>
+              ) : (
+                <Marker
+                  key={'current'}
+                  coordinate={{latitude: latitude, longitude: longitude}}
+                  icon={imagePath.current_loc_ic}
+                  anchor={{x: 0.5, y: 0.5}}
+                />
+              )}
             </MapView>
           </View>
-          {cabBooked && <DriverNameDetailView />}
-          {cabBooked ? <BookingDetail /> : <BookRide />}
+          {isCabBooked && <DriverNameDetailView />}
+          {isCabBooked ? <BookingDetail /> : <BookRide />}
         </View>
       </View>
     </WrapperContainer>

@@ -3,10 +3,10 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import types from '../types';
 
 export interface bookedCabState {
-  bookedCab: boolean;
+  data: any;
 }
 const initialState: bookedCabState = {
-  bookedCab: false,
+  data: {},
 };
 
 export const bookedCabSlice = createSlice({
@@ -15,7 +15,7 @@ export const bookedCabSlice = createSlice({
   reducers: {
     changebookedCab: (state, action: PayloadAction<boolean>) => {
       const data = action.payload;
-      state.bookedCab = data;
+      state.data =data
       return state;
     },
   },

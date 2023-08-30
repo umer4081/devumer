@@ -26,7 +26,7 @@ const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
       onPress={onPress}>
       {item?.image && (
         <Image
-          source={imagePath.sedan_ic}
+          source={{uri:item?.image}}
           style={styles.image}
           resizeMode="contain"
         />

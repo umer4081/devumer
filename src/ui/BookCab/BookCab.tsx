@@ -12,6 +12,7 @@ import navigationString from '../../constants/navigationString';
 import actions from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
+import {useIsFocused} from '@react-navigation/native';
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
   const rideName = route?.params?.rideName;
@@ -20,6 +21,8 @@ const BookCab = ({navigation, route}: any) => {
   const [isChoosed, setIsChoosed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const flatRef = useRef<FlatList>(null);
+  const jobId = useRef<any>(null);
+  const apiInterval = useRef<any>(-1);
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
   const renderItem = ({item, index}: any) => {
     return (
@@ -35,6 +38,10 @@ const BookCab = ({navigation, route}: any) => {
   useEffect(() => {
     rideDetail?.pickup?.latitude && listCabNearBy();
   }, [rideDetail]);
+  const focus = useIsFocused();
+  useEffect(() => {
+    !focus && clearInterval(apiInterval.current);
+  }, [focus]);
 
   const listCabNearBy = () => {
     const query = `?lat=${rideDetail?.pickup?.latitude}&lng=${rideDetail?.pickup?.longitude}`;
@@ -43,7 +50,10 @@ const BookCab = ({navigation, route}: any) => {
       .listCabsNear(query)
       .then((res: any) => {
         setData(res);
-        console.log(res, 'resresresresrideDetailresresresresresresresres');
+        console.log(
+          res,
+          'resresresresridelistCabsNearlistCabsNearDetailresresresresresresresres',
+        );
       })
       .catch(err => {});
   };
@@ -78,22 +88,42 @@ const BookCab = ({navigation, route}: any) => {
     actions
       .requestNewRide(apiData)
       .then((res: any) => {
+        jobId.current = res?.id;
+        console.log(res, 'resrscrollToOffsetscrollToOffsetscrollToOffsetes');
         setIsLoading(false);
         flatRef.current?.scrollToOffset({offset: 0, animated: false});
         setIsChoosed(true);
+
+        apiInterval.current = setInterval(() => {
+          checkCabJobDetail();
+        }, 2000);
       })
       .catch(err => {
         setIsLoading(false);
       });
   };
 
+  const checkCabJobDetail = (finished = false) => {
+    let query = `?id=${jobId.current}`;
+    actions
+      .jobDetail(query)
+      .then((res: any) => {
+        if (res?.status == 'ACCEPTED') {
+          actions.bookedCab(res);
+          navigation.navigate(navigationString.DRAWER_HOME);
+        }
+        finished && navigation.navigate(navigationString.DRAWER_HOME)
+      })
+      .catch(err => {});
+  };
+
   const onPressCancel = () => {
+    clearInterval(apiInterval.current)
     setIsChoosed(false);
   };
 
   const onfinishProgress = () => {
-    actions.bookedCab(true);
-    navigation.navigate(navigationString.DRAWER_HOME);
+    checkCabJobDetail(true);
   };
 
   return (
@@ -124,7 +154,7 @@ const BookCab = ({navigation, route}: any) => {
         {isChoosed && (
           <RideRequest
             onPressCancel={onPressCancel}
-            // onfinishProgress={onfinishProgress}
+            onfinishProgress={onfinishProgress}
           />
         )}
       </View>
