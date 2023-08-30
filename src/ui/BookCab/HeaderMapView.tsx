@@ -24,6 +24,8 @@ import {useSelector} from 'react-redux';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_MAP_KEY} from '../../constants/contant';
 import {CalculateCenter, latLongDelta} from '../../utils/helperFunction';
+import SearchPlaces, {SearchPlacesMethod} from '../../Components/SearchPlaces';
+import actions from '../../redux/actions';
 interface HeaderMapViewProp {
   isChoosed?: boolean;
 }
@@ -33,6 +35,8 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
+  const searchref = useRef<SearchPlacesMethod>(null);
+  const currentSelected = useRef(0);
 
   const [state, setState] = useState({
     region: {
@@ -82,6 +86,17 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
       inputRange: [0, 1],
       outputRange: outputRange,
     });
+  };
+
+  const onPlaceSelect = (res: any) => {
+    const payload = {
+      address: res?.address,
+      latitude: res?.lat,
+      longitude: res?.lng,
+    };
+    const updatedata =
+      currentSelected.current == 1 ? {destination: payload} : {pickup: payload};
+      actions.rideDetail({...rideDetail,...updatedata})
   };
 
   return (
@@ -143,12 +158,22 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
           ...styles.addressView,
           transform: [{translateY: animationAction([0, -240])}],
         }}
+        isCross={false}
+        onPressDestination={() => {
+          currentSelected.current = 1;
+          searchref.current?.open();
+        }}
+        onPressPickup={() => {
+          currentSelected.current = 0;
+          searchref.current?.open();
+        }}
       />
       {!isChoosed && (
         <View style={styles.bottomTextView}>
           <Text style={styles.selectCabText}>Select Cab</Text>
         </View>
       )}
+      <SearchPlaces onPlaceSelect={onPlaceSelect} ref={searchref} />
     </View>
   );
 };

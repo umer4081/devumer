@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import WrapperContainer from '../../Components/WrapperContainer';
 import styles from './styles';
 import HeaderTitleBack from '../../Components/HeaderTitleBack';
@@ -24,6 +24,7 @@ const RideType = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
   const rideName = route?.params?.rideName;
   const currentLocation = useSelector((state: any) => state?.currentLocation);
+  const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
   const currentSelected = useRef(0);
   const [state, setState] = useState({
     destination: {address: ''},
@@ -33,6 +34,8 @@ const RideType = ({navigation, route}: any) => {
   });
   const {destination, pickup} = state;
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
+
+
   const bookCab = () => {
     actions.rideDetail({destination, pickup});
     navigation.navigate(navigationString.BOOK_CAB, {...route?.params});

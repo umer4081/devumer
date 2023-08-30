@@ -33,8 +33,8 @@ const BookCab = ({navigation, route}: any) => {
   };
 
   useEffect(() => {
-    listCabNearBy();
-  }, []);
+    rideDetail?.pickup?.latitude && listCabNearBy();
+  }, [rideDetail]);
 
   const listCabNearBy = () => {
     const query = `?lat=${rideDetail?.pickup?.latitude}&lng=${rideDetail?.pickup?.longitude}`;
@@ -74,16 +74,16 @@ const BookCab = ({navigation, route}: any) => {
         },
       ],
     };
-    setIsLoading(true)
+    setIsLoading(true);
     actions
       .requestNewRide(apiData)
       .then((res: any) => {
-        setIsLoading(false)
+        setIsLoading(false);
         flatRef.current?.scrollToOffset({offset: 0, animated: false});
         setIsChoosed(true);
       })
       .catch(err => {
-        setIsLoading(false)
+        setIsLoading(false);
       });
   };
 
@@ -108,6 +108,8 @@ const BookCab = ({navigation, route}: any) => {
             renderItem={renderItem}
             scrollEnabled={!isChoosed}
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps={'handled'}
+            keyboardDismissMode="none"
           />
         </View>
         <View style={styles.bottomButtonView}>

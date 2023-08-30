@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
   Animated,
+  Pressable,
 } from 'react-native';
 import React from 'react';
 import PressableImage from './PressableImage';
@@ -18,28 +19,39 @@ import commonStyles from '../styles/commonStyles';
 interface DestinationPickupProp {
   icon: ImageSourcePropType;
   text?: string;
+  onPress?: () => void;
 }
 
 interface DestinationPickupAddressProp {
   addressViewStyle?: StyleProp<ViewStyle>;
   destination?: string;
   pickup?: string;
+  onPressPickup?: () => void;
+  onPressDestination?: () => void;
+  isCross?: boolean;
 }
 
 const DestinationPickupAddress = ({
   addressViewStyle,
   destination,
   pickup,
+  onPressPickup,
+  onPressDestination,
+  isCross = true,
 }: DestinationPickupAddressProp) => {
-  const DestinationPickupview = ({icon, text}: DestinationPickupProp) => {
+  const DestinationPickupview = ({
+    icon,
+    text,
+    onPress,
+  }: DestinationPickupProp) => {
     return (
-      <View style={styles.destinationPickupView}>
+      <Pressable style={styles.destinationPickupView} onPress={onPress}>
         <Image source={icon} />
         <Text numberOfLines={1} style={styles.adressText}>
           {text}
         </Text>
-        <PressableImage iconSource={imagePath.cross_ic} />
-      </View>
+        {isCross && <PressableImage iconSource={imagePath.cross_ic} />}
+      </Pressable>
     );
   };
   return (
@@ -48,13 +60,18 @@ const DestinationPickupAddress = ({
         ...styles.addressView,
         ...(typeof addressViewStyle == 'object' && addressViewStyle),
       }}>
-      <DestinationPickupview icon={imagePath.location_ic} text={pickup} />
+      <DestinationPickupview
+        icon={imagePath.location_ic}
+        text={pickup}
+        onPress={onPressPickup}
+      />
       <View style={styles.border}>
         <View style={styles.dashedLine}></View>
       </View>
       <DestinationPickupview
         icon={imagePath.navigation_ic}
         text={destination}
+        onPress={onPressDestination}
       />
     </Animated.View>
   );

@@ -7,7 +7,8 @@ import actions from '../redux/actions';
 import {GOOGLE_MAP_KEY} from '../constants/contant';
 import Geocoder from 'react-native-geocoding';
 import {currentLocationAddress} from '../redux/actions/currentLocation';
-
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+import {Platform} from 'react-native';
 const showError = (message: string) => {
   showMessage({
     type: 'danger',
@@ -49,8 +50,14 @@ export function debounce<Params extends any[]>(
 export const getCurrentLocation = () => {
   return new Promise<any>(
     (resolve: (res: GeolocationResponse) => void, reject) => {
-      locationPermission().then(res => {
+      locationPermission().then(async res => {
         if (res == 'granted') {
+          if (Platform.OS == 'android') {
+            await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+              interval: 10000,
+              fastInterval: 5000,
+            });
+          }
           Geolocation.getCurrentPosition(
             res => {
               actions.currentLocation(res.coords);
