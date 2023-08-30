@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
 import WrapperView from '../../Components/WrapperView';
 import imagePath from '../../constants/imagePath';
@@ -20,12 +20,22 @@ import CountryPhoneNumber from '../../Components/CountryPhoneNumber';
 import navigationString from '../../constants/navigationString';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import actions from '../../redux/actions';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import appleAuth from '@invertase/react-native-apple-authentication';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}: any) => {
   const countryCode = useRef('1');
   const iso2Code = useRef('US');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setisLoading] = useState(false);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '704513554505-83gc0fjoahq572r608vgp30v9snn5u86.apps.googleusercontent.com',
+    });
+  }, []);
 
   const verifyOtp = () => {
     if (phoneNumber.length == 0) {
@@ -47,7 +57,7 @@ const Login = ({navigation}: any) => {
         .then((res: any) => {
           console.log(res, 'resresresresres');
           setisLoading(false);
-          showSuccess('OTP sent successfully')
+          showSuccess('OTP sent successfully');
           navigation.navigate(navigationString.OTP_VERIFICATION, {
             countryCode: countryCode.current,
             phoneNumber,
@@ -55,10 +65,51 @@ const Login = ({navigation}: any) => {
           });
         })
         .catch(err => {
-          showError(err.message)
+          showError(err.message);
           setisLoading(false);
         });
     }
+  };
+
+  const socialLogin = (apiData: object) => {
+    actions
+      .socialLogin(apiData)
+      .then((res: any) => {
+        setisLoading(false);
+      })
+      .catch(err => {
+        showError(err.message);
+        setisLoading(false);
+      });
+  };
+
+  const googleLogin = async () => {
+    GoogleSignin.signOut();
+    try {
+      const userInfo = await GoogleSignin.signIn();
+
+      let fcmToken = await AsyncStorage.getItem('fcmToken');
+      const apiData = {
+        social_key: userInfo.user.id,
+        admin_email: 'admin@gmail.com',
+      };
+      socialLogin(apiData);
+    } catch (error) {}
+  };
+
+  const handleAppleLogin = async () => {
+    try {
+      let fcmToken = await AsyncStorage.getItem('fcmToken');
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+      const apiData = {
+        social_key: appleAuthRequestResponse.user,
+        admin_email: 'admin@gmail.com',
+      };
+      socialLogin(apiData);
+    } catch (e) {}
   };
   return (
     <KeyboardAvoidingView
@@ -98,15 +149,17 @@ const Login = ({navigation}: any) => {
             <SocialButton
               icon={imagePath.google_ic}
               buttonTitle="Continue with Google"
+              onPress={googleLogin}
             />
-            <SocialButton
+            {/* <SocialButton
               icon={imagePath.facebook_ic}
               buttonTitle="Continue with Facebook"
-            />
+            /> */}
             {Platform.OS == 'ios' ? (
               <SocialButton
                 icon={imagePath.apple_ic}
                 buttonTitle="Continue with Apple"
+                onPress={handleAppleLogin}
               />
             ) : (
               <></>

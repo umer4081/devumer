@@ -25,13 +25,12 @@ export function socialLogin(data: any) {
   return new Promise<void>((resolve, reject) => {
     apiPost(urls.SOCIAL_LOGIN, data)
       .then((res: any) => {
-        setUserData(res.data).then((check: any) => {
-          if (res?.data?.is_profile_setup) {
-            saveUserData(res.data);
+        setUserData(res).then((check: any) => {
+          if (res) {
+            saveUserData(res);
           }
           resolve(res);
         });
-
         return resolve(res);
       })
       .catch(err => {
