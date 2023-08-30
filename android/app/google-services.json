@@ -1,0 +1,100 @@
+{
+  "project_info": {
+    "project_number": "704513554505",
+    "project_id": "texgo-25f20",
+    "storage_bucket": "texgo-25f20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704513554505:android:bc1469816bfc9588a76798",
+        "android_client_info": {
+          "package_name": "com.drver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704513554505-a31rm0qa25ff1944qga4cs607o2n2ons.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drver",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "704513554505-fvhvna2dh02se0jaqqpulshjhabbpifc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drver",
+            "certificate_hash": "12a9f6b819b4477ecbf993becdce9e21c2fd9ede"
+          }
+        },
+        {
+          "client_id": "704513554505-83gc0fjoahq572r608vgp30v9snn5u86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACeCtO2sglR2Ssk8t1fc17d4-EwCkCKlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704513554505-4r16brh7bfoloau1sfvdniumn80jgfbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704513554505:android:31b07b8f9d3989caa76798",
+        "android_client_info": {
+          "package_name": "com.texigo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704513554505-e140mkla9h7936s70ggl8auji08eq6vc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.texigo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "704513554505-u9l05sl8m09n57p0i07tv12uqb9t43b4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.texigo",
+            "certificate_hash": "d98f328d98dba485f25a94706776e41b5762e0b9"
+          }
+        },
+        {
+          "client_id": "704513554505-83gc0fjoahq572r608vgp30v9snn5u86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACeCtO2sglR2Ssk8t1fc17d4-EwCkCKlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704513554505-4r16brh7bfoloau1sfvdniumn80jgfbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
