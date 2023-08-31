@@ -11,7 +11,7 @@ import {static_url} from '../../constants/contant';
 import {useNavigation} from '@react-navigation/native';
 import navigationString from '../../constants/navigationString';
 import actions from '../../redux/actions';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 interface NavigationProp {
   openDrawer: () => void;
@@ -26,7 +26,7 @@ const BookingDetail = () => {
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {driverArrived, rideComplete} = state;
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
-  console.log(cabBooked,"cabBookuseSelectoruseSelectoredcabBooked")
+  console.log(cabBooked, 'cabBookuseSelectoruseSelectoredcabBooked');
   useEffect(() => {
     let query = `?id=${cabBooked?.id}`;
     actions
@@ -52,7 +52,7 @@ const BookingDetail = () => {
       )}
       <View style={styles.container}>
         <Pressable style={styles.blueCard} onPress={completedRide}>
-          {!rideComplete ? (
+          {cabBooked?.status == 'COMPLETED' ? (
             <>
               <View style={{}}>
                 <Text style={styles.carcompany}>Honda Accord</Text>
@@ -81,7 +81,9 @@ const BookingDetail = () => {
             </>
           )}
         </Pressable>
-        <AdressTimeBottomView isRideCompleted={rideComplete} />
+        <AdressTimeBottomView
+          isRideCompleted={cabBooked?.status == 'COMPLETED'}
+        />
       </View>
     </>
   );

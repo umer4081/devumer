@@ -78,7 +78,7 @@ const HistoryCard = ({item, index}: HistoryCardProp) => {
         <Text style={styles.date}>01 May 2018</Text>
         <BlueButton
           buttonStyle={styles.rebookButton}
-          buttonTitle="Reebook"
+          buttonTitle="Rebook"
           textStyle={styles.rebookText}
         />
       </View>
@@ -86,7 +86,7 @@ const HistoryCard = ({item, index}: HistoryCardProp) => {
   );
 };
 
-export default HistoryCard;
+export default React.memo(HistoryCard);
 
 const styles = StyleSheet.create({
   container: {
