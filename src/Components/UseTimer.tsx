@@ -1,4 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useImperativeHandle, useState} from 'react';
 import commonStyles from '../styles/commonStyles';
 import colors from '../styles/colors';
@@ -13,10 +20,16 @@ export interface UserTimeProp {
   duration?: number;
   onTimerStop?: () => void;
   onTimerTicking?: (res: number) => void;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 const UseTimer = (
-  {duration = 30, onTimerStop = () => {}, onTimerTicking}: UserTimeProp,
+  {
+    duration = 30,
+    onTimerStop = () => {},
+    onTimerTicking,
+    textStyle,
+  }: UserTimeProp,
   ref: any,
 ) => {
   const [state, setState] = useState({
@@ -56,7 +69,8 @@ const UseTimer = (
   }, [time]);
 
   return (
-    <Text style={styles.timer}>
+    <Text
+      style={{...styles.timer, ...(typeof textStyle == 'object' && textStyle)}}>
       {time > 0 ? otpTimerCounter(time) : '00:00'}
     </Text>
   );

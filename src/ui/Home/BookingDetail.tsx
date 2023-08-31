@@ -26,11 +26,13 @@ const BookingDetail = () => {
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {driverArrived, rideComplete} = state;
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
+  console.log(cabBooked,"cabBookuseSelectoruseSelectoredcabBooked")
   useEffect(() => {
-    let query = `?id=${191}`;
+    let query = `?id=${cabBooked?.id}`;
     actions
       .jobDetail(query)
       .then((res: any) => {
+        // console.log(res,"rejobDetaqueryjobDetaililjcqueryqueryabBookedobDetailjobDetailsresresres")
         actions.bookedCab(res);
       })
       .catch(err => {});

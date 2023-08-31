@@ -24,7 +24,7 @@ let LONGITUDE_DELTA = 0.0421;
 
 const Home = () => {
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
-  const isCabBooked = cabBooked?.status == 'ACCEPTED';
+  const isCabBooked = (cabBooked?.status == 'ACCEPTED' || cabBooked?.status == 'ARRIVED');
   const accessTokenData = useSelector(
     (state: any) => state?.accessTokenData,
   )?.data;
@@ -59,6 +59,7 @@ console.log(cabBooked,"cabBookedcabBookedcabBookedcabBookedcabBookedcabBookedcab
   useEffect(() => {
     triggerCurrentLocation();
     actions.accessTokenLogin();
+    actions.updateDeviceToken();
   }, []);
 
   const triggerCurrentLocation = () => {

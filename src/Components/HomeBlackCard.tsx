@@ -46,7 +46,7 @@ const HomeBlackCard = ({isTimer = true, onPress}: HomeBlackCardProp) => {
         <Text
           style={styles.redText}
           onPress={isTimer && onPress ? onPress : undefined}>
-          {isTimer ? <UseTimer duration={300}/> : 'Need Help?'}
+          {isTimer ? <UseTimer duration={300} textStyle={styles.redText}/> : 'Need Help?'}
         </Text>
       </View>
       <Text

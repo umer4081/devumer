@@ -37,7 +37,7 @@ export const notificationListener = async () => {
     );
   });
   messaging().onMessage(async (remoteMessage:any) => {
-    console.log(remoteMessage,"onMessageonMessageonMessage")
+    console.log(remoteMessage,"onMessageonMasyncasyncasyncasyncessageonMessageonMessage")
   });
 
   messaging().setBackgroundMessageHandler(async (remoteMessage:any) => {
