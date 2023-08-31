@@ -8,8 +8,10 @@ import HomeBlackCard from '../../Components/HomeBlackCard';
 import AdressTimeBottomView from './AdressTimeBottomView';
 import ImageTitleValue from '../../Components/ImageTitleValue';
 import {static_url} from '../../constants/contant';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import navigationString from '../../constants/navigationString';
+import actions from '../../redux/actions';
+import { useSelector } from 'react-redux';
 
 interface NavigationProp {
   openDrawer: () => void;
@@ -23,20 +25,29 @@ const BookingDetail = () => {
   });
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {driverArrived, rideComplete} = state;
+  const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
   useEffect(() => {
-      // updateState({driverArrived: true});
+    let query = `?id=${191}`;
+    actions
+      .jobDetail(query)
+      .then((res: any) => {
+        actions.bookedCab(res);
+      })
+      .catch(err => {});
   }, []);
   const navigation = useNavigation<NavigationProp>();
   const completedRide = () => {
     // if (rideComplete) {
     //   navigation.navigate(navigationString.RATING_RIDE);
     // } else {
-    //   updateState({rideComplete: true});      
+    //   updateState({rideComplete: true});
     // }
   };
   return (
     <>
-      {driverArrived && <HomeBlackCard isTimer={!rideComplete} />}
+      {(cabBooked?.status == 'ARRIVED' || cabBooked?.status == 'COMPLETED') && (
+        <HomeBlackCard isTimer={cabBooked?.status != 'COMPLETED'} />
+      )}
       <View style={styles.container}>
         <Pressable style={styles.blueCard} onPress={completedRide}>
           {!rideComplete ? (
@@ -74,7 +85,7 @@ const BookingDetail = () => {
   );
 };
 
-export default BookingDetail;
+export default React.memo(BookingDetail);
 
 const styles = StyleSheet.create({
   container: {

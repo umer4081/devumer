@@ -3,6 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import {moderateScale} from '../styles/responsiveSize';
 import colors from '../styles/colors';
 import commonStyles from '../styles/commonStyles';
+import UseTimer from './UseTimer';
 
 interface HomeBlackCardProp {
   isTimer?: boolean;
@@ -45,7 +46,7 @@ const HomeBlackCard = ({isTimer = true, onPress}: HomeBlackCardProp) => {
         <Text
           style={styles.redText}
           onPress={isTimer && onPress ? onPress : undefined}>
-          {isTimer ? '04:59' : 'Need Help?'}
+          {isTimer ? <UseTimer duration={300}/> : 'Need Help?'}
         </Text>
       </View>
       <Text
@@ -61,7 +62,7 @@ const HomeBlackCard = ({isTimer = true, onPress}: HomeBlackCardProp) => {
   );
 };
 
-export default HomeBlackCard;
+export default React.memo(HomeBlackCard);
 
 const styles = StyleSheet.create({
   container: {

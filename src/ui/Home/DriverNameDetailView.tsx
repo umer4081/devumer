@@ -6,8 +6,10 @@ import {moderateScale} from '../../styles/responsiveSize';
 import {static_url} from '../../constants/contant';
 import commonStyles from '../../styles/commonStyles';
 import imagePath from '../../constants/imagePath';
+import { useSelector } from 'react-redux';
 
 const DriverNameDetailView = () => {
+  const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -18,8 +20,8 @@ const DriverNameDetailView = () => {
       />
       <View style={styles.card}>
         <View style={styles.flexDView}>
-          <Image source={{uri: static_url}} style={styles.image} />
-          <Text style={styles.name}>Steve Rogers</Text>
+          <Image source={{uri: cabBooked?.fleet_data?.profile_pic}} style={styles.image} />
+          <Text style={styles.name}>{cabBooked?.fleet_data?.first_name} {cabBooked?.fleet_data?.last_name}</Text>
         </View>
         <View style={styles.ratingView}>
           <Image source={imagePath.star_ic} />
@@ -30,7 +32,7 @@ const DriverNameDetailView = () => {
   );
 };
 
-export default DriverNameDetailView;
+export default React.memo(DriverNameDetailView);
 
 const styles = StyleSheet.create({
   container: {

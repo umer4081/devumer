@@ -28,7 +28,7 @@ const Home = () => {
   const accessTokenData = useSelector(
     (state: any) => state?.accessTokenData,
   )?.data;
-
+console.log(cabBooked,"cabBookedcabBookedcabBookedcabBookedcabBookedcabBookedcabBooked")
   const destination: any =
     cabBooked?.Task_Data?.length > 1
       ? {
