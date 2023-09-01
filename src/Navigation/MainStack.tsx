@@ -27,6 +27,12 @@ export default function (Stack: any) {
         component={Screens.NumberofQues}
         options={{headerShown: false}}
       />
+
+      <Stack.Screen
+        name={navigationStrings.ANSWERS}
+        component={Screens.Answers}
+        options={{headerShown: false}}
+      />
     </>
   );
 }

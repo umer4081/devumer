@@ -6,6 +6,7 @@ import {Button, SegmentedButtons, Text, TextInput} from 'react-native-paper';
 import {moderateScale} from '../../styles/responsiveSize';
 import styles from './styles';
 import navigationString from '../../constants/navigationString';
+import MultiCheckBox from '../Question/MultiCheckBox';
 
 const Selection = ({navigation}: any) => {
   const [value, setvalue] = useState('LIST');

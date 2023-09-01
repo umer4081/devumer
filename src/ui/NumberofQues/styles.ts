@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   edit: {
     flexDirection: 'row',
-    alignContent: 'center',
+    // alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'space-around',
     // marginBottom: 24,
@@ -171,16 +171,23 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // backgroundColor: 'lightgray',
     paddingVertical: 8,
+    // flex: 1,
   },
   line: {
     flex: 1,
     height: 2,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'red',
     alignSelf: 'stretch',
     marginHorizontal: 24,
     marginTop: 24,
     marginBottom: 12,
     // width: 2,
+  },
+  next: {
+    alignContent: 'center',
+    alignItems: 'center',
+    marginTop: 4,
+    // marginBottom: 24,
   },
 });
 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
+import {useIsFocused} from '@react-navigation/native';
 
 type RenderPickerProps = {
   currentQuestionType: string;
@@ -11,6 +12,7 @@ type RenderPickerProps = {
   selectedType: any;
   numbers: number[];
   optionsd: (value: string, itemIndex: number) => void;
+  selectedOptionsCount: number;
 };
 
 const SelectOptionsRenderPicker: React.FC<RenderPickerProps> = ({
@@ -21,7 +23,13 @@ const SelectOptionsRenderPicker: React.FC<RenderPickerProps> = ({
   selectedType,
   numbers,
   optionsd,
+  selectedOptionsCount,
 }) => {
+  const [isPickerLabelUpdated, setIsPickerLabelUpdated] = useState(false);
+  console.log(currentQuestionType, 'currentQuestionType0000');
+
+  console.log(isPickerLabelUpdated, 'isPickerLabelUpdated');
+  console.log(isPickerLabelUpdated, 'selectedOptionsCount');
   const renderPicker = () => (
     <>
       <View>
@@ -37,10 +45,18 @@ const SelectOptionsRenderPicker: React.FC<RenderPickerProps> = ({
             selectedValue={currentQuestionType}
             onValueChange={value => {
               optionsd(value, itemIndex);
+              setIsPickerLabelUpdated(true);
             }}
             style={styles.picker_main}>
             <Picker.Item
-              label={`Select Option`}
+              // label={`Select Option`}
+              label={
+                isPickerLabelUpdated
+                  ? `Selected ${selectedOptionsCount} ${
+                      selectedOptionsCount !== 1 ? '' : ''
+                    }`
+                  : 'Select Options' // Initial label
+              }
               value=""
               style={styles.optionss}
             />
@@ -65,7 +81,7 @@ const styles = StyleSheet.create({
   picker_main: {
     marginLeft: 24,
     paddingLeft: 24,
-    marginRight: 196,
+    marginRight: 145,
   },
   optionss: {
     alignContent: 'center',

@@ -87,6 +87,7 @@ const MultiImage = ({item, index, onImageAdded}: any) => {
       },
       {
         text: 'Gallery',
+        // onPress: imagePicker,
         onPress: () => {
           imagePicker();
           onImageAdded();
@@ -95,10 +96,11 @@ const MultiImage = ({item, index, onImageAdded}: any) => {
       },
       {
         text: 'Camera',
-        onPress: () => {
-          takePhoto();
-          onImageAdded();
-        },
+        onPress: takePhoto,
+        // onPress: () => {
+        //   takePhoto();
+        //   onImageAdded();
+        // },
 
         style: 'default',
       },

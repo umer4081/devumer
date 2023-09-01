@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Checkbox} from 'react-native-paper';
 import {moderateScale} from '../../styles/responsiveSize';
 import {Data} from './Data';
+import Checkb from '../Answers/Checkb';
 
 const CheckBox = ({item, index, style, handlebutton = () => {}}: any) => {
   const [checked, setChecked] = useState();
@@ -39,6 +40,12 @@ const CheckBox = ({item, index, style, handlebutton = () => {}}: any) => {
               style={styles.checkboxItem}
               onPress={() => handlePress(index)}
             />
+            {/* <Checkb */}
+            {/* // label={item?.option?.answer}
+            // status={index === checked ? 'checked' : 'unchecked'}
+            // style={styles.checkboxItem}
+            // onPress={() => handlePress(index)}
+            /> */}
           </>
         );
       })}
@@ -51,5 +58,8 @@ export default CheckBox;
 const styles = StyleSheet.create({
   checkboxItem: {
     marginHorizontal: 24,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
   },
 });

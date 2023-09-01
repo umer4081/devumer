@@ -3,11 +3,12 @@ import {combineReducers} from 'redux';
 import types from '../types';
 import isFirstTime from './isFirstTime';
 import auth from './auth';
-
+import SavedOptions from './SavedOptions';
 
 const appReducer = combineReducers({
   isFirstTime,
   auth,
+  SavedOptions,
 });
 
 const rootReducer = (state: any, action: PayloadAction) => {

@@ -6,7 +6,7 @@ import MultiChoise from './MultiChoise';
 import CheckBox from './CheckBox';
 import MultiCheckBox from './MultiCheckBox';
 import Radiobuttons from './Radiobuttons';
-import Image from './Image';
+import Single_image from './Single_image';
 import MultiImage from './MultiImage';
 
 interface QuestionRenderProps {
@@ -26,7 +26,7 @@ const componentMap: Record<string, ComponentType<any>> = {
   multicheckbox: MultiCheckBox, // 'multicheckbox' should match the type in Data
   radiobutton: Radiobuttons,
   multiimage: MultiImage,
-  image: Image,
+  Single_image: Single_image,
 };
 
 const QuestionRender: React.FC<QuestionRenderProps> = ({item, index}) => {

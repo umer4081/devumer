@@ -153,7 +153,52 @@ const NumberofQues = ({navigation}: any) => {
     });
   };
   const [editModes, setEditModes] = useState(
-    Array(formData.inputValues.length).fill(false),
+    Array(formData.savedText.length).fill(false),
+  );
+
+  /// SAVED LOGIC PART OF ALL QUESTIONS
+  const renderSavedText = (itemIndex: number, questionNumber: number) => (
+    <View style={styles.edit}>
+      {editModes[itemIndex] ? (
+        <TextInput
+          value={formData.savedText[itemIndex]}
+          onChangeText={text => {
+            const updatedText = [...formData.savedText];
+            updatedText[itemIndex] = text;
+            handleSave(updatedText[itemIndex], itemIndex);
+          }}
+          onBlur={() =>
+            setEditModes(prevModes =>
+              prevModes.map((mode, index) =>
+                index === itemIndex ? false : mode,
+              ),
+            )
+          }
+          label={`Enter your ${
+            formData.selectedQuestionType[itemIndex] ?? 'question'
+          } Question`}
+          mode="outlined"
+          multiline={formData.selectedQuestionType[itemIndex] === 'multiline'}
+          numberOfLines={
+            formData.selectedQuestionType[itemIndex] === 'multiline' ? 4 : 1
+          }
+          style={{marginHorizontal: 24, marginTop: 8}}
+        />
+      ) : (
+        <Text numberOfLines={4} style={styles.savedText}>
+          QN0-{questionNumber}: {formData.savedText[itemIndex]}
+        </Text>
+      )}
+      <TouchableOpacity
+        style={styles.editButton}
+        onPress={() =>
+          setEditModes(prevModes =>
+            prevModes.map((mode, index) => (index === itemIndex ? true : mode)),
+          )
+        }>
+        <Image style={styles.image} source={imagePath.edit} />
+      </TouchableOpacity>
+    </View>
   );
 
   /// TEXT INPUT OF All QUESTIONS
@@ -168,32 +213,27 @@ const NumberofQues = ({navigation}: any) => {
         <View key={`textInput_${itemIndex}`}>
           {isSaved ? (
             <>
-              <View style={styles.edit}>
-                <Text numberOfLines={4} style={styles.savedText}>
-                  QN0-{questionNumber}: {formData.savedText[itemIndex]}
-                </Text>
-                <TouchableOpacity
-                  style={styles.editButton}
-                  onPress={() => handleSave('', itemIndex)}>
-                  <Image style={styles.image} source={imagePath.edit} />
-                </TouchableOpacity>
-              </View>
+              {renderSavedText(itemIndex, questionNumber)}
+              <SelectOptions
+                selectedType={selectedType}
+                itemIndex={itemIndex}
+                onTextChange={data => chldhandle(data, itemIndex)}
+              />
+              <View style={styles.line} />
             </>
           ) : (
             <>
-              {/* {!editModes[itemIndex] ? ( */}
-              <>
-                <TextInput
-                  key={`textInput_${itemIndex}`}
-                  value={formData.inputValues[itemIndex]}
-                  onChangeText={text => handleTextChange(text, itemIndex)}
-                  label={`Enter your ${selectedType ?? 'question'} Question`}
-                  mode="outlined"
-                  multiline={selectedType === 'multiline'}
-                  numberOfLines={selectedType === 'multiline' ? 4 : 1}
-                  style={{marginHorizontal: 24, marginTop: 8}}
-                />
-                {/* {selectedType !== 'image' && selectedType !== 'multiimage' && ( */}
+              <TextInput
+                key={`textInput_${itemIndex}`}
+                value={formData.inputValues[itemIndex]}
+                onChangeText={text => handleTextChange(text, itemIndex)}
+                label={`Enter your ${selectedType ?? 'question'} Question`}
+                mode="outlined"
+                multiline={selectedType === 'multiline'}
+                numberOfLines={selectedType === 'multiline' ? 4 : 1}
+                style={{marginHorizontal: 24, marginTop: 8}}
+              />
+              {selectedType !== 'image' && selectedType !== 'multiimage' && (
                 <TouchableOpacity
                   style={styles.save}
                   onPress={() =>
@@ -201,16 +241,9 @@ const NumberofQues = ({navigation}: any) => {
                   }>
                   <Text style={styles.savedText}>Save</Text>
                 </TouchableOpacity>
-                {/* // )} */}
-              </>
+              )}
             </>
           )}
-          <SelectOptions
-            selectedType={selectedType}
-            itemIndex={itemIndex}
-            onTextChange={data => chldhandle(data, itemIndex)}
-          />
-          <View style={styles.line} />
         </View>
       );
     }

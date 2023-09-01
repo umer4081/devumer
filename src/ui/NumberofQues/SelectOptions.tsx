@@ -1,49 +1,57 @@
 import React, {useState} from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
+  Image,
   StyleSheet,
-  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Data} from '../Question/Data';
-import CheckBox from '../Question/CheckBox';
-import MultiChoise from '../Question/MultiChoise';
-import MultiCheckBox from '../Question/MultiCheckBox';
-import ImageComponent from '../Question/Image';
-import MultiImage from '../Question/MultiImage';
+import {Checkbox, PaperProvider} from 'react-native-paper';
+import imagePath from '../../constants/imagePath';
 import SelectOptionsRenderPicker from './SelectOptionsRenderPicker';
-import {data} from '../Home/Data';
+import {Provider} from 'react-redux';
+import {Radio} from '@material-ui/icons';
 
 type SelectOptionsProps = {
   itemIndex: number;
-  setQuestionTypes: React.Dispatch<React.SetStateAction<string[]>>;
   selectedType: any;
-  typesToFilter: any;
+  onTextChange: (data: any) => void;
+  inputIndex: any;
+  option: any;
+  // chldhandle: any;
+};
+
+type RootState = {
+  SavedOptions: {
+    options: any[];
+  };
 };
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
+
 const SelectOptions: React.FC<SelectOptionsProps> = ({
   itemIndex,
   selectedType,
+  onTextChange,
+  option,
 }) => {
   const [state, setState] = useState({
-    questionTypes: [] as string[], //Questions
-    numInputs: 0, // number of inputs
-    isSaveButtonVisible: false, //save button
-    isTextInputVisible: false, // show inputs
-    enteredTexts: [] as string[], // text inputs
-    isSavePressed: false, //  used for textinput after save
-    isCheckBoxVisible: true,
-    isMultiBoxVisible: true,
-    checkedIndex: [] as number[], // Add checkedIndex to the initial state
-    selectedText: null as string | null,
+    questionTypes: [] as string[],
+    numInputs: 0,
+    isSaveButtonVisible: false,
+    isTextInputVisible: false,
+    isSavePressed: false,
+    childtextInputData: [],
+    checkedb: Array.from(numbers).map(() => false),
+    enteredText: [] as string[],
   });
+  const [enteredText, setEnteredText] = useState([]);
 
   const {numInputs, isSaveButtonVisible, isTextInputVisible, isSavePressed} =
     state;
+
   const currentQuestionType = selectedType[itemIndex];
 
   const handleSubmit = () => {
@@ -53,61 +61,39 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
       isTextInputVisible: false,
       isSavePressed: true,
     }));
+
+    // Create an array of objects from the text input data
+    const updatedValues = state.childtextInputData.map((text, inputIndex) => ({
+      option: {answer: text},
+      inputIndex, // Include the inputIndex in each object
+    }));
+
+    console.log(JSON.stringify(updatedValues), 'SEND TO PARENT ');
+
+    // Pass the updated values to the onTextChange function
+    onTextChange(updatedValues, itemIndex);
   };
 
-  const handleTextChange = (text: string, inputIndex: number) => {
-    setState(prevState => {
-      const updatedTexts = [...prevState.enteredTexts];
-      updatedTexts[inputIndex] = {option: {answer: text}};
-      const enteredTextsAsObjects = [{options: updatedTexts}];
-      console.log(
-        JSON.stringify(enteredTextsAsObjects),
-        'JSOSNSNSOSNSOSNSdata',
-      );
-      return {...prevState, enteredTexts: updatedTexts};
-    });
-  };
-
-  const handlebuttonMulti = () => {
-    Alert.alert('You text will be update soon....');
+  const chldhandleTextChange = (text: string, inputIndex: number) => {
+    let data = {
+      option: {answer: text},
+    };
+    const updatedTextInputData = [...state.childtextInputData];
+    updatedTextInputData[inputIndex] = data;
+    console.log(updatedTextInputData[inputIndex], 'TYPING TEXT');
     setState(prevState => ({
       ...prevState,
-      isMultiBoxVisible: !prevState.isMultiBoxVisible,
+      childtextInputData: updatedTextInputData,
     }));
-  };
 
-  const handlemultiiii = () => {
-    console.log('Image added! Performing action...');
-  };
-
-  const handlebutton = (index: number, selectType: string) => {
-    Alert.alert('You text will be update soon....');
-
-    setState(prevState => {
-      const isChecked = prevState.checkedIndex.includes(index);
-      const updatedCheckedIndex = isChecked
-        ? prevState.checkedIndex.filter(item => item !== index)
-        : [...prevState.checkedIndex, index];
-
-      const selectedText = isChecked
-        ? null
-        : Data[index]?.option?.answer || null;
-
-      console.log('Selected Text:', selectedText);
-
-      return {
-        ...prevState,
-        checkedIndex: updatedCheckedIndex,
-        selectedText,
-        isCheckBoxVisible: !prevState.isCheckBoxVisible,
-        selectType,
-      };
-    });
+    const updatedEnteredText = [...enteredText];
+    updatedEnteredText[inputIndex] = text;
+    setEnteredText(updatedEnteredText);
   };
 
   const optionsd = (value: string, itemIndex: number) => {
     console.log('Selected value:', value);
-    console.log('000Item index:', itemIndex);
+    console.log('Item index:', itemIndex);
 
     setState(prevState => {
       const updatedState = {...prevState};
@@ -130,16 +116,48 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
       return updatedState;
     });
   };
-  const handleImageAdded = () => {
-    console.log('kjdhflehf');
-  };
-  const handlesingleImageAdded = () => {
-    console.log('kjdhflehf');
-  };
 
-  const slelctmulticheck = () => {
-    console.log('lijioo;jio');
+  const handleEditPress = () => {
+    setEnteredText(
+      state.childtextInputData.map(item => item.option?.answer || ''),
+    );
+    setState(prevState => ({
+      ...prevState,
+      isTextInputVisible: true, // Toggle to text input mode (Edit)
+    }));
   };
+  const typeStyles: Record<string, {iconStyle: any; marginLeft: number}> = {
+    checkbox: {
+      iconStyle: styles.check_box,
+      marginLeft: 24,
+    },
+    multicheckbox: {
+      iconStyle: styles.check_box,
+      marginLeft: 24,
+    },
+    radiobutton: {
+      iconStyle: styles.radio,
+      marginLeft: 12,
+    },
+    multiChoise: {
+      iconStyle: styles.multichoice,
+      marginLeft: 4,
+    },
+  };
+  const multiChoiceStyles =
+    selectedType === 'multiChoise'
+      ? {
+          flex: 1,
+          backgroundColor: 'pink',
+          borderRadius: 4,
+          height: 28,
+          marginLeft: 12,
+        }
+      : {};
+
+  const selectedOptionsCount = state.childtextInputData.filter(
+    item => item?.option?.answer !== '',
+  ).length;
 
   const renderPicker = () => (
     <>
@@ -151,79 +169,136 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
         selectedType={selectedType}
         numbers={numbers}
         optionsd={optionsd}
+        selectedOptionsCount={selectedOptionsCount}
       />
     </>
   );
 
+  const numberOfImages = 4;
+
+  const renderImage = () => {
+    if (selectedType === 'image') {
+      return (
+        <View style={styles.image_single}>
+          <Image source={imagePath.User2} />
+        </View>
+      );
+    } else if (selectedType === 'multiimage') {
+      return (
+        <View style={styles.multiimage}>
+          <Image source={imagePath.puls} />
+          {[...Array(numberOfImages)].map((_, index) => (
+            <Image
+              key={index}
+              source={imagePath.user1}
+              style={{marginLeft: 8, marginRight: 8}}
+            />
+          ))}
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
+  const renderInputs = () => {
+    if (isTextInputVisible) {
+      const allFieldsEmpty = enteredText.every(text => !text.trim());
+
+      return (
+        <View>
+          <View style={{}}>
+            {Array.from({length: numInputs}).map((_, index) => (
+              <View key={index} style={styles.View_textinput}>
+                {!!isSaveButtonVisible && (
+                  <Text style={{marginLeft: 12, color: 'black'}}>{`(${
+                    index + 1
+                  })`}</Text>
+                )}
+                <TextInput
+                  onChangeText={text => chldhandleTextChange(text, index)}
+                  value={enteredText[index] || ''} // Display entered text
+                  label={`Choose your option ${index + 1}`}
+                  mode="outlined"
+                  placeholder="Option.."
+                  style={[styles.textInput, isSavePressed && styles.textx]}
+                />
+              </View>
+            ))}
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={handleSubmit}
+              disabled={allFieldsEmpty}>
+              {/* Disable the button if all fields are empty */}
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: allFieldsEmpty ? 'gray' : 'black',
+                }}>
+                Save
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else if (isSavePressed) {
+      return (
+        <View style={styles.show_Edit_main}>
+          <View style={{flex: 1}}>
+            <View style={{flex: 1}}>
+              {state.childtextInputData.map((item, index) => (
+                <View style={styles.checkboxx_color} key={index}>
+                  {selectedType in typeStyles && (
+                    <View
+                      style={{
+                        ...styles.main_text_Box,
+                        ...multiChoiceStyles,
+                      }}>
+                      <View style={typeStyles[selectedType].iconStyle as any} />
+
+                      <Text
+                        style={{
+                          marginLeft: typeStyles[selectedType]
+                            .marginLeft as number,
+                        }}>
+                        {` ${item.option?.answer}`}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ))}
+            </View>
+            {selectedType === 'multiChoise' && (
+              <View>
+                <TouchableOpacity
+                  style={{alignItems: 'center'}}
+                  onPress={handleEditPress}>
+                  <Text style={{marginTop: 8}}>Edit</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+          {selectedType !== 'multiChoise' && (
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={handleEditPress}>
+              <Image
+                style={{width: 14, height: 14, marginRight: 18}}
+                source={imagePath.edditt}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <ScrollView style={{flex: 1}}>
       {renderPicker()}
-      <View
-        style={{
-          alignContent: 'center',
-        }}>
-        {isSavePressed
-          ? null
-          : Array.from({length: numInputs}).map((_, index) => (
-              <View key={index} style={styles.View_textinput}>
-                {isSaveButtonVisible && (
-                  <Text style={{marginLeft: 12, color: 'black'}}>
-                    {`(${index + 1})`}
-                  </Text>
-                )}
-                <>
-                  <>
-                    <TextInput
-                      onChangeText={text => handleTextChange(text, index)}
-                      label={`Choose your option ${index + 1}`}
-                      mode="outlined"
-                      placeholder=" Option.."
-                      style={[styles.textInput]}
-                    />
-                  </>
-                </>
-              </View>
-            ))}
-
-        {isSavePressed &&
-          state.isCheckBoxVisible &&
-          selectedType === 'checkbox' && (
-            <View style={{}}>
-              <CheckBox
-                item={state.enteredTexts}
-                style={isSavePressed && styles.customStyle}
-                handlebutton={handlebutton}
-              />
-            </View>
-          )}
-        {isSavePressed &&
-          state.isMultiBoxVisible &&
-          selectedType === 'multiChoise' && (
-            <MultiChoise
-              item={state.enteredTexts}
-              handlebuttonMulti={handlebuttonMulti}
-            />
-          )}
-
-        {selectedType === 'image' && (
-          <ImageComponent singleImageAdded={handlesingleImageAdded} />
-        )}
-
-        {/* {selectedType === 'multiimage' && (
-          <MultiImage onImageAdded={handleImageAdded} />
-        )} */}
-        {selectedType === 'multiimage' && (
-          <MultiCheckBox selectitem={selectitem} />
-        )}
-
-        {isSaveButtonVisible && !isSavePressed && (
-          <>
-            <TouchableOpacity style={styles.save} onPress={handleSubmit}>
-              <Text style={{fontSize: 12, color: 'black'}}>Save</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
+      {renderInputs()}
+      {renderImage()}
     </ScrollView>
   );
 };
@@ -239,7 +314,11 @@ const styles = StyleSheet.create({
     marginTop: 18,
     fontSize: 18,
   },
-
+  main_text_Box: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   View_textinput: {
     alignContent: 'center',
     alignItems: 'center',
@@ -260,7 +339,7 @@ const styles = StyleSheet.create({
     // color: 'green',
     // marginRight: 29
     marginBottom: 8,
-    color: 'red',
+    color: 'black',
   },
 
   customStyle: {
@@ -269,5 +348,98 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 24,
     backgroundColor: 'red',
+    tintColor: 'red',
+  },
+  multiimage: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    marginHorizontal: 24,
+    marginTop: 8,
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  textx: {
+    // color: 'red',
+  },
+  checkboxx_color: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 8,
+    alignContent: 'center',
+    // justifyContent: 'space-around',
+    marginHorizontal: 24,
+    paddingVertical: 4,
+    paddingHorizontal: 4,
+    paddingRight: 24,
+  },
+
+  unselected: {
+    backgroundColor: 'pink',
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+    borderRadius: 8,
+  },
+  selected: {
+    backgroundColor: 'green',
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+    borderRadius: 8,
+  },
+  image_single: {
+    marginBottom: 24,
+    borderWidth: 0.5,
+    borderColor: 'lightgray',
+    borderRadius: 16,
+    marginTop: 8,
+    alignSelf: 'center',
+    // paddingHorizontal: 24,
+    marginHorizontal: 24,
+  },
+  multichoice: {
+    // borderRadius: 8,
+  },
+  edit_img: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginRight: 24,
+    alignContent: 'center',
+    // paddingLeft: 24,
+    backgroundColor: 'red',
+    // paddingLeft: 2,
+  },
+  Edit_img_style: {
+    width: 18,
+    height: 18,
+    marginTop: -28,
+  },
+  check_box: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  radio: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  show_Edit_main: {
+    flex: 1,
+    flexDirection: 'row',
+    marginRight: 24,
+    alignItems: 'center',
   },
 });

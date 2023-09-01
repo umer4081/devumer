@@ -1,14 +1,3 @@
-// import SavedOptions from '../reducers/SavedOptions';
-// import * as auth from './auth';
-// import * as isFirstTime from './isFirstTime';
-
-// export default {
-//   ...auth,
-//   ...isFirstTime,
-//   ...SavedOptions,
-// };
-
-
 import {View, Image, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import {Card, Text} from 'react-native-paper';
 import imagePath from '../../constants/imagePath';

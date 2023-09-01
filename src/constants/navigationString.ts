@@ -6,4 +6,5 @@ export default {
   SELECTION: 'Selection',
   QUESTION: 'Question',
   NUMBEROFQUES: 'NumberofQues',
+  ANSWERS: 'Answers',
 };
