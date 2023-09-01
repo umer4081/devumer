@@ -1,4 +1,11 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  DeviceEventEmitter,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../../styles/colors';
 import {moderateScale, textScale} from '../../styles/responsiveSize';
@@ -19,24 +26,35 @@ interface NavigationProp {
   navigate: (res: string, route?: any) => void;
 }
 const BookingDetail = () => {
-  const [state, setState] = useState({
-    driverArrived: false,
-    rideComplete: false,
-  });
-  const updateState = (data: any) => setState(prev => ({...prev, ...data}));
-  const {driverArrived, rideComplete} = state;
+  // const [state, setState] = useState({
+  //   driverArrived: false,
+  //   rideComplete: false,
+  // });
+  // const updateState = (data: any) => setState(prev => ({...prev, ...data}));
+  // const {driverArrived, rideComplete} = state;
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
-  console.log(cabBooked, 'cabBookuseSelectoruseSelectoredcabBooked');
   useEffect(() => {
+    updateInRide();
+    const listener = DeviceEventEmitter.addListener('statusUpdate', () => {
+      updateInRide();
+    });
+    return () => {
+      listener.remove();
+    };
+
+  }, []);
+
+  const updateInRide = () => {
     let query = `?id=${cabBooked?.id}`;
     actions
       .jobDetail(query)
       .then((res: any) => {
-        // console.log(res,"rejobDetaqueryjobDetaililjcqueryqueryabBookedobDetailjobDetailsresresres")
+        console.log(res,"resrejobDetailjobDetailjobDetailsresres")
         actions.bookedCab(res);
       })
       .catch(err => {});
-  }, []);
+  };
+
   const navigation = useNavigation<NavigationProp>();
   const completedRide = () => {
     // if (rideComplete) {
@@ -47,12 +65,12 @@ const BookingDetail = () => {
   };
   return (
     <>
-      {(cabBooked?.status == 'ARRIVED' || cabBooked?.status == 'COMPLETED') && (
-        <HomeBlackCard isTimer={cabBooked?.status != 'COMPLETED'} />
+      {(cabBooked?.status == 'ARRIVED' || cabBooked?.status == 'ENDED') && (
+        <HomeBlackCard isTimer={cabBooked?.status != 'ENDED'} />
       )}
       <View style={styles.container}>
         <Pressable style={styles.blueCard} onPress={completedRide}>
-          {cabBooked?.status == 'COMPLETED' ? (
+          {cabBooked?.status == 'ENDED' ? (
             <>
               <View style={{}}>
                 <Text style={styles.carcompany}>Honda Accord</Text>
@@ -82,7 +100,7 @@ const BookingDetail = () => {
           )}
         </Pressable>
         <AdressTimeBottomView
-          isRideCompleted={cabBooked?.status == 'COMPLETED'}
+          isRideCompleted={cabBooked?.status == 'ENDED'}
         />
       </View>
     </>

@@ -101,9 +101,11 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.mapView}>
+      <View style={styles.mapView} pointerEvents='none'>
         <MapView
           key={'bookCab'}
+          scrollEnabled={false}
+          zoomEnabled={false}
           initialRegion={region}
           region={region}
           style={styles.map}>

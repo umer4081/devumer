@@ -18,13 +18,14 @@ import actions from '../../redux/actions';
 import MapViewDirections from 'react-native-maps-directions';
 import {GOOGLE_MAP_KEY} from '../../constants/contant';
 import colors from '../../styles/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let LATITUDE_DELTA = 0.0922;
 let LONGITUDE_DELTA = 0.0421;
 
 const Home = () => {
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
-  const isCabBooked = (cabBooked?.status == 'ACCEPTED' || cabBooked?.status == 'ARRIVED');
+  const isCabBooked = (cabBooked?.status == 'ACCEPTED' || cabBooked?.status == 'ARRIVED'||cabBooked?.status == 'ENDED');
   const accessTokenData = useSelector(
     (state: any) => state?.accessTokenData,
   )?.data;
@@ -61,7 +62,7 @@ console.log(cabBooked,"cabBookedcabBookedcabBookedcabBookedcabBookedcabBookedcab
     actions.accessTokenLogin();
     actions.updateDeviceToken();
   }, []);
-
+ 
   const triggerCurrentLocation = () => {
     getCurrentLocation().then((res: GeolocationResponse) => {
       console.log(res, 'resresresresresresres');

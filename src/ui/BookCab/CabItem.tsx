@@ -15,6 +15,7 @@ interface CabItemProp {
 const cabColor = ['#EEF1FF', '#F5E8C7', '#EFE1D6', '#D6EFED'];
 
 const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
+  console.log(item, 'itemitemitemitemitemitemitemitem');
   const currentColor = cabColor[index % cabColor.length];
   return (
     <Pressable
@@ -26,7 +27,7 @@ const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
       onPress={onPress}>
       {item?.image && (
         <Image
-          source={{uri:item?.image}}
+          source={{uri: item?.image}}
           style={styles.image}
           resizeMode="contain"
         />
@@ -34,7 +35,9 @@ const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
       <View style={styles.detailView}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.boldText}>{item?.name}</Text>
-          <Text style={styles.boldText}>{item?.price}</Text>
+          <Text style={styles.boldText}>
+            ${Number(item?.price) ? item?.price : 0}
+          </Text>
         </View>
         <Text style={styles.time}>{item?.time}</Text>
       </View>
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
   },
   detailView: {
     flex: 1,
-  
   },
   boldText: {
     ...commonStyles.fontBold15,

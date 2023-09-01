@@ -1,5 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import actions from '../redux/actions';
+import {DeviceEventEmitter} from 'react-native';
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -30,26 +32,30 @@ const getFcmToken = async () => {
 };
 
 export const notificationListener = async () => {
-  messaging().onNotificationOpenedApp(async (remoteMessage:any) => {
+  messaging().onNotificationOpenedApp(async (remoteMessage: any) => {
     console.log(
       'Notification caused app to open from background state bla bla:',
       remoteMessage,
     );
   });
-  messaging().onMessage(async (remoteMessage:any) => {
-    console.log(remoteMessage,"onMessageonMasyncasyncasyncasyncessageonMessageonMessage")
-  });
-
-  messaging().setBackgroundMessageHandler(async (remoteMessage:any) => {
+  messaging().onMessage(async (remoteMessage: any) => {
+    if (
+      remoteMessage?.data?.type == 'JOB_ARRIVED' ||
+      remoteMessage?.data?.type == 'JOB_ENDED'
+    ) {
+      DeviceEventEmitter.emit('statusUpdate', remoteMessage?.data);
+    }
     console.log(
       remoteMessage,
-      'setBackgroundMessageHandler',
+      'onMessageonMasyncasyncasyncasyncessageonMessageonMessage',
     );
+  });
+
+  messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
+    console.log(remoteMessage, 'setBackgroundMessageHandler');
   });
   // Check whether an initial notification is available
   messaging()
     .getInitialNotification()
-    .then((remoteMessage:any) => {
-    });
+    .then((remoteMessage: any) => {});
 };
-
