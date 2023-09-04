@@ -34,7 +34,7 @@ const BookingDetail = () => {
   // const {driverArrived, rideComplete} = state;
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
   useEffect(() => {
-    updateInRide();
+    // updateInRide();
     const listener = DeviceEventEmitter.addListener('statusUpdate', () => {
       updateInRide();
     });
