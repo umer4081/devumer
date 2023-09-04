@@ -1,4 +1,5 @@
 import {
+  AppState,
   DeviceEventEmitter,
   Image,
   Pressable,
@@ -42,8 +43,12 @@ const BookingDetail = () => {
     const listener = DeviceEventEmitter.addListener('statusUpdate', () => {
       updateInRide();
     });
+    const appStatelistener = AppState.addEventListener('change', res => {
+      res == 'active' && updateInRide();
+    });
     return () => {
       listener.remove();
+      appStatelistener.remove();
     };
   }, []);
 
@@ -84,7 +89,7 @@ const BookingDetail = () => {
                 </Text>
               </View>
               <Image
-                source={imagePath.honda_ic}
+                source={{uri:''}}
                 resizeMode="contain"
                 style={styles.car}
               />

@@ -59,7 +59,9 @@ console.log(cabBooked,"isCabBookedisCabBookedisCabBookedisCabBookedisCabBooked")
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   useEffect(() => {
     triggerCurrentLocation();
-    actions.accessTokenLogin();
+    actions.accessTokenLogin().then(res=>{
+      console.log(res,"resresaccessTokenLoginaccessTokenLoginaccessTokenLoginresres")
+    });
     actions.updateDeviceToken();
   }, []);
  
