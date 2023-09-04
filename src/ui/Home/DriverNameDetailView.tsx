@@ -25,7 +25,7 @@ const DriverNameDetailView = () => {
         </View>
         <View style={styles.ratingView}>
           <Image source={imagePath.star_ic} />
-          <Text style={styles.rating}>4.5</Text>
+          <Text style={styles.rating}>{cabBooked?.fleet_data?.rating}</Text>
         </View>
       </View>
     </View>

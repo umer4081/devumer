@@ -33,6 +33,10 @@ const BookingDetail = () => {
   // const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   // const {driverArrived, rideComplete} = state;
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
+  console.log(
+    cabBooked,
+    'cabBookedcabBoostatestatekedcabBookedcabBookedcabBooked',
+  );
   useEffect(() => {
     // updateInRide();
     const listener = DeviceEventEmitter.addListener('statusUpdate', () => {
@@ -41,7 +45,6 @@ const BookingDetail = () => {
     return () => {
       listener.remove();
     };
-
   }, []);
 
   const updateInRide = () => {
@@ -49,7 +52,7 @@ const BookingDetail = () => {
     actions
       .jobDetail(query)
       .then((res: any) => {
-        console.log(res,"resrejobDetailjobDetailjobDetailsresres")
+        console.log(res, 'resrejobDetailjobDetailjobDetailsresres');
         actions.bookedCab(res);
       })
       .catch(err => {});
@@ -73,8 +76,12 @@ const BookingDetail = () => {
           {cabBooked?.status == 'ENDED' ? (
             <>
               <View style={{}}>
-                <Text style={styles.carcompany}>Honda Accord</Text>
-                <Text style={styles.carPlateNumber}>AJR558D</Text>
+                <Text style={styles.carcompany}>
+                  {cabBooked?.fleet_data?.license_plate}
+                </Text>
+                <Text style={styles.carPlateNumber}>
+                  {cabBooked?.fleet_data?.licence_number}
+                </Text>
               </View>
               <Image
                 source={imagePath.honda_ic}
@@ -85,23 +92,21 @@ const BookingDetail = () => {
           ) : (
             <>
               <ImageTitleValue
-                imgsource={{uri: static_url}}
-                title="Steve Rogers"
-                value="4.5"
+                imgsource={{uri: cabBooked?.fleet_data?.profile_pic}}
+                title={cabBooked?.fleet_data?.first_name}
+                value={cabBooked?.fleet_data?.rating}
                 isStar={true}
               />
               <ImageTitleValue
-                imgsource={imagePath.sedan_ic}
-                title="Honda Accord"
-                value="AJR558D"
+                imgsource={{uri: cabBooked?.fleet_data?.cab}}
+                title={cabBooked?.fleet_data?.license_plate}
+                value={cabBooked?.fleet_data?.licence_number}
                 imgProp={{resizeMode: 'contain'}}
               />
             </>
           )}
         </Pressable>
-        <AdressTimeBottomView
-          isRideCompleted={cabBooked?.status == 'ENDED'}
-        />
+        <AdressTimeBottomView isRideCompleted={cabBooked?.status == 'ENDED'} />
       </View>
     </>
   );

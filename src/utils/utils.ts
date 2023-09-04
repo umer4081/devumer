@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from '../redux/store';
 import types from '../redux/types';
+import {parsingData} from './helperFunction';
 
 const {dispatch, getState} = store;
 
@@ -11,7 +12,7 @@ export async function getHeaders() {
   if (userData) {
     userData = JSON.parse(userData);
     // console.log(`${userData.access_token}`)
-    console.log(userData?.access_token,"access_tokenaccess_tokenaccess_token");
+    console.log(userData?.access_token, 'access_tokenaccess_tokenaccess_token');
     return {
       authorization: `${userData?.access_token}`,
     };
@@ -54,8 +55,13 @@ export async function apiReq(
       })
       .catch((error: any) => {
         console.log(error);
-        console.log(error && error.response, 'the error respne');
-        if (error && error.response && error.response.status === 403) {
+        console.log(
+          error && error.response,
+          error.response.data,
+          'the error respne',
+        );
+
+        if (error && error.response && error.response?.status === 403) {
           clearUserData();
           // NavigationService.resetNavigation();
           //NavigationService.navigate('loginUsingEmailScreen');
@@ -68,8 +74,12 @@ export async function apiReq(
             payload: {internetConnection: true},
           });
         }
+        if (error && error.response && typeof error.response.data == 'string') {
+          return rej(error.response.data );
+        }
+
         if (error && error.response && error.response.data) {
-          if (!error.response.data.message) {
+          if (!error.response.data?.message) {
             return rej({
               ...error.response.data,
               msg: error.response.data.message || 'Network Error',

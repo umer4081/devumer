@@ -79,7 +79,8 @@ const Login = ({navigation}: any) => {
         setisLoading(false);
       })
       .catch(err => {
-        showError(err.message);
+        console.log(err,"errercatchcatchrerrerrerrerrerrerrerr")
+        typeof err == 'string' && showError(err);
         setisLoading(false);
       });
   };
@@ -93,6 +94,8 @@ const Login = ({navigation}: any) => {
       const apiData = {
         social_key: userInfo.user.id,
         admin_email: 'admin@gmail.com',
+        ...(userInfo.user.email && {email: userInfo.user.email}),
+        ...(userInfo.user.givenName && {name: userInfo.user.givenName}),
       };
       socialLogin(apiData);
     } catch (error) {}
@@ -108,6 +111,12 @@ const Login = ({navigation}: any) => {
       const apiData = {
         social_key: appleAuthRequestResponse.user,
         admin_email: 'admin@gmail.com',
+        ...(appleAuthRequestResponse.email && {
+          email: appleAuthRequestResponse.email,
+        }),
+        ...(appleAuthRequestResponse.fullName?.givenName && {
+          email: appleAuthRequestResponse.fullName?.givenName,
+        }),
       };
       socialLogin(apiData);
     } catch (e) {}

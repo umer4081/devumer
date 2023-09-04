@@ -105,9 +105,9 @@ export function latLongDelta(pickup: any, destination: any) {
 
   let delta = {
     longitudeDelta:
-      (sortedlongitude[longitude.length - 1] - sortedlongitude[0]) * 2.3,
+      (sortedlongitude[longitude.length - 1] - sortedlongitude[0]) * 2.8,
     latitudeDelta:
-      (sortedlatitude[latitude.length - 1] - sortedlatitude[0]) * 1.6,
+      (sortedlatitude[latitude.length - 1] - sortedlatitude[0]) * 2.3,
   };
   return delta;
 }
@@ -128,5 +128,14 @@ export function CalculateCenter(pickup: any, destination: any) {
     longitude,
   };
 }
+
+export const parsingData = (data: any) => {
+  try {
+    const parsedData = JSON.parse(data);
+    return parsedData;
+  } catch (error) {
+    return data;
+  }
+};
 
 export {showError, showSuccess};
