@@ -12,8 +12,10 @@ import {
   notificationListener,
   requestUserPermission,
 } from './src/utils/notificationServices';
-import {getFirstTime, getUserData} from './src/utils/utils';
+import {getFirstTime, getLastRideStatus, getUserData} from './src/utils/utils';
 import SplashScreen from 'react-native-splash-screen';
+import {_navigator} from './src/Navigation/navigationServices';
+import navigationString from './src/constants/navigationString';
 
 const App = () => {
   const init = async () => {
@@ -27,8 +29,31 @@ const App = () => {
     const userData: any = await getUserData();
     if (!!userData?.access_token) {
       saveUserData(userData);
+      checkPastRide();
     }
   };
+
+  const checkPastRide = async () => {
+    const data: any = await getLastRideStatus();
+    if (data && data?.isSearching) {
+      let query = `?id=${data?.id}`;
+      const jobData: any = await actions.jobDetail(query);
+      const secondDiff = (Date.now() - data?.time);
+      console.log(secondDiff,"secondDiffsecondDiffsecondDiffsecondDiff")
+      if (secondDiff < 120000 && jobData?.status == 'UPCOMING') {
+        actions.rideDetail(data?.rideDetail);
+        setTimeout(() => {
+          _navigator.navigate(navigationString.BOOK_CAB, {
+            rideName: data?.rideName,
+            isChoosed:true
+          });
+        }, 300);
+      } else if (jobData?.status != 'ENDED' && jobData?.status != 'UPCOMING') {
+        actions.bookedCab(jobData);
+      }
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();

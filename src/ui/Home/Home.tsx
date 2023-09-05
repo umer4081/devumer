@@ -25,11 +25,13 @@ let LONGITUDE_DELTA = 0.0421;
 
 const Home = () => {
   const cabBooked = useSelector((state: any) => state?.bookedCab)?.data;
-  const isCabBooked = (cabBooked?.status == 'ACCEPTED' || cabBooked?.status == 'ARRIVED'||cabBooked?.status == 'ENDED');
+  const isCabBooked =
+    cabBooked?.status == 'ACCEPTED' ||
+    cabBooked?.status == 'ARRIVED' ||
+    cabBooked?.status == 'ENDED';
   const accessTokenData = useSelector(
     (state: any) => state?.accessTokenData,
   )?.data;
-console.log(cabBooked,"isCabBookedisCabBookedisCabBookedisCabBookedisCabBooked")
   const destination: any =
     cabBooked?.Task_Data?.length > 1
       ? {
@@ -59,12 +61,24 @@ console.log(cabBooked,"isCabBookedisCabBookedisCabBookedisCabBookedisCabBooked")
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   useEffect(() => {
     triggerCurrentLocation();
-    actions.accessTokenLogin().then(res=>{
-      console.log(res,"resresaccessTokenLoginaccessTokenLoginaccessTokenLoginresres")
+    actions.accessTokenLogin().then((res: any) => {
+      // if (res?.Jobs?.length && res?.Jobs[res?.Jobs?.length - 1]?.status !='ENDED') {
+      //   checkBookRide(res?.Jobs[res?.Jobs?.length - 1]?.task_id);
+      // }
     });
     actions.updateDeviceToken();
   }, []);
- 
+
+  const checkBookRide = (id: any) => {
+    let query = `?id=${id}`;
+    actions
+      .jobDetail(query)
+      .then((res: any) => {
+        actions.bookedCab(res);
+      })
+      .catch(err => {});
+  };
+
   const triggerCurrentLocation = () => {
     getCurrentLocation().then((res: GeolocationResponse) => {
       console.log(res, 'resresresresresresres');

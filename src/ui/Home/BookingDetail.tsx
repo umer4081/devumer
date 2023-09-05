@@ -78,7 +78,7 @@ const BookingDetail = () => {
       )}
       <View style={styles.container}>
         <Pressable style={styles.blueCard} onPress={completedRide}>
-          {cabBooked?.status == 'ENDED' ? (
+          {cabBooked?.status != 'ENDED' ? (
             <>
               <View style={{}}>
                 <Text style={styles.carcompany}>

@@ -13,12 +13,15 @@ import actions from '../../redux/actions';
 import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import {useIsFocused} from '@react-navigation/native';
+import {saveLastRideStatus} from '../../utils/utils';
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
   const rideName = route?.params?.rideName;
+  const routeisChoosed = route?.params?.isChoosed;
+
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [data, setData] = useState<any[]>([]);
-  const [isChoosed, setIsChoosed] = useState(false);
+  const [isChoosed, setIsChoosed] = useState(!!routeisChoosed);
   const [isLoading, setIsLoading] = useState(false);
   const flatRef = useRef<FlatList>(null);
   const jobId = useRef<any>(null);
@@ -89,11 +92,18 @@ const BookCab = ({navigation, route}: any) => {
       .requestNewRide(apiData)
       .then((res: any) => {
         jobId.current = res?.id;
-        console.log(res, 'resrscrollToOffsetscrollToOffsetscrollToOffsetes');
+        console.log(res, 'apiDataaprequestNewRiderequestNewRideiDataapiData');
         setIsLoading(false);
         flatRef.current?.scrollToOffset({offset: 0, animated: false});
         setIsChoosed(true);
-
+        const ridedata = {
+          id: res?.id,
+          isSearching: true,
+          time: Date.now(),
+          rideName,
+          rideDetail,
+        };
+        saveLastRideStatus(ridedata);
         apiInterval.current = setInterval(() => {
           checkCabJobDetail();
         }, 2000);
@@ -112,13 +122,13 @@ const BookCab = ({navigation, route}: any) => {
           actions.bookedCab(res);
           navigation.navigate(navigationString.DRAWER_HOME);
         }
-        finished && navigation.navigate(navigationString.DRAWER_HOME)
+        finished && navigation.navigate(navigationString.DRAWER_HOME);
       })
       .catch(err => {});
   };
 
   const onPressCancel = () => {
-    clearInterval(apiInterval.current)
+    clearInterval(apiInterval.current);
     setIsChoosed(false);
   };
 

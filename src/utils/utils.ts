@@ -163,5 +163,20 @@ export async function getFirstTime() {
 }
 
 export async function clearUserData() {
-  return AsyncStorage.multiRemove(['userData', 'profileSetup']);
+  return AsyncStorage.multiRemove(['userData', 'lastRideStatus']);
 }
+
+
+export function saveLastRideStatus(data: any) {
+  data = JSON.stringify(data);
+  return AsyncStorage.setItem('lastRideStatus', data);
+}
+
+export async function getLastRideStatus() {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('lastRideStatus').then((data: any) => {
+      resolve(JSON.parse(data));
+    });
+  });
+}
+
