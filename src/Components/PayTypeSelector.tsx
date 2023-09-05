@@ -1,4 +1,11 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import imagePath from '../constants/imagePath';
 import commonStyles from '../styles/commonStyles';
@@ -21,6 +28,19 @@ const PayTypeSelector = () => {
         itemTextStyle={styles.itemStyle}
         itemContainerStyle={styles.itemContainerStyle}
         renderLeftIcon={() => <Image source={imagePath.money_ic} />}
+        renderItem={props => {
+          return (
+            <View style={styles.itembutton}>
+              <Text
+                style={{
+                  ...styles.cashText,
+                  color: props?.value == value ? colors.white : colors._020202,
+                }}>
+                {props?.value}
+              </Text>
+            </View>
+          );
+        }}
         renderRightIcon={() => (
           <Image source={imagePath.down_arrow_ic} style={{marginRight: 8}} />
         )}
@@ -32,7 +52,7 @@ const PayTypeSelector = () => {
         placeholder={value}
         value={value}
         onChange={valData => {
-          setValue(valData?.value)
+          setValue(valData?.value);
         }}
       />
     </Pressable>
@@ -42,12 +62,14 @@ const PayTypeSelector = () => {
 export default PayTypeSelector;
 
 const styles = StyleSheet.create({
+  itembutton: {
+    height: moderateScale(56),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cashText: {
     ...commonStyles.fontSizeMedium15,
     color: colors._020202,
-    width: moderateScale(48),
-    marginLeft: moderateScale(8),
-    marginRight: moderateScale(4),
   },
   container: {
     flexDirection: 'row',

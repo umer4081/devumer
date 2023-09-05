@@ -9,10 +9,17 @@ import imagePath from '../../constants/imagePath';
 import ProgressBar from '../../Components/ProgressBar';
 import {useSelector} from 'react-redux';
 
+interface RideRequestProp {
+  onPressCancel: () => void;
+  onfinishProgress: () => void;
+  progressRef?: any;
+}
+
 const RideRequest = ({
   onPressCancel = () => {},
   onfinishProgress = () => {},
-}) => {
+  progressRef,
+}: RideRequestProp) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
   useEffect(() => {
@@ -48,7 +55,11 @@ const RideRequest = ({
         transform: [{translateY: animationAction([0, 1], [140, 0])}],
         opacity: animationAction([0, 0.7], [0, 1]),
       }}>
-      <ProgressBar containerStyle={styles.bar} onfinish={onfinishProgress} />
+      <ProgressBar
+        containerStyle={styles.bar}
+        onfinish={onfinishProgress}
+        ref={progressRef}
+      />
       <View style={styles.content}>
         <View style={styles.headerView}>
           <Text style={styles.rideText}>{'Ride requested…'}</Text>

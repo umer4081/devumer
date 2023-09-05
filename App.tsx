@@ -38,14 +38,15 @@ const App = () => {
     if (data && data?.isSearching) {
       let query = `?id=${data?.id}`;
       const jobData: any = await actions.jobDetail(query);
-      const secondDiff = (Date.now() - data?.time);
-      console.log(secondDiff,"secondDiffsecondDiffsecondDiffsecondDiff")
+      const secondDiff = Date.now() - data?.time;
+      console.log(secondDiff, 'secondDiffsecondDiffsecondDiffsecondDiff');
       if (secondDiff < 120000 && jobData?.status == 'UPCOMING') {
         actions.rideDetail(data?.rideDetail);
         setTimeout(() => {
           _navigator.navigate(navigationString.BOOK_CAB, {
             rideName: data?.rideName,
-            isChoosed:true
+            isChoosed: true,
+            secondDiff,
           });
         }, 300);
       } else if (jobData?.status != 'ENDED' && jobData?.status != 'UPCOMING') {

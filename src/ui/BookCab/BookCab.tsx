@@ -14,16 +14,19 @@ import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import {useIsFocused} from '@react-navigation/native';
 import {saveLastRideStatus} from '../../utils/utils';
+import {ProgressMethods} from '../../Components/ProgressBar';
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
   const rideName = route?.params?.rideName;
   const routeisChoosed = route?.params?.isChoosed;
+  const secondDiff = route?.params?.secondDiff;
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [data, setData] = useState<any[]>([]);
   const [isChoosed, setIsChoosed] = useState(!!routeisChoosed);
   const [isLoading, setIsLoading] = useState(false);
   const flatRef = useRef<FlatList>(null);
+  const progressRef = useRef<ProgressMethods>(null);
   const jobId = useRef<any>(null);
   const apiInterval = useRef<any>(-1);
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
@@ -38,6 +41,14 @@ const BookCab = ({navigation, route}: any) => {
     );
   };
 
+  useEffect(() => {
+    let timediff = 200;
+    typeof secondDiff == 'number' &&
+      setTimeout(() => {
+        !!progressRef.current?.startAnimationValue &&
+          progressRef.current?.startAnimationValue(secondDiff + timediff);
+      }, timediff);
+  }, []);
   useEffect(() => {
     rideDetail?.pickup?.latitude && listCabNearBy();
   }, [rideDetail]);
@@ -128,6 +139,7 @@ const BookCab = ({navigation, route}: any) => {
   };
 
   const onPressCancel = () => {
+    saveLastRideStatus({})
     clearInterval(apiInterval.current);
     setIsChoosed(false);
   };
@@ -165,6 +177,7 @@ const BookCab = ({navigation, route}: any) => {
           <RideRequest
             onPressCancel={onPressCancel}
             onfinishProgress={onfinishProgress}
+            progressRef={progressRef}
           />
         )}
       </View>

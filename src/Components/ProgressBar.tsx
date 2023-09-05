@@ -16,6 +16,10 @@ interface ProgressBarProp {
   onfinish?: () => void;
 }
 
+export interface ProgressMethods {
+  startAnimationValue?: (res: number) => void;
+}
+
 const ProgressBar = ({containerStyle, onfinish}: ProgressBarProp, ref: any) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -34,7 +38,14 @@ const ProgressBar = ({containerStyle, onfinish}: ProgressBarProp, ref: any) => {
   };
 
   useImperativeHandle(ref, () => {
-    return {};
+    return {
+      startAnimationValue: (res: number) => {
+        const value = res / 120000;
+        animatedValue.stopAnimation();
+        animatedValue.setValue(value);
+        startAnimation();
+      },
+    };
   });
 
   const animationAction = (outputRange: any[] = []) => {
