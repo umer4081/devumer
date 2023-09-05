@@ -39,12 +39,7 @@ export const notificationListener = async () => {
     );
   });
   messaging().onMessage(async (remoteMessage: any) => {
-    if (
-      remoteMessage?.data?.type == 'JOB_ARRIVED' ||
-      remoteMessage?.data?.type == 'JOB_ENDED'
-    ) {
-      DeviceEventEmitter.emit('statusUpdate', remoteMessage?.data);
-    }
+    onRecieveMessageAction(remoteMessage)
     console.log(
       remoteMessage,
       'onMessageonMasyncasyncasyncasyncessageonMessageonMessage',
@@ -52,6 +47,7 @@ export const notificationListener = async () => {
   });
 
   messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
+    onRecieveMessageAction(remoteMessage)
     console.log(remoteMessage, 'setBackgroundMessageHandler');
   });
   // Check whether an initial notification is available
@@ -59,3 +55,13 @@ export const notificationListener = async () => {
     .getInitialNotification()
     .then((remoteMessage: any) => {});
 };
+
+
+const onRecieveMessageAction=(remoteMessage:any)=>{
+  if (
+    remoteMessage?.data?.type == 'JOB_ARRIVED' ||
+    remoteMessage?.data?.type == 'JOB_ENDED'
+  ) {
+    DeviceEventEmitter.emit('statusUpdate', remoteMessage?.data);
+  }
+}

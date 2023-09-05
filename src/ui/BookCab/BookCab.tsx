@@ -129,7 +129,7 @@ const BookCab = ({navigation, route}: any) => {
     actions
       .jobDetail(query)
       .then((res: any) => {
-        if (res?.status == 'ACCEPTED') {
+        if (res?.status != 'UPCOMING') {
           actions.bookedCab(res);
           navigation.navigate(navigationString.DRAWER_HOME);
         }

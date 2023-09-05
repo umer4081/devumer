@@ -117,6 +117,9 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
                 apikey={GOOGLE_MAP_KEY}
                 strokeWidth={4}
                 strokeColor={colors._3B4FF4}
+                onReady={result => {
+                  console.log(result.distance,result.duration,"resultronReaonReadydyesultresult")
+                }}
               />
             )}
 

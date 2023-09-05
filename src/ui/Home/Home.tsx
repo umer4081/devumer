@@ -28,7 +28,9 @@ const Home = () => {
   const isCabBooked =
     cabBooked?.status == 'ACCEPTED' ||
     cabBooked?.status == 'ARRIVED' ||
+    cabBooked?.status == 'STARTED' ||
     cabBooked?.status == 'ENDED';
+    console.log(cabBooked?.status,"cabBooked?.statuscabBooked?.statuscabBooked?.status")
   const accessTokenData = useSelector(
     (state: any) => state?.accessTokenData,
   )?.data;

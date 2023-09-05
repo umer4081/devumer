@@ -5,6 +5,7 @@ import {
   View,
   StyleProp,
   ViewStyle,
+  AppState,
 } from 'react-native';
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import {moderateScale, width} from '../styles/responsiveSize';
