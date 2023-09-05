@@ -154,7 +154,7 @@ const Home = () => {
               )}
             </MapView>
           </View>
-          {isCabBooked && <DriverNameDetailView />}
+          {(isCabBooked && cabBooked?.status != 'ENDED') && <DriverNameDetailView />}
           {isCabBooked ? <BookingDetail /> : <BookRide />}
         </View>
       </View>
