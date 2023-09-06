@@ -39,7 +39,6 @@ const App = () => {
       let query = `?id=${data?.id}`;
       const jobData: any = await actions.jobDetail(query);
       const secondDiff = Date.now() - data?.time;
-      console.log(secondDiff, 'secondDiffsecondDiffsecondDiffsecondDiff');
       if (secondDiff < 120000 && jobData?.status == 'UPCOMING') {
         actions.rideDetail(data?.rideDetail);
         setTimeout(() => {

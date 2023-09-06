@@ -63,11 +63,7 @@ const Home = () => {
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   useEffect(() => {
     triggerCurrentLocation();
-    actions.accessTokenLogin().then((res: any) => {
-      // if (res?.Jobs?.length && res?.Jobs[res?.Jobs?.length - 1]?.status !='ENDED') {
-      //   checkBookRide(res?.Jobs[res?.Jobs?.length - 1]?.task_id);
-      // }
-    });
+    actions.accessTokenLogin()
     actions.updateDeviceToken();
   }, []);
   const checkBookRide = (id: any) => {

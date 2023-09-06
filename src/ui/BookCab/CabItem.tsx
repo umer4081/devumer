@@ -4,18 +4,20 @@ import imagePath from '../../constants/imagePath';
 import {moderateScale, textScale} from '../../styles/responsiveSize';
 import commonStyles from '../../styles/commonStyles';
 import colors from '../../styles/colors';
+import { MapDirectionsResponse } from 'react-native-maps-directions';
 
 interface CabItemProp {
   item: any;
   index: number;
   selectedIndex: number | any;
   onPress?: () => void;
+  rideDirectionData?:MapDirectionsResponse
 }
 
 const cabColor = ['#EEF1FF', '#F5E8C7', '#EFE1D6', '#D6EFED'];
 
-const CabItem = ({item, index, selectedIndex, onPress}: CabItemProp) => {
-  console.log(item, 'itemitemitemitemitemitemitemitem');
+const CabItem = ({item, index, selectedIndex, onPress,rideDirectionData}: CabItemProp) => {
+  console.log(rideDirectionData?.distance,item, 'rideitemDirectionDatarideDirectionDatarideDirectionDatarideDirectionData');
   const currentColor = cabColor[index % cabColor.length];
   return (
     <Pressable

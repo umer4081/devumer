@@ -27,6 +27,7 @@ const BookCab = ({navigation, route}: any) => {
   const [data, setData] = useState<any[]>([]);
   const [isChoosed, setIsChoosed] = useState(!!routeisChoosed);
   const [isLoading, setIsLoading] = useState(false);
+  const [rideDirectionData, setRideDirectionData] = useState<MapDirectionsResponse>();
   const flatRef = useRef<FlatList>(null);
   const progressRef = useRef<ProgressMethods>(null);
   const directionData = useRef<MapDirectionsResponse>();
@@ -40,6 +41,7 @@ const BookCab = ({navigation, route}: any) => {
         item={item}
         selectedIndex={selectedIndex}
         onPress={() => setSelectedIndex(index)}
+        rideDirectionData={rideDirectionData}
       />
     );
   };
@@ -79,6 +81,7 @@ const BookCab = ({navigation, route}: any) => {
         isChoosed={isChoosed}
         onReady={res => {
           directionData.current = res;
+          setRideDirectionData(res)
         }}
       />
     );
