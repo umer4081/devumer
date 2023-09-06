@@ -2,7 +2,7 @@ export default {
   ic_facebook: require('../assets/images/ic_facebook.png'),
   car_ic: require('../assets/images/car_ic.png'),
   splash_logo: require('../assets/images/splash_logo.png'),
-  onboard_logo: require('../assets/images/onboard_logo.png'),
+  onboard_logo: require('../assets/images/header_logo.png'),
   login_bg: require('../assets/images/login_bg.png'),
   apple_ic: require('../assets/images/apple_ic.png'),
   google_ic: require('../assets/images/google_ic.png'),

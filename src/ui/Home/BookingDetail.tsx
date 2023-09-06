@@ -103,7 +103,8 @@ const BookingDetail = () => {
                 isStar={true}
               />
               <ImageTitleValue
-                imgsource={{uri: cabBooked?.fleet_data?.cab}}
+                // imgsource={{uri: cabBooked?.fleet_data?.cab}}
+                imgsource={imagePath.sedan_ic}
                 title={cabBooked?.fleet_data?.license_plate}
                 value={cabBooked?.fleet_data?.licence_number}
                 imgProp={{resizeMode: 'contain'}}
