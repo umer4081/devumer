@@ -26,13 +26,15 @@ import {GOOGLE_MAP_KEY} from '../../constants/contant';
 import {CalculateCenter, latLongDelta} from '../../utils/helperFunction';
 import SearchPlaces, {SearchPlacesMethod} from '../../Components/SearchPlaces';
 import actions from '../../redux/actions';
+import { MapDirectionsResponse } from 'react-native-maps-directions';
 interface HeaderMapViewProp {
   isChoosed?: boolean;
+  onReady?: (...args: MapDirectionsResponse[]) => void;
 }
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
-const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
+const HeaderMapView = ({isChoosed, onReady}: HeaderMapViewProp) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
   const searchref = useRef<SearchPlacesMethod>(null);
@@ -96,12 +98,12 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
     };
     const updatedata =
       currentSelected.current == 1 ? {destination: payload} : {pickup: payload};
-      actions.rideDetail({...rideDetail,...updatedata})
+    actions.rideDetail({...rideDetail, ...updatedata});
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.mapView} pointerEvents='none'>
+      <View style={styles.mapView} pointerEvents="none">
         <MapView
           key={'bookCab'}
           scrollEnabled={false}
@@ -117,9 +119,7 @@ const HeaderMapView = ({isChoosed}: HeaderMapViewProp) => {
                 apikey={GOOGLE_MAP_KEY}
                 strokeWidth={4}
                 strokeColor={colors._3B4FF4}
-                onReady={result => {
-                  console.log(result.distance,result.duration,"resultronReaonReadydyesultresult")
-                }}
+                onReady={onReady}
               />
             )}
 

@@ -13,7 +13,7 @@ const showError = (message: string) => {
   showMessage({
     type: 'danger',
     icon: 'danger',
-    message,
+    message:checkAndReturn(message),
   });
 };
 
@@ -21,7 +21,7 @@ const showSuccess = (message: string) => {
   showMessage({
     type: 'success',
     icon: 'success',
-    message,
+    message:checkAndReturn(message),
   });
 };
 
@@ -137,5 +137,15 @@ export const parsingData = (data: any) => {
     return data;
   }
 };
+
+
+const checkAndReturn=(message :any)=>{
+  try {
+    const finalmessage = typeof message == "string" ? message : JSON.stringify(message)
+    return finalmessage
+  } catch (error) {
+    return message
+  }
+}
 
 export {showError, showSuccess};

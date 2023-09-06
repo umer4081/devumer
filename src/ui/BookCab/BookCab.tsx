@@ -15,6 +15,8 @@ import moment from 'moment-timezone';
 import {useIsFocused} from '@react-navigation/native';
 import {saveLastRideStatus} from '../../utils/utils';
 import {ProgressMethods} from '../../Components/ProgressBar';
+import {MapDirectionsResponse} from 'react-native-maps-directions';
+import { showError } from '../../utils/helperFunction';
 const BookCab = ({navigation, route}: any) => {
   const ride = route?.params?.rideType;
   const rideName = route?.params?.rideName;
@@ -27,6 +29,7 @@ const BookCab = ({navigation, route}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const flatRef = useRef<FlatList>(null);
   const progressRef = useRef<ProgressMethods>(null);
+  const directionData = useRef<MapDirectionsResponse>();
   const jobId = useRef<any>(null);
   const apiInterval = useRef<any>(-1);
   const rideDetail = useSelector((state: any) => state?.rideDetail)?.data;
@@ -40,7 +43,6 @@ const BookCab = ({navigation, route}: any) => {
       />
     );
   };
-
   useEffect(() => {
     let timediff = 200;
     typeof secondDiff == 'number' &&
@@ -56,7 +58,6 @@ const BookCab = ({navigation, route}: any) => {
   useEffect(() => {
     !focus && clearInterval(apiInterval.current);
   }, [focus]);
-
   const listCabNearBy = () => {
     const query = `?lat=${rideDetail?.pickup?.latitude}&lng=${rideDetail?.pickup?.longitude}`;
     // const query = `?lat=${76.772461}&lng=${30.719705}`;
@@ -73,14 +74,25 @@ const BookCab = ({navigation, route}: any) => {
   };
 
   const ListHeaderComponent = useCallback(() => {
-    return <HeaderMapView isChoosed={isChoosed} />;
+    return (
+      <HeaderMapView
+        isChoosed={isChoosed}
+        onReady={res => {
+          directionData.current = res;
+        }}
+      />
+    );
   }, [isChoosed]);
 
   const onChooseRide = () => {
+    const distance = directionData.current?.distance;
+    const duration = directionData.current?.duration;
     const apiData = {
       time_zone: moment.tz.guess(),
       team_id: data[selectedIndex]?.id,
       time_offset: String(moment().utcOffset()),
+      ...(distance && {distance: String(distance)}),
+      ...(duration && {duration: duration}),
       pickup: [
         {
           latitude: rideDetail?.pickup?.latitude,
@@ -120,6 +132,7 @@ const BookCab = ({navigation, route}: any) => {
         }, 2000);
       })
       .catch(err => {
+        showError(err)
         setIsLoading(false);
       });
   };
@@ -139,7 +152,7 @@ const BookCab = ({navigation, route}: any) => {
   };
 
   const onPressCancel = () => {
-    saveLastRideStatus({})
+    saveLastRideStatus({});
     clearInterval(apiInterval.current);
     setIsChoosed(false);
   };

@@ -89,7 +89,8 @@ const BookingDetail = () => {
                 </Text>
               </View>
               <Image
-                source={{uri:cabBooked?.fleet_data?.cab}}
+                // source={{uri:cabBooked?.fleet_data?.cab}}
+                source={imagePath.honda_ic}
                 resizeMode="contain"
                 style={styles.car}
               />

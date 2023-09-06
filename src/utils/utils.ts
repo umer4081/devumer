@@ -54,10 +54,9 @@ export async function apiReq(
         return res(data);
       })
       .catch((error: any) => {
-        console.log(error);
+        console.log(error,"errorerrorerrorerrorerrorerrorerror");
         console.log(
           error && error.response,
-          error.response.data,
           'the error respne',
         );
 
@@ -74,11 +73,11 @@ export async function apiReq(
             payload: {internetConnection: true},
           });
         }
-        if (error && error.response && typeof error.response.data == 'string') {
-          return rej(error.response.data );
+        if (error && error.response && typeof error.response?.data == 'string') {
+          return rej(error.response?.data );
         }
 
-        if (error && error.response && error.response.data) {
+        if (error && error.response && error.response?.data) {
           if (!error.response.data?.message) {
             return rej({
               ...error.response.data,
