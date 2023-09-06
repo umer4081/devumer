@@ -4,12 +4,14 @@ import {moderateScale} from '../styles/responsiveSize';
 import colors from '../styles/colors';
 import commonStyles from '../styles/commonStyles';
 import UseTimer from './UseTimer';
+import { dropOffTime } from '../utils/helperFunction';
 
 interface HomeBlackCardProp {
   isTimer?: boolean;
   onPress?: () => void;
+  cabBookedData?:any
 }
-const HomeBlackCard = ({isTimer = true, onPress}: HomeBlackCardProp) => {
+const HomeBlackCard = ({isTimer = true, onPress,cabBookedData}: HomeBlackCardProp) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const HomeBlackCard = ({isTimer = true, onPress}: HomeBlackCardProp) => {
         }}>
         {isTimer
           ? 'Your driver has arrived and is currently waiting at the pickup location. Waiting charges will charge after 5 mins.'
-          : 'Drop-off time by 1:29 pm'}
+          : `Drop-off time by ${dropOffTime(cabBookedData?.duration)}`}
       </Text>
     </Animated.View>
   );

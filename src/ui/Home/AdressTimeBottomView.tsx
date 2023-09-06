@@ -5,13 +5,22 @@ import {moderateScale, textScale} from '../../styles/responsiveSize';
 import commonStyles from '../../styles/commonStyles';
 import colors from '../../styles/colors';
 import actions from '../../redux/actions';
+import {costOffRide, countTime, dropOffTime} from '../../utils/helperFunction';
 
-const AdressTimeBottomView = ({isRideCompleted = true}) => {
+interface AdressTimeBottomViewProp {
+  isRideCompleted?: boolean;
+  cabBookedData?: any;
+}
 
-    const cancelRide =()=>{
-        actions.bookedCab(false)
-    }
+const AdressTimeBottomView = ({
+  isRideCompleted = true,
+  cabBookedData = {},
+}: AdressTimeBottomViewProp) => {
+  const cancelRide = () => {
+    actions.bookedCab(false);
+  };
 
+  const durationTime = countTime(cabBookedData?.duration);
   return (
     <View style={styles.bottomView}>
       {isRideCompleted ? (
@@ -25,7 +34,7 @@ const AdressTimeBottomView = ({isRideCompleted = true}) => {
           <View style={styles.cashPriceView}>
             <View style={styles.amountView}>
               <Image source={imagePath.cash_ic} />
-              <Text style={styles.amount}>$2.98</Text>
+              <Text style={styles.amount}>${costOffRide(cabBookedData)}</Text>
             </View>
             <Text style={styles.cashText}>Cash</Text>
           </View>
@@ -36,25 +45,27 @@ const AdressTimeBottomView = ({isRideCompleted = true}) => {
             <View style={{flexDirection: 'row'}}>
               <Image source={imagePath.clock_ic} />
               <View style={{marginLeft: moderateScale(16)}}>
-                <Text style={styles.time}>1:29 pm</Text>
+                <Text style={styles.time}>{dropOffTime(cabBookedData?.duration)}</Text>
                 <Text style={styles.dropoffText}>Drop-off time</Text>
               </View>
             </View>
             <View style={styles.countView}>
               <Text style={styles.rideTime}>
-                <Text style={styles.boldCount}>1</Text>hrs
-                <Text style={styles.boldCount}>10</Text>min
+                <Text style={styles.boldCount}>{durationTime?.hours}</Text>hrs
+                <Text style={styles.boldCount}>{durationTime?.minutes}</Text>min
               </Text>
             </View>
           </View>
-          <Text style={styles.canceltextStyle} onPress={cancelRide}>Cancel</Text>
+          <Text style={styles.canceltextStyle} onPress={cancelRide}>
+            Cancel
+          </Text>
         </>
       )}
     </View>
   );
 };
 
-export default AdressTimeBottomView;
+export default React.memo(AdressTimeBottomView);
 
 const styles = StyleSheet.create({
   bottomView: {
@@ -103,18 +114,17 @@ const styles = StyleSheet.create({
   cashText: {
     ...commonStyles.fontSize13,
     color: colors._A2A2A2,
-    marginLeft:moderateScale(40)
+    marginLeft: moderateScale(40),
   },
   amount: {
     ...commonStyles.fontSizeMedium14,
     color: colors._020202,
     lineHeight: textScale(32),
-    marginLeft:moderateScale(16)
+    marginLeft: moderateScale(16),
   },
-  amountView:{
+  amountView: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  cashPriceView: {
-  },
+  cashPriceView: {},
 });

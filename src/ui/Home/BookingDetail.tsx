@@ -74,7 +74,7 @@ const BookingDetail = () => {
   return (
     <>
       {(cabBooked?.status == 'ARRIVED' || cabBooked?.status == 'ENDED') && (
-        <HomeBlackCard isTimer={cabBooked?.status != 'ENDED'} />
+        <HomeBlackCard isTimer={cabBooked?.status != 'ENDED'} cabBookedData={cabBooked}/>
       )}
       <View style={styles.container}>
         <Pressable style={styles.blueCard} onPress={completedRide}>
@@ -113,7 +113,7 @@ const BookingDetail = () => {
             </>
           )}
         </Pressable>
-        <AdressTimeBottomView isRideCompleted={cabBooked?.status == 'ENDED'} />
+        <AdressTimeBottomView isRideCompleted={cabBooked?.status == 'ENDED'} cabBookedData={cabBooked}/>
       </View>
     </>
   );

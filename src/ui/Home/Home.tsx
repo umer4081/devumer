@@ -64,13 +64,12 @@ const Home = () => {
   useEffect(() => {
     triggerCurrentLocation();
     actions.accessTokenLogin().then((res: any) => {
-      if (res?.Jobs?.length && res?.Jobs[res?.Jobs?.length - 1]?.status !='ENDED') {
-        checkBookRide(res?.Jobs[res?.Jobs?.length - 1]?.task_id);
-      }
+      // if (res?.Jobs?.length && res?.Jobs[res?.Jobs?.length - 1]?.status !='ENDED') {
+      //   checkBookRide(res?.Jobs[res?.Jobs?.length - 1]?.task_id);
+      // }
     });
     actions.updateDeviceToken();
   }, []);
-
   const checkBookRide = (id: any) => {
     let query = `?id=${id}`;
     actions

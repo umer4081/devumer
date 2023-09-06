@@ -13,7 +13,7 @@ const showError = (message: string) => {
   showMessage({
     type: 'danger',
     icon: 'danger',
-    message:checkAndReturn(message),
+    message: checkAndReturn(message),
   });
 };
 
@@ -21,7 +21,7 @@ const showSuccess = (message: string) => {
   showMessage({
     type: 'success',
     icon: 'success',
-    message:checkAndReturn(message),
+    message: checkAndReturn(message),
   });
 };
 
@@ -138,14 +138,34 @@ export const parsingData = (data: any) => {
   }
 };
 
-
-const checkAndReturn=(message :any)=>{
+const checkAndReturn = (message: any) => {
   try {
-    const finalmessage = typeof message == "string" ? message : JSON.stringify(message)
-    return finalmessage
+    const finalmessage =
+      typeof message == 'string' ? message : JSON.stringify(message);
+    return finalmessage;
   } catch (error) {
-    return message
+    return message;
   }
-}
+};
+
+export const countTime = (totalminutes: any) => {
+  totalminutes = Number(totalminutes) ? Number(totalminutes) : 0;
+
+  let hours = Math.floor(totalminutes / 60);
+  let minutes = Math.floor(totalminutes % 60);
+  return {hours, minutes};
+};
+
+export const dropOffTime = (totalminutes: any) => {
+  totalminutes = Number(totalminutes) ? Number(totalminutes) : 0;
+  const minutes = Date.now() + (totalminutes * 60 * 1000);
+  const time = moment(minutes).format('h:mm a');
+  return time;
+};
+
+export const costOffRide = (data: any) => {
+  const amount = (Number(data?.per_km_price) ?? 0) * Number(data?.distance);
+  return amount;
+};
 
 export {showError, showSuccess};
