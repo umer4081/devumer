@@ -47,5 +47,6 @@ export default {
   back_cir_ic: require('../assets/images/back_cir_ic.png'),
   current_loc_ic: require('../assets/images/current_loc_ic.png'),
   drop_loc_ic: require('../assets/images/drop_loc_ic.png'),
-  
+  headerLogo: require('../assets/images/header_logo1.png'),
+  selfie_placeholder: require('../assets/images/imagePlacehoder.png'),
 };

@@ -18,8 +18,18 @@ export default function (Stack: any, isFirstTime: boolean) {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name={navigationString.SIGNUP}
+        component={Screens.Signup}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name={navigationString.OTP_VERIFICATION}
         component={Screens.OTPVerification}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={navigationString.SELFIEE_SCREEN}
+        component={Screens.SelfieeScreen}
         options={{headerShown: false}}
       />
     </>

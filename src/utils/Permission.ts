@@ -11,14 +11,13 @@ export const storagePermission = () => {
         ])
           .then(granted => {
             if (
-              (granted['android.permission.WRITE_EXTERNAL_STORAGE'] ==
+              granted['android.permission.WRITE_EXTERNAL_STORAGE'] ==
                 'granted' ||
-                granted['android.permission.READ_EXTERNAL_STORAGE'] ==
-                  'granted') 
+              granted['android.permission.READ_EXTERNAL_STORAGE'] == 'granted'
             ) {
               return resolve(true);
             }
-          return  resolve(true);
+            return resolve(true);
           })
           .catch(err => {
             console.log(
@@ -43,65 +42,72 @@ export const cameraPermission = () => {
   return new Promise(async (resolve, reject) => {
     try {
       if (Platform.OS === 'android') {
-      PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-      ])
-        .then(granted => {
-          console.log(granted, 'grantedgrantedCAMERACAMERACAMERACAMERACAMERA');
-          if (
-            (granted['android.permission.WRITE_EXTERNAL_STORAGE'] ==
-              'granted' ||
-              granted['android.permission.READ_EXTERNAL_STORAGE'] ==
-                'granted') &&
-            granted['android.permission.CAMERA'] == 'granted'
-          ) {
-            ;
-            return resolve(true);
-          }
-         return resolve(false);
-        })
-        .catch(err => {
-          console.log(err, 'errerrerrerrcontactsPermissioncontactsPermission');
+        PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        ])
+          .then(granted => {
+            console.log(
+              granted,
+              'grantedgrantedCAMERACAMERACAMERACAMERACAMERA',
+            );
+            if (
+              (granted['android.permission.WRITE_EXTERNAL_STORAGE'] ==
+                'granted' ||
+                granted['android.permission.READ_EXTERNAL_STORAGE'] ==
+                  'granted') &&
+              granted['android.permission.CAMERA'] == 'granted'
+            ) {
+              return resolve(true);
+            }
+            return resolve(false);
+          })
+          .catch(err => {
+            console.log(
+              err,
+              'errerrerrerrcontactsPermissioncontactsPermission',
+            );
 
-          reject(err);
-        });
-      }
-      else{
+            reject(err);
+          });
+      } else {
         return resolve(true);
       }
     } catch (error) {
-
       reject(error);
     }
   });
 };
 
-
-export const locationPermission = () => new Promise(async (resolve, reject) => {
-  if (Platform.OS === 'ios') {
+export const locationPermission = () =>
+  new Promise(async (resolve, reject) => {
+    if (Platform.OS === 'ios') {
       try {
-          const permissionStatus = await Geolocation.requestAuthorization('whenInUse');
-          if (permissionStatus === 'granted') {
-              return resolve('granted');
-          }
-          reject('Permission not granted');
+        const permissionStatus = await Geolocation.requestAuthorization(
+          'whenInUse',
+        );
+        if (permissionStatus === 'granted') {
+          return resolve('granted');
+        }
+        reject('Permission not granted');
       } catch (error) {
-          return reject(error);
+        return reject(error);
       }
-  }
-  return PermissionsAndroid.request(
+    }
+    return PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  ).then((granted) => {
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    )
+      .then(granted => {
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //console.log('You can use the location');
           return resolve('granted');
-      }
-      //console.log('Location permission denied');
-      return reject('Location Permission denied');
-  }).catch((error) => {
-      console.log('Ask Location permission error: ', error);
-      return reject(error);
+        }
+        //console.log('Location permission denied');
+        return reject('Location Permission denied');
+      })
+      .catch(error => {
+        console.log('Ask Location permission error: ', error);
+        return reject(error);
+      });
   });
-});

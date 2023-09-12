@@ -11,3 +11,5 @@ export {default as MyProfile} from './MyProfile/MyProfile';
 export {default as EditProfile} from './EditProfile/EditProfile';
 export {default as RideHistoryDetail} from './RideHistoryDetail/RideHistoryDetail';
 export {default as RideHistory} from './RideHistory/RideHistory';
+export {default as Signup} from './Signup/Signup';
+export {default as SelfieeScreen} from './SelfieeScreen.tsx/SelfieeScreen';

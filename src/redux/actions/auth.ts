@@ -41,6 +41,21 @@ export function socialLogin(data: any) {
   });
 }
 
+export function socialLoginSignUp(data: any) {
+  return new Promise<void>((resolve, reject) => {
+    apiPost(urls.SOCIAL_LOGIN, data)
+      .then((res: any) => {
+        setUserData(res).then((check: any) => {
+          resolve(res);
+        });
+        return resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
 export function phonelogin(data: any) {
   return apiPost(urls.LOGIN, data);
 }

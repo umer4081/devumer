@@ -1,5 +1,5 @@
 export default {
-  ONBOARDING:"OnBoarding",
+  ONBOARDING: 'OnBoarding',
   LOGIN: 'Login',
   HOME: 'Home',
   TABROUTES: 'TABROUTES',
@@ -12,7 +12,9 @@ export default {
   BOOK_CAB: 'BookCab',
   RATING_RIDE: 'RatingRide',
   MY_PROFILE: 'MyProfile',
-  EDIT_PROFILE:"EditProfile",
-  RIDE_HISTORY_DETAIL:"RideHistoryDetail",
-  RIDE_HISTORY:"RideHistory"
+  EDIT_PROFILE: 'EditProfile',
+  RIDE_HISTORY_DETAIL: 'RideHistoryDetail',
+  RIDE_HISTORY: 'RideHistory',
+  SIGNUP: 'Signup',
+  SELFIEE_SCREEN: 'SelfieeScreen',
 };

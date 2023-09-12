@@ -1,35 +1,38 @@
 import {
-  Image,
+  View,
+  Text,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
-  StyleSheet,
-  Text,
-  View,
+  Pressable,
+  Image,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import styles from './styles';
-import WrapperView from '../../Components/WrapperView';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {showError, showSuccess} from '../../utils/helperFunction';
+import actions from '../../redux/actions';
+import navigationString from '../../constants/navigationString';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import appleAuth from '@invertase/react-native-apple-authentication';
 import imagePath from '../../constants/imagePath';
+import WrapperView from '../../Components/WrapperView';
+import HeaderLogo from '../../Components/HeaderLogo';
+import CountryPhoneNumber from '../../Components/CountryPhoneNumber';
 import BlueButton from '../../Components/BlueButton';
 import SocialButton from './SocialButton';
 import colors from '../../styles/colors';
-import CountryPhoneNumber from '../../Components/CountryPhoneNumber';
-import navigationString from '../../constants/navigationString';
-import {showError, showSuccess} from '../../utils/helperFunction';
-import actions from '../../redux/actions';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import appleAuth from '@invertase/react-native-apple-authentication';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import HeaderLogo from '../../Components/HeaderLogo';
+import TextInputLabeled from '../../Components/TextInputLabeled';
+import {moderateScale} from '../../styles/responsiveSize';
+import styles from '../Signup/styles';
 
-const Login = ({navigation}: any) => {
+const Signup = ({navigation}: any) => {
   const countryCode = useRef('1');
   const iso2Code = useRef('US');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setisLoading] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -38,8 +41,17 @@ const Login = ({navigation}: any) => {
     });
   }, []);
 
+  // Function to validate email using regex
+  const isValidEmail = (email: any) => {
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    return emailRegex.test(email);
+  };
   const verifyOtp = () => {
-    if (phoneNumber.length == 0) {
+    if (userName.length < 4) {
+      showError('Name should not be empty');
+    } else if (!isValidEmail(userEmail)) {
+      showError('Enter a valid email address');
+    } else if (phoneNumber.length == 0) {
       showError('Phone Number should not be empty');
     } else if (phoneNumber.length < 8) {
       showError('Enter a valid phone number');
@@ -52,6 +64,8 @@ const Login = ({navigation}: any) => {
         phone_number: phoneNumber,
         country_code: '+' + countryCode.current,
         iso_code: iso2Code.current,
+        name: userName,
+        email: userEmail,
       };
       actions
         .phonelogin(apiData)
@@ -63,10 +77,13 @@ const Login = ({navigation}: any) => {
             countryCode: countryCode.current,
             phoneNumber,
             iso2Code: iso2Code.current,
+            isSignUp: true,
+            name: userName,
+            email: userEmail,
           });
         })
         .catch(err => {
-          showError(err.message);
+          showError(err);
           setisLoading(false);
         });
     }
@@ -74,14 +91,16 @@ const Login = ({navigation}: any) => {
 
   const socialLogin = (apiData: object) => {
     setisLoading(true);
+    console.log(apiData, 'apiData');
     actions
-      .socialLogin(apiData)
+      .socialLoginSignUp(apiData)
       .then((res: any) => {
         setisLoading(false);
+        navigation.navigate(navigationString.SELFIEE_SCREEN, {});
       })
       .catch(err => {
-        console.log(err, 'errercatchcatchrerrerrerrerrerrerrerr');
-        typeof err == 'string' && showError(err);
+        console.log(err, '000rercatchcatchrerrerrerrerrerrerrerr');
+        typeof err == 'string' && console.log(err);
         setisLoading(false);
       });
   };
@@ -95,11 +114,14 @@ const Login = ({navigation}: any) => {
       const apiData = {
         social_key: userInfo.user.id,
         admin_email: 'admin@gmail.com',
+
         ...(userInfo.user.email && {email: userInfo.user.email}),
         ...(userInfo.user.givenName && {name: userInfo.user.givenName}),
       };
       socialLogin(apiData);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, 'socialLogin-errorerrorerror');
+    }
   };
 
   const handleAppleLogin = async () => {
@@ -116,7 +138,7 @@ const Login = ({navigation}: any) => {
           email: appleAuthRequestResponse.email,
         }),
         ...(appleAuthRequestResponse.fullName?.givenName && {
-          email: appleAuthRequestResponse.fullName?.givenName,
+          name: appleAuthRequestResponse.fullName?.givenName,
         }),
       };
       socialLogin(apiData);
@@ -136,13 +158,33 @@ const Login = ({navigation}: any) => {
           <Image source={imagePath.login_bg} style={styles.bgImage} />
           <WrapperView wrapperStyle={styles.content} isLoading={isLoading}>
             {/* <Image source={imagePath.onboard_logo} /> */}
-            <HeaderLogo navigateToScreen="signup" />
-            <Text style={styles.welcomeText}>{'Welcome Back!'}</Text>
-            <Text style={styles.enjoyaText}>
-              {'Enjoy a safer way of getting around'}
+            <HeaderLogo
+              navigateToScreen="login"
+              newUserText="Have account?"
+              signUpText="Sign In"
+            />
+
+            <Text style={styles.CreateText}>{'Create your account.'}</Text>
+            <Text style={styles.JoinUsTodayText}>
+              {'Join us today by setting up your personalized account.'}
             </Text>
+            <View style={{marginTop: moderateScale(32)}}>
+              <TextInputLabeled
+                value={userName}
+                onChangeText={val => setUserName(val)}
+                containerStyle={styles.useName}
+                placeholder={'Enter name'}
+              />
+              <TextInputLabeled
+                value={userEmail}
+                containerStyle={styles.userEmail}
+                placeholder={'Enter email'}
+                keyboardType="email-address"
+                onChangeText={val => setUserEmail(val)}
+              />
+            </View>
             <CountryPhoneNumber
-              containerStyle={styles.phoneView}
+              containerStyle={styles.userNumber}
               value={phoneNumber}
               onChangeText={val => {
                 setPhoneNumber(val.replace(/[^\d]/g, ''));
@@ -153,16 +195,24 @@ const Login = ({navigation}: any) => {
               }}
               keyboardType="numeric"
             />
-            <BlueButton buttonStyle={styles.buttonStyle} onPress={verifyOtp} />
+            <Text style={styles.termcondText}>
+              {'By tapping on Continue you agree to our '}
+              <Text style={{color: colors._3B4FF4}}>
+                {'Terms of services '}
+              </Text>
+              {'and '}
+              <Text style={{color: colors._3B4FF4}}>{'Privacy policy'}</Text>
+            </Text>
+            <BlueButton
+              buttonStyle={styles.buttonStyle}
+              onPress={verifyOtp}
+              // onPress={SelfieeScreen}
+            />
             <View style={styles.orView}>
               <View style={styles.line} />
               <Text style={styles.orText}>{'OR'}</Text>
             </View>
-            <SocialButton
-              icon={imagePath.google_ic}
-              buttonTitle="Continue with Google"
-              onPress={googleLogin}
-            />
+
             {/* <SocialButton
               icon={imagePath.facebook_ic}
               buttonTitle="Continue with Facebook"
@@ -176,14 +226,12 @@ const Login = ({navigation}: any) => {
             ) : (
               <></>
             )}
-            <Text style={styles.termcondText}>
-              {'By tapping on Continue you agree to our '}
-              <Text style={{color: colors._3B4FF4}}>
-                {'Terms of services '}
-              </Text>
-              {'and '}
-              <Text style={{color: colors._3B4FF4}}>{'Privacy policy'}</Text>
-            </Text>
+
+            <SocialButton
+              icon={imagePath.google_ic}
+              buttonTitle="Continue with Google"
+              onPress={googleLogin}
+            />
           </WrapperView>
         </Pressable>
       </ScrollView>
@@ -191,4 +239,4 @@ const Login = ({navigation}: any) => {
   );
 };
 
-export default Login;
+export default Signup;
