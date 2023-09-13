@@ -100,7 +100,7 @@ const Signup = ({navigation}: any) => {
       })
       .catch(err => {
         console.log(err, '000rercatchcatchrerrerrerrerrerrerrerr');
-        typeof err == 'string' && console.log(err);
+        typeof err == 'string' && showError(err);
         setisLoading(false);
       });
   };

@@ -1,7 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
-  Alert,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -14,11 +12,13 @@ import {
 import BlueButton from '../../Components/BlueButton';
 import WrapperView from '../../Components/WrapperView';
 import imagePath from '../../constants/imagePath';
+import actions from '../../redux/actions';
+import {fileUpload, updateProfile} from '../../redux/actions/auth';
+import {getUserData, setUserData} from '../../utils/utils';
 import ImagePickerCom from './ImagePickerCom';
 import styles from './styles';
-import navigationString from '../../constants/navigationString';
 const SelfieeScreen = ({navigation}: any) => {
-  const goBack = ({navigation}: any) => {
+  const goBack = () => {
     navigation.goBack();
   };
   const [selectedImage, setSelectedImage] = useState(null);
@@ -27,7 +27,41 @@ const SelfieeScreen = ({navigation}: any) => {
     setSelectedImage(imagePath);
   };
 
-  const goHome = () => {};
+  const uploadImage = async (type: any) => {
+    try {
+      const formData = new FormData();
+      const data = {
+        uri: selectedImage,
+        type: 'image/png',
+        name: 'image.png',
+      };
+      formData.append('signature', data);
+      formData.append('file', data);
+
+      const response: any = await fileUpload(formData);
+      const profileData = {
+        profile_pic: response.image,
+      };
+      console.log(profileData, '=========profileData');
+
+      const res_update = await updateProfile(profileData);
+
+      const userInfo = await actions.accessTokenLogin();
+      setUserData(userInfo).then(res => {
+        actions.saveUserData(userInfo);
+      });
+
+      console.log(res_update, '=========res_update');
+
+      console.log(userInfo, 'res_updateres_update---');
+    } catch (error) {
+      console.log(error, 'errerrorerrorerrorerroror00');
+    }
+  };
+  const goHome = async () => {
+    const userInfo = await getUserData();
+    actions.saveUserData(userInfo);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -70,8 +104,9 @@ const SelfieeScreen = ({navigation}: any) => {
             <BlueButton
               buttonStyle={styles.buttonStyle}
               buttonTitle={'Next'}
-              onPress={goHome}
-              // onPress={() => Alert.alert('We will Go Next Soon')}
+              // onPress={() => Alert.alert('we will go next soon')}
+              onPress={uploadImage}
+              disabled={!selectedImage}
             />
           </WrapperView>
         </Pressable>

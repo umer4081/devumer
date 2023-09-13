@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   buttonStyle: {
-    marginVertical: moderateScale(24),
+    // marginVertical: moderateScale(12),
     marginTop: moderateScale(12),
     lineHeight: moderateScale(15),
   },

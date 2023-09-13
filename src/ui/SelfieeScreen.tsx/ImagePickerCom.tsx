@@ -23,8 +23,6 @@ const ImagePickerCom = ({onImageSelected}: any) => {
 
   const openCamera = () => {
     ImagePicker.openCamera({
-      // width: 300,
-      // height: 400,
       cropping: true,
       useFrontCamera: true, // Specify to use the front camera
     })
@@ -46,15 +44,7 @@ const ImagePickerCom = ({onImageSelected}: any) => {
   return (
     <View style={styles.main}>
       {imageSource && (
-        <View
-          style={
-            {
-              // flex: 1,
-              // borderWidth: 1,
-              // borderColor: 'red',
-              // borderRadius: 200,
-            }
-          }>
+        <View style={{}}>
           <Image
             source={imageSource}
             style={{...styles.set_image_single, borderRadius: 200}}

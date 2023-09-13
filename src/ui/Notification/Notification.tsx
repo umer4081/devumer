@@ -9,6 +9,7 @@ const Notification = () => {
   const renderItem = ({item, index}: any) => {
     return <NotificationItem item={item} index={index} />;
   };
+
   return (
     <WrapperContainer>
       <View style={styles.container}>

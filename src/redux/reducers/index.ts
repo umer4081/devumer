@@ -8,14 +8,13 @@ import rideDetail from './rideDetail';
 import currentLocation from './currentLocation';
 import accessTokenData from './accessTokenData';
 
-
 const appReducer = combineReducers({
   isFirstTime,
   auth,
   bookedCab,
   rideDetail,
   currentLocation,
-  accessTokenData
+  accessTokenData,
 });
 
 const rootReducer = (state: any, action: PayloadAction) => {

@@ -68,10 +68,27 @@ export function otpVerification(data: any) {
   return new Promise<void>((resolve, reject) => {
     apiPost(urls.OTP_VERIFICATION, data)
       .then((res: any) => {
+        console.log(res, 'reresresresresresress');
         setUserData(res).then((check: any) => {
           if (res) {
             saveUserData(res);
           }
+          resolve(res);
+        });
+        return resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+export function otpVerificationSignUp(data: any) {
+  return new Promise<void>((resolve, reject) => {
+    apiPost(urls.OTP_VERIFICATION, data)
+      .then((res: any) => {
+        console.log(res, 'reresresresresresress');
+        setUserData(res).then((check: any) => {
           resolve(res);
         });
         return resolve(res);
@@ -110,6 +127,16 @@ export function requestNewRide(data: any) {
 
 export function jobDetail(query: string = '') {
   return apiGet(urls.JOB_DETAIL + query);
+}
+
+export function fileUpload(data: any) {
+  return apiPost(urls.file_upload, data, {
+    'Content-Type': 'multipart/form-data',
+    type: 'FLEET',
+  });
+}
+export function updateProfile(data: any) {
+  return apiPost(urls.update_profile, data);
 }
 
 export const updateDeviceToken = async () => {

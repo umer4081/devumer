@@ -26,6 +26,7 @@ import {showError, showSuccess} from '../../utils/helperFunction';
 const OTPVerification = ({navigation, route}: any) => {
   const countryCode = route?.params?.countryCode;
   const phoneNumber = route?.params?.phoneNumber;
+  const isSignUp = route?.params?.isSignUp;
   const timerRef = useRef<UserTimeMethod>(null);
   const [state, setState] = useState({
     isResendClick: false,
@@ -34,7 +35,7 @@ const OTPVerification = ({navigation, route}: any) => {
   });
   const updateState = (data: any) => setState(prev => ({...prev, ...data}));
   const {isResendClick, otp, isLoading} = state;
-  const verifyOtp = () => {
+  const verifyOtp = async () => {
     Keyboard.dismiss();
     actions.bookedCab(false);
 
@@ -43,17 +44,26 @@ const OTPVerification = ({navigation, route}: any) => {
       phone_number: phoneNumber,
       country_code: '+' + countryCode,
     };
+    console.log(apiData, 'verifyOtp---apiData----');
+
     updateState({isLoading: true});
-    actions
-      .otpVerification(apiData)
-      .then((res: any) => {
-        updateState({isLoading: false});
-      })
-      .catch(err => {
-        showError(err.message);
-        updateState({isLoading: false});
-      });
+    try {
+      let res: any = {};
+      if (isSignUp) {
+        res = await actions.otpVerificationSignUp(apiData);
+      } else {
+        res = await actions.otpVerification(apiData);
+      }
+      updateState({isLoading: false});
+      if (!res?.profile_pic && isSignUp) {
+        navigation.navigate(navigationString.SELFIEE_SCREEN, {});
+      }
+    } catch (error: any) {
+      showError(error);
+      updateState({isLoading: false});
+    }
   };
+
   const goBack = () => {
     navigation.goBack();
   };

@@ -14,7 +14,7 @@ import commonStyles from '../styles/commonStyles';
 
 interface BlueButtonPropType {
   buttonTitle?: string;
-  onPress?: () => void;
+  onPress?: (() => void) | ((type?: any) => Promise<void>);
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
