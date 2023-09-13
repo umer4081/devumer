@@ -9,11 +9,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 const AuthProvider = React.lazy(() =>
   Federated.importModule('auth', './AuthProvider'),
 );
-
 const SignInScreen = React.lazy(() =>
   Federated.importModule('auth', './SignInScreen'),
 );
-
 const App = () => {
   return (
     <NavigationContainer
