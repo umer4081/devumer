@@ -8,6 +8,7 @@ import App from './src/App';
 import getContainersURL from '../catalog-server/utils/getContainersURL';
 import {name as appName} from './app.json';
 import {version as appVersion} from './package.json';
+import App from './index';
 
 ScriptManager.shared.addResolver(async (scriptId, caller) => {
   const containersURL = getContainersURL({

@@ -19,7 +19,7 @@ const TabsNavigator = () => {
         name="HomeNavigator"
         component={HomeNavigator}
         options={{
-          title: 'Home',
+          title: 'First APP',
           tabBarIcon: 'home',
         }}
       />
@@ -27,7 +27,7 @@ const TabsNavigator = () => {
         name="ServicesNavigator"
         component={ServicesNavigator}
         options={{
-          title: 'Services',
+          title: 'Second APP',
           tabBarIcon: 'apps',
         }}
       />
@@ -35,7 +35,7 @@ const TabsNavigator = () => {
         name="AccountNavigator"
         component={AccountNavigator}
         options={{
-          title: 'Account',
+          title: 'Third App',
           tabBarIcon: 'account',
         }}
       />

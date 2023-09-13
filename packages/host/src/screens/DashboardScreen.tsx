@@ -12,7 +12,7 @@ const DashboardScreen = () => {
     <ErrorBoundary name="DashboardScreen">
       <React.Suspense
         fallback={<Placeholder label="Dashboard" icon="view-dashboard" />}>
-        <Dashboard />
+        {/* <Dashboard /> */}
       </React.Suspense>
     </ErrorBoundary>
   );

@@ -5,7 +5,8 @@
 import {ScriptManager, Script, Federated} from '@callstack/repack/client';
 import {AppRegistry, Platform} from 'react-native';
 import App from './src/App';
-import getContainersURL from '../catalog-server/utils/getContainersURL';
+// import getContainersURL from '../catalog-server/utils/getContainersURL';
+
 import {name as appName} from './app.json';
 import {version as appVersion} from './package.json';
 

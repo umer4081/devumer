@@ -1,5 +1,12 @@
 import React from 'react';
-import {Alert, FlatList, ListRenderItem, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  ListRenderItem,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {MaterialBottomTabScreenProps} from '@react-navigation/material-bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -24,14 +31,14 @@ const renderAppointment = ({item}: any) => (
       subtitle={`${item.date} ${item.time}`}
       left={props => <Avatar.Icon {...props} icon="calendar" />}
     />
-    <Card.Actions>
+    {/* <Card.Actions>
       <Button mode="text" onPress={() => {}}>
         Cancel
       </Button>
       <Button mode="contained" onPress={() => {}}>
         Reschedule
       </Button>
-    </Card.Actions>
+    </Card.Actions> */}
   </Card>
 );
 
